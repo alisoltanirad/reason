@@ -1,1 +1,8 @@
 .idea/
+build/
+dist/
+reason.egg-info/
+__pycache__/
+reason/__pycache__/
+reason/tokenize/__pycache__/
+temp_test.py

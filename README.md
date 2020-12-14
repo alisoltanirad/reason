@@ -1,3 +1,9 @@
 # Reason
 
-Python easy-to-use  machine learning tools.
+Python easy-to-use natural language processing toolbox.
+
+### Install
+
+```
+pip install reason
+```

@@ -5,7 +5,7 @@ re_collection = {
     'etc': r"[\.]{3}",
     'ideogram': r"[:;][\)\(\*\|o0]+|[\)\(\*\|o0][:;]+|[-@$\^\*]_[-@$\^\*]",
     'word': r"\w+(?:['\.]\w+)*",
-    'non-alphanumeric': r"[^\w\s]",
+    'other': r"[^\w\s]",
  }
 
 re_micro_collection = {
@@ -21,13 +21,15 @@ re_pure_collection = {
 regex_patterns = {
     'default': '|'.join([re for re in re_collection.values()]),
     'word': re_collection['word'],
+    'ideogram': re_collection['ideogram'],
     'alphanumeric': re_collection['word'],
     'alpha': re_micro_collection['alpha'],
     'alpha-pure': re_pure_collection['alpha'],
     'numeric': re_micro_collection['numeric'],
     'numeric-pure': re_pure_collection['numeric'],
-    'non-alphanumeric': re_collection['non-alphanumeric'],
-    'ideogram': re_collection['ideogram'],
+    'non-alphanumeric': '|'.join([
+        re_collection['etc'], re_collection['ideogram'], re_collection['other']
+    ]),
 }
 
 

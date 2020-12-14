@@ -1,13 +1,33 @@
 import re
 
 
-regex_patterns = {
-    'default': r"[\.]+|\w+(?:['.,]\w+)*|[^\w\s]",
-    'alphanumeric': r"\w+(?:['.,]\w+)*",
+re_collection = {
+    'etc': r"[\.]{3}",
+    'ideogram': r"[:;][\)\(\*\|o0]+|[\)\(\*\|o0][:;]+|[-@$\^\*]_[-@$\^\*]",
+    'word': r"\w+(?:['\.]\w+)*",
+    'non-alphanumeric': r"[^\w\s]",
+ }
+
+re_micro_collection = {
     'alpha': r"[A-Za-z]+(?:'[A-Za-z]+)?",
-    'alpha-pure': r"[A-Za-z]+",
     'numeric': r"[0-9]+(?:,[0-9]+)*(?:\.[0-9]+)*",
-    'numeric-pure': r"[0-9]+",
+}
+
+re_pure_collection = {
+    'alpha': r"[A-Za-z]+",
+    'numeric': r"[0-9]+",
+}
+
+regex_patterns = {
+    'default': '|'.join([re for re in re_collection.values()]),
+    'word': re_collection['word'],
+    'alphanumeric': re_collection['word'],
+    'alpha': re_micro_collection['alpha'],
+    'alpha-pure': re_pure_collection['alpha'],
+    'numeric': re_micro_collection['numeric'],
+    'numeric-pure': re_pure_collection['numeric'],
+    'non-alphanumeric': re_collection['non-alphanumeric'],
+    'ideogram': re_collection['ideogram'],
 }
 
 
@@ -19,7 +39,11 @@ class WordTokenizer:
         elif pattern in regex_patterns.keys():
             self.pattern = regex_patterns[pattern]
         else:
-            raise Exception('Pattern is not valid.')
+            try:
+                re.compile(pattern)
+                self.pattern = pattern
+            except:
+                raise Exception('Pattern is not valid.')
 
     def tokenize(self, input):
         try:

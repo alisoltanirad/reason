@@ -8,3 +8,6 @@ reason/tokenize/__pycache__/
 temp_test.py
 .DS_Store
 reason/.DS_Store
+tests/__pycache__/
+tests/.idea/
+tests/.DS_Store

@@ -6,7 +6,7 @@ API:
 * *word_tokenize* function: For instant use.
 
 Example:
-    Tokenize a sentence:
+    Tokenize an string:
 
         >>> from reason.tokenize import word_tokenize
 

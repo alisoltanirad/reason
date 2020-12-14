@@ -46,13 +46,18 @@ class WordTokenizer:
                 raise Exception('Pattern is not valid.')
 
     def tokenize(self, input):
-        try:
-            text = str(input)
-        except:
-            raise Exception('Input must be string.')
+        if type(input) == str:
+            text = input
+        else:
+            try:
+                text = ' '.join(input)
+            except TypeError:
+                raise Exception(
+                    'Tokenize input must be string or a list of strings.'
+                )
 
         return re.findall(self.pattern, text)
 
 
-def word_tokenize(text, pattern='default'):
-    return WordTokenizer(pattern).tokenize(text)
+def word_tokenize(corpus, pattern='default'):
+    return WordTokenizer(pattern).tokenize(corpus)

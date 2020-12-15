@@ -14,3 +14,7 @@ tests/.DS_Store
 tests/tokenize_test/__pycache__/
 tests/tokenize_test/.idea/
 tests/tokenize_test/.DS_Store
+docs/source/
+docs/build
+docs/Makefile
+docs/make.bat

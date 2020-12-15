@@ -15,13 +15,14 @@ Install latest stable version using pip:
 pip install reason
 ```
 
-## Examples
+## Quick-Start
 
+Tokenize text:
 ```python
 >>> from reason.tokenize import word_tokenize
 
->>> sentence = "Testing reason0.1.0, (on: 127.0.0.1). Cool stuff..."
->>> word_tokenize(sentence, 'alphanumeric')
+>>> text = "Testing reason0.1.0, (on: 127.0.0.1). Cool stuff..."
+>>> word_tokenize(text, 'alphanumeric')
 ['Testing', 'reason0.1.0', 'on', '127.0.0.1', 'Cool', 'stuff']
 ```
 

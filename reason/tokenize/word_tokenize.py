@@ -29,12 +29,12 @@ re_collection = {
 
 re_micro_collection = {
     'alpha': r"[A-Za-z]+(?:'[A-Za-z]+)?",
-    'numeric': r"[0-9]+(?:,[0-9]+)*(?:\.[0-9]+)*",
+    'numeric': r"\d+(?:,\d+)*(?:\.\d+)*",
 }
 
 re_pure_collection = {
     'alpha': r"[A-Za-z]+",
-    'numeric': r"[0-9]+",
+    'numeric': r"\d+",
 }
 
 regex_patterns = {

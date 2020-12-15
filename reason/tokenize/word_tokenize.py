@@ -21,25 +21,21 @@ import re
 re_collection = {
     'etc': r"[\.]{3}",
     'ideogram': r"[:;][\)\(\*\|o0]+|[\)\(\*\|o0][:;]+|[-@$\^\*]_[-@$\^\*]",
+    'abbr': r"(?:[A-Z]\.)+",
+    'decimal': r"\$?\d+(?:,\d+)*(?:\.\d+)*%?",
     'word': r"\w+(?:['\.]\w+)*",
     'other': r"[^\w\s]",
 }
-"""dict: General regex collection.
-"""
 
 re_micro_collection = {
     'alpha': r"[A-Za-z]+(?:'[A-Za-z]+)?",
     'numeric': r"[0-9]+(?:,[0-9]+)*(?:\.[0-9]+)*",
 }
-"""dict: Alpha and numeric regex collection.
-"""
 
 re_pure_collection = {
     'alpha': r"[A-Za-z]+",
     'numeric': r"[0-9]+",
 }
-"""dict: Pure alpha and numeric regex collection.
-"""
 
 regex_patterns = {
     'default': '|'.join([re for re in re_collection.values()]),
@@ -54,8 +50,6 @@ regex_patterns = {
         re_collection['etc'], re_collection['ideogram'], re_collection['other']
     ]),
 }
-"""dict: Regex patterns used for tokenizing.
-"""
 
 
 class WordTokenizer:

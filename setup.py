@@ -1,11 +1,11 @@
 from setuptools import setup, find_packages
 
-with open("README.md", "r") as fh:
+with open('README.md', 'r') as fh:
     long_description = fh.read()
 
 setup(
     name='reason',
-    version='0.1.0',
+    version='0.2.0',
     description='NLP Toolbox',
     long_description=long_description,
     long_description_content_type='text/markdown',
@@ -15,17 +15,22 @@ setup(
     packages=find_packages(),
     include_package_data=True,
     classifiers=[
-        'Intended Audience :: Developers',
-        'Intended Audience :: Science/Research',
+        'Topic :: Scientific/Engineering',
+        'Topic :: Scientific/Engineering :: Artificial Intelligence',
+        'Topic :: Scientific/Engineering :: Information Analysis',
+        'Topic :: Text Processing',
+        'Development Status :: 3 - Alpha',
+        'License :: OSI Approved :: MIT License',
         'Programming Language :: Python :: 3',
         'Programming Language :: Python :: 3.7',
         'Programming Language :: Python :: 3.8',
         'Programming Language :: Python :: 3.9',
-        'License :: OSI Approved :: MIT License',
         'Operating System :: OS Independent',
+        'Environment :: Console',
+        'Intended Audience :: Developers',
+        'Intended Audience :: Science/Research',
+        'Intended Audience :: Education',
+        'Natural Language :: English',
     ],
     python_requires='>=3.7',
-    install_requires=[
-        #'numpy'
-    ]
 )

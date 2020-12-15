@@ -2,8 +2,8 @@
 """Word tokenize module.
 
 API:
-* *WordTokenizer* class: For frequent use with an specific regex pattern.
-* *word_tokenize* function: For instant use.
+* *WordTokenizer* (class): For frequent use with an specific regex pattern.
+* *word_tokenize* (function): For instant use.
 
 Example:
     Tokenize an string:

@@ -6,6 +6,14 @@ API:
 * *sent_tokenize* (function): For instant use.
 
 """
+import pickle
+
+from nltk import NaiveBayesClassifier
+
+from ._sent_classify import punc_features
+from .word_tokenize import WordTokenizer
+
+
 class SentTokenizer:
     """Sentence Tokenizer
     """
@@ -13,7 +21,8 @@ class SentTokenizer:
     def __init__(self):
         """SentTokenizer Constructor.
         """
-        pass
+        with open('sent_classifier.pickle', 'rb') as f:
+            self._classifier = pickle.load(f)
 
     def tokenize(self, input):
         """Tokenize text method.
@@ -30,7 +39,31 @@ class SentTokenizer:
             Exception: If input is not string or a list of strings.
 
         """
-        pass
+        wt = WordTokenizer()
+        if type(input) == str:
+            tokens = wt.tokenize(input)
+        else:
+            try:
+                tokens = wt.tokenize(' '.join(input))
+            except TypeError:
+                raise Exception(
+                    'Tokenize input must be string or a list of strings.'
+                )
+
+        start = 0
+        sents = list()
+
+        for i, token in enumerate(tokens):
+            if token in '.?!' and self._classifier.classify(
+                    punc_features(tokens, i)
+            ) == True:
+                sents.append(tokens[start : i + 1])
+                start = i + 1
+
+        if start < len(tokens):
+            sents.append(tokens[start:])
+
+        return sents
 
 
 def sent_tokenize(input):
@@ -45,4 +78,8 @@ def sent_tokenize(input):
             list: Tokens.
 
         """
-    return SentTokenize().tokenize(input)
+    return SentTokenizer().tokenize(input)
+
+
+if __name__ == '__main__':
+    sent_tokenize('Hi. I am Ali.')

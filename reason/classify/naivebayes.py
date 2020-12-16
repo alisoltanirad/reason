@@ -9,7 +9,7 @@ class NaiveBayesClassifier:
     def classify(self, x):
         posterior = dict()
         for label in self._labels:
-            posterior[str(label)] = self._prior[str(label)] * self._likelihood(x, label)
+            posterior[str(label)] = self._prior[str(label)] * self._likelihood(x, str(label))
 
     def train(self, dataset):
         n = len(dataset)
@@ -19,17 +19,17 @@ class NaiveBayesClassifier:
             y.append(data[1])
         self._labels = set(y)
 
-        features = dataset[0][0].keys()
+        self._features = dataset[0][0].keys()
         x = dict()
 
         for label in self._labels:
             x[str(label)] = dict()
-            for feature in features:
+            for feature in self._features:
                 x[str(label)][feature] = list()
 
         for data in dataset:
             label = data[1]
-            for feature in features:
+            for feature in self._features:
                 x[str(label)][feature].append(data[0][feature])
 
 
@@ -40,7 +40,7 @@ class NaiveBayesClassifier:
         self._statistics = dict()
         for label in self._labels:
             features = dict()
-            for feature in features:
+            for feature in self._features:
                 features[feature] = {
                     'mean': np.mean(x[str(label)][feature]),
                     'var': np.var(x[str(label)][feature]),
@@ -49,5 +49,14 @@ class NaiveBayesClassifier:
 
 
     def _likelihood(self, x, y):
-        pass
+        p = list()
+        for feature in self._features:
+            mean = self._statistics[y][feature]['mean']
+            var = self._statistics[y][feature]['var']
+            p.append(
+                1 / np.sqrt(2 * np.pi * var)
+                * np.exp((-(x[feature] - mean) ** 2) / (2 * var))
+            )
+        return np.prod(p)
+
 

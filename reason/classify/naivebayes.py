@@ -7,9 +7,13 @@ class NaiveBayesClassifier:
         pass
 
     def classify(self, x):
-        posterior = dict()
+        posterior = list()
         for label in self._labels:
-            posterior[str(label)] = self._prior[str(label)] * self._likelihood(x, str(label))
+            posterior.append(
+                self._prior[str(label)] * self._likelihood(x, str(label))
+                , str(label)
+            )
+        return max(posterior)[1]
 
     def train(self, dataset):
         n = len(dataset)

@@ -46,7 +46,7 @@ class NaiveBayesClassifier:
             features = dict()
             for feature in self._features:
                 features[feature] = {
-                    'mean': np.mean(x[str(label)][feature]),
+                    'mean': np.mean(np.array(x[str(label)][feature], dtype=float)),
                     'var': np.var(x[str(label)][feature]),
                 }
             self._statistics[str(label)] = features

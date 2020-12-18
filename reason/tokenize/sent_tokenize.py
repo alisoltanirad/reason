@@ -29,6 +29,10 @@ class SentTokenizer:
 
     def __init__(self):
         """SentTokenizer Constructor.
+
+        Creates and trains a naive bayes classifier. SentTokenizer class
+        recognizes sentences using this classifier.
+
         """
         self._classifier = NaiveBayesClassifier(self._get_dataset())
 

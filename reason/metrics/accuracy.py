@@ -1,3 +1,20 @@
+# -*- coding: utf-8 -*-
+"""Word tokenize module.
+
+API:
+* *accuracy* (function): Calculates accuracy score.
+
+Example:
+    Tokenize an string:
+
+        >>> from reason.metrics import accuracy
+
+        >>> accuracy(y_true, y_pred)
+        93.57
+
+"""
+
+
 def accuracy(y_true, y_pred):
     """Accuracy score function.
 

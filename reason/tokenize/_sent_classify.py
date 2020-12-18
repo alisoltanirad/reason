@@ -26,7 +26,8 @@ def _evaluate_classifier():
 
     classifier = NaiveBayesClassifier()
     classifier.train(train_set)
-    print(classifier.classify(test_set[0]))
+
+    print(classifier.classify(test_set[0][0]))
 
 
 def _get_dataset():
@@ -40,11 +41,8 @@ def _get_dataset():
         offset += len(sent)
         boundaries.add(offset - 1)
 
-    ohe = OneHotEncoder()
-    cv = CountVectorizer()
-
     feature_sets = [
-        (punc_features(tokens, i, ohe, cv), (i in boundaries))
+        (punc_features(tokens, i), (i in boundaries))
         for i in range(1, len(tokens) - 1)
         if tokens[i] in '.?!'
     ]
@@ -52,15 +50,11 @@ def _get_dataset():
     return feature_sets
 
 
-def punc_features(tokens, i, ohe, cv):
-    punctuation = np.array([tokens[i]])
-    encoded_punctuation = ohe.fit_transform(punctuation.reshape(-1, 1))
-    prev_word = np.array([tokens[i - 1].lower()])
-    encoded_prev_word = ohe.fit_transform(prev_word.reshape(-1, 1))
+def punc_features(tokens, i):
     return {
         'next_word_capitalized': tokens[i+1][0].isupper(),
-        'punctuation': encoded_punctuation,
-        'prev_word': encoded_prev_word,
+        'punctuation': tokens[i],
+        'prev_word': tokens[i - 1].lower(),
         'prev_word_is_one_char': len(tokens[i-1]) == 1,
     }
 

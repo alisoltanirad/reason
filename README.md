@@ -31,7 +31,7 @@ Sentence tokenize:
 >>> from reason.tokenize import sent_tokenize
 
 >>> text = "Hey, what's up? I love using Reason library!"
->>> sents = sent_tokenize(text, 'alphanumeric')
+>>> sents = sent_tokenize(text)
 >>> for sent in sents:
 ...     print(sent)
 Hey, what's up?

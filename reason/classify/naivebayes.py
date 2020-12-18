@@ -67,7 +67,7 @@ class NaiveBayesClassifier:
             y.append(data[1])
         self._labels = set(y)
 
-        self._features = dataset[0][0].keys()
+        self._features = list(dataset[0][0].keys())
         self._x = dict()
 
         for label in self._labels:
@@ -125,6 +125,24 @@ class NaiveBayesClassifier:
                 raise Exception('Input type is not supported.')
         else:
             raise Exception('Input type is not supported.')
+
+    def get_labels(self):
+        """Get labels method.
+
+        Returns:
+            List: Labels
+
+        """
+        return list(self._labels)
+
+    def get_features(self):
+        """Get features method.
+
+        Returns:
+            List: Features
+
+        """
+        return self._features
 
     def _classify_instance(self, x):
         posterior = list()

@@ -6,11 +6,8 @@ API:
 * *sent_tokenize* (function): For instant use.
 
 """
-import pickle
-
-from nltk import NaiveBayesClassifier
-
-from ._sent_classify import punc_features
+from reason.classify import NaiveBayesClassifier
+from ._treebank import get_sents
 from .word_tokenize import WordTokenizer
 
 
@@ -21,8 +18,7 @@ class SentTokenizer:
     def __init__(self):
         """SentTokenizer Constructor.
         """
-        with open('sent_classifier.pickle', 'rb') as f:
-            self._classifier = pickle.load(f)
+        self._classifier = NaiveBayesClassifier(self._get_dataset())
 
     def tokenize(self, input):
         """Tokenize text method.
@@ -41,29 +37,68 @@ class SentTokenizer:
         """
         wt = WordTokenizer()
         if type(input) == str:
-            tokens = wt.tokenize(input)
+            words = input
+            input_type = 'str'
         else:
             try:
-                tokens = wt.tokenize(' '.join(input))
+                words = wt.tokenize(' '.join(input))
+                input_type = 'list'
             except TypeError:
                 raise Exception(
                     'Tokenize input must be string or a list of strings.'
                 )
 
+
         start = 0
         sents = list()
 
-        for i, token in enumerate(tokens):
-            if token in '.?!' and self._classifier.classify(
-                    punc_features(tokens, i)
-            ) == True:
-                sents.append(tokens[start : i + 1])
-                start = i + 1
+        for i, token in enumerate(words):
+            try:
+                if token in '.?!' and self._classifier.classify(
+                    self._punc_features(words, i)
+                ) == True:
+                    if input_type == 'str':
+                        sents.append(words[start : i + 1].strip())
+                    else:
+                        sents.append(words[start : i + 1])
+                    start = i + 1
+            except IndexError:
+                break
 
-        if start < len(tokens):
-            sents.append(tokens[start:])
+        if start < len(words):
+            if input_type == 'str':
+                sents.append(words[start:].strip())
+            else:
+                sents.append(words[start:])
 
         return sents
+
+    def _punc_features(self, tokens, i):
+        return {
+            'next_word_capitalized': tokens[i + 1][0].isupper(),
+            'punctuation': tokens[i],
+            'prev_word': tokens[i - 1].lower(),
+            'prev_word_is_one_char': len(tokens[i - 1]) == 1,
+        }
+
+    def _get_dataset(self):
+        sents = get_sents()
+        tokens = list()
+        boundaries = set()
+        offset = 0
+
+        for sent in sents:
+            tokens.extend(sent)
+            offset += len(sent)
+            boundaries.add(offset - 1)
+
+        feature_sets = [
+            (self._punc_features(tokens, i), (i in boundaries))
+            for i in range(1, len(tokens) - 1)
+            if tokens[i] in '.?!'
+        ]
+
+        return feature_sets
 
 
 def sent_tokenize(input):
@@ -79,7 +114,3 @@ def sent_tokenize(input):
 
         """
     return SentTokenizer().tokenize(input)
-
-
-if __name__ == '__main__':
-    sent_tokenize('Hi. I am Ali.')

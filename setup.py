@@ -9,7 +9,7 @@ setup(
     description='NLP Toolbox',
     long_description=long_description,
     long_description_content_type='text/markdown',
-    url='https://github.com/alisoltanirad/Reason',
+    url='https://github.com/alisoltanirad/reason',
     author='Ali Soltani Rad',
     author_email='soltaniradali@gmail.com',
     packages=find_packages(),
@@ -33,4 +33,7 @@ setup(
         'Natural Language :: English',
     ],
     python_requires='>=3.7',
+    install_requires=[
+        'numpy'
+    ],
 )

@@ -38,6 +38,12 @@ Hey, what's up?
 I love using Reason library!
 ```
 
+## Dependencies
+
+- [NumPy](https://numpy.org)
+
+Keep in mind *NumPy* will be automatically installed with *Reason*.
+
 ## License
 
 MIT -- See [LICENSE](https://github.com/alisoltanirad/Reason/blob/main/LICENSE) 

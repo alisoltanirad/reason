@@ -1,8 +1,7 @@
-
 from nltk.corpus import treebank_raw
 
-
 from reason.classify import NaiveBayesClassifier
+from reason.metrics import accuracy
 
 
 def train_classifier():
@@ -20,7 +19,15 @@ def _evaluate_classifier():
     classifier = NaiveBayesClassifier()
     classifier.train(train_set)
 
+    y_true, y_pred = list(), list()
+    for item in test_set:
+        y_true.append(item[1])
+        y_pred.append(classifier.classify(item[0]))
+
     print(classifier.classify(test_set[0][0]))
+    print(accuracy(y_true, y_pred))
+
+
 
 
 def _get_dataset():

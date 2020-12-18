@@ -17,13 +17,25 @@ pip install reason
 
 ## Quick-Start
 
-Tokenize text:
+Word tokenize:
 ```python
 >>> from reason.tokenize import word_tokenize
 
 >>> text = "Testing reason0.1.0, (on: 127.0.0.1). Cool stuff..."
 >>> word_tokenize(text, 'alphanumeric')
 ['Testing', 'reason0.1.0', 'on', '127.0.0.1', 'Cool', 'stuff']
+```
+
+Sentence tokenize:
+```python
+>>> from reason.tokenize import sent_tokenize
+
+>>> text = "Hey, what's up? I love using Reason library!"
+>>> sents = sent_tokenize(text, 'alphanumeric')
+>>> for sent in sents:
+...     print(sent)
+Hey, what's up?
+I love using Reason library!
 ```
 
 ## License

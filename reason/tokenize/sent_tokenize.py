@@ -5,6 +5,18 @@ API:
 * *SentTokenizer* (class): For frequent sentence tokenizing use.
 * *sent_tokenize* (function): For instant use.
 
+Example:
+    Tokenize an string:
+
+        >>> from reason.tokenize import sent_tokenize
+
+        >>> text = "Hey, what's up? I love using Reason library!"
+        >>> sents = sent_tokenize(text, 'alphanumeric')
+        >>> for sent in sents:
+        ...     print(sent)
+        Hey, what's up?
+        I love using Reason library!
+
 """
 from reason.classify import NaiveBayesClassifier
 from ._treebank import get_sents

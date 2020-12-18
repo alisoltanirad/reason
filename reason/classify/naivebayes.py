@@ -17,6 +17,7 @@ class NaiveBayesClassifier:
         for data in dataset:
             y.append(data[1])
         self._labels = set(y)
+        self._label_type = type(y[0])
 
         self._features = dataset[0][0].keys()
         self._x = dict()
@@ -50,13 +51,15 @@ class NaiveBayesClassifier:
             self._statistics[str(label)] = features
 
     def classify(self, x):
-        if type(x) == dict():
+        if type(x) == dict:
             return self._classify_instance(x)
         elif type(x) == list:
             labels = list()
             for instance in x:
                 labels.append(self._classify_instance(instance))
             return labels
+        else:
+            raise Exception('Input type is not supported.')
 
     def _classify_instance(self, x):
         posterior = list()
@@ -65,7 +68,11 @@ class NaiveBayesClassifier:
                 self._prior[str(label)] * self._likelihood(x, str(label))
                 , str(label)
             ))
-        return max(posterior)[1]
+
+        label = max(posterior)[1]
+        if self._label_type == bool:
+            return bool(label)
+        return label
 
     def _likelihood(self, x, y):
         p = list()

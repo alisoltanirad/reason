@@ -24,7 +24,7 @@ def _evaluate_classifier():
         y_true.append(item[1])
         y_pred.append(classifier.classify(item[0]))
 
-    print(classifier.classify(test_set[0][0]))
+    print(y_true[0] == y_pred[0])
     print(accuracy(y_true, y_pred))
 
 

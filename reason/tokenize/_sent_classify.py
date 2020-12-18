@@ -1,10 +1,6 @@
-import pickle
 
-import numpy as np
 from nltk.corpus import treebank_raw
-from sklearn.preprocessing import OneHotEncoder
-from sklearn.feature_extraction.text import CountVectorizer
-#from nltk import classify
+
 
 from reason.classify import NaiveBayesClassifier
 
@@ -20,9 +16,6 @@ def _evaluate_classifier():
     dataset = _get_dataset()
     size = int(len(dataset) * 0.1)
     train_set, test_set = dataset[size:], dataset[:size]
-
-    #classifier = NaiveBayesClassifier.train(train_set)
-    #return classify.accuracy(classifier, test_set)
 
     classifier = NaiveBayesClassifier()
     classifier.train(train_set)

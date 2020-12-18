@@ -6,17 +6,9 @@ class NaiveBayesClassifier:
     _numeric = [int, float, bool]
     _categorical = [str]
 
-    def __init__(self):
-        pass
-
-    def classify(self, x):
-        posterior = list()
-        for label in self._labels:
-            posterior.append((
-                self._prior[str(label)] * self._likelihood(x, str(label))
-                , str(label)
-            ))
-        return max(posterior)[1]
+    def __init__(self, dataset=None):
+        if dataset != None:
+            self.train(dataset)
 
     def train(self, dataset):
         self._n = len(dataset)
@@ -57,6 +49,23 @@ class NaiveBayesClassifier:
                     }
             self._statistics[str(label)] = features
 
+    def classify(self, x):
+        if type(x) == dict():
+            return self._classify_instance(x)
+        elif type(x) == list:
+            labels = list()
+            for instance in x:
+                labels.append(self._classify_instance(instance))
+            return labels
+
+    def _classify_instance(self, x):
+        posterior = list()
+        for label in self._labels:
+            posterior.append((
+                self._prior[str(label)] * self._likelihood(x, str(label))
+                , str(label)
+            ))
+        return max(posterior)[1]
 
     def _likelihood(self, x, y):
         p = list()

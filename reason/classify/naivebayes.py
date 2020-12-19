@@ -66,7 +66,36 @@ class NaiveBayesClassifier:
             self._train_featureset()
 
     def _train_dataframe(self):
-        pass
+        self._check_input_validation()
+
+        self._n = len(self._dataset)
+
+        self._features = list(self._dataset.columns[:-1])
+        self._labels = list(self._dataset.iloc[:, -1].unique())
+
+        self._prior = dict()
+        for label in self._labels:
+            self._prior[str(label)] = \
+                self._dataset.iloc[:, -1].value_counts()[label]
+
+        self._statistics = dict()
+        for label in self._labels:
+            features = dict()
+            for feature in self._features:
+                if self._dataset[feature].dtype in _numeric:
+                    features[feature] = {
+                        'mean': np.mean(
+                            self._dataset[
+                                self._dataset.iloc[:, -1] == label
+                            ][feature]
+                        ),
+                        'var': np.var(
+                            self._dataset[
+                                self._dataset.iloc[:, -1] == label
+                            ][feature]
+                        ),
+                    }
+            self._statistics[str(label)] = features
 
     def _train_featureset(self):
         self._check_input_validation()
@@ -122,7 +151,11 @@ class NaiveBayesClassifier:
 
         """
         if self._dataset_type == 'dataframe':
-            pass
+            self._dataframe_validation()
+            labels = list()
+            for i in range(len(x)):
+                labels.append(self._classify_data(x.iloc[i]))
+            return labels
         else:
             if type(x) == dict:
                 return self._classify_featureset(x)
@@ -155,6 +188,15 @@ class NaiveBayesClassifier:
         """
         return self._features
 
+    def _classify_data(self, x):
+        posterior = list()
+        for label in self._labels:
+            posterior.append((
+                self._prior[str(label)] * self._likelihood(x, label), label
+            ))
+
+        return max(posterior)[1]
+
     def _classify_featureset(self, x):
         posterior = list()
         for label in self._labels:
@@ -168,19 +210,21 @@ class NaiveBayesClassifier:
             return bool(label)
         return label
 
-    def _likelihood(self, x, y):
+    def _likelihood(self, x, label):
         p = list()
         for feature in self._features:
-            if type(x[feature]) in _numeric:
-                mean = self._statistics[y][feature]['mean']
-                var = self._statistics[y][feature]['var']
+            if x[feature].dtype in _numeric:
+                mean = self._statistics[str(label)][feature]['mean']
+                var = self._statistics[str(label)][feature]['var']
                 p.append(
                     1 / np.sqrt(2 * np.pi * var)
                     * np.exp((-(x[feature] - mean) ** 2) / (2 * var))
                 )
-            elif type(x[feature]) in _categorical:
+            elif x[feature].dtype in _categorical:
                 p.append(
-                    self._x[y][feature].count(x[feature]) / self._n
+                    self._dataset[
+                        self._dataset.iloc[:, -1] == label
+                    ][feature].value_counts(x[feature]) / self._n
                 )
             else:
                 raise Exception('Input type is not supported.' + str(x[feature]))

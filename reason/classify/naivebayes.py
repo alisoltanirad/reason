@@ -18,6 +18,7 @@ Example:
 
 """
 import numpy as np
+import pandas as pd
 
 # Supported feature types
 _numeric = [int, float, bool]
@@ -50,36 +51,34 @@ class NaiveBayesClassifier:
         Trains classifier with dataset.
 
         Args:
-            dataset (list of tuple): Feature sets + labels
+            dataset (pandas.DataFrame or list of tuple): Feature sets + labels
 
         Raises:
-            Exception: If input is not a list of tuples of feature set and label.
+            Exception: If input is not valid.
 
         """
-        if type(dataset) != list:
-            raise Exception('Dataset must be in the form of list of tuples.')
-        elif not all(isinstance(item, tuple) for item in dataset):
-            raise Exception('Dataset must be in the form of list of tuples.')
-        elif not all(len(item) == 2 for item in dataset):
-            raise Exception('Tuples in the dataset must have 2 values.')
-        elif not all(isinstance(item[0], dict) for item in dataset):
-            raise Exception('Feature set must be a dictionary.')
-
-        if all(isinstance(item[1], str) for item in dataset):
-            self._is_label_bool = False
-        elif all(isinstance(item[1], bool) for item in dataset):
-            self._is_label_bool = True
+        self._dataset = dataset
+        if type(dataset) == pd.DataFrame:
+            self._dataset_type = 'dataframe'
+            self._train_dataframe()
         else:
-            raise Exception('Labels must be string or boolean.')
+            self._dataset_type = 'featureset'
+            self._train_featureset()
 
-        self._n = len(dataset)
+    def _train_dataframe(self):
+        pass
+
+    def _train_featureset(self):
+        self._check_input_validation()
+
+        self._n = len(self._dataset)
 
         y = list()
-        for data in dataset:
+        for data in self._dataset:
             y.append(data[1])
         self._labels = set(y)
 
-        self._features = list(dataset[0][0].keys())
+        self._features = list(self._dataset[0][0].keys())
         self._x = dict()
 
         for label in self._labels:
@@ -87,17 +86,14 @@ class NaiveBayesClassifier:
             for feature in self._features:
                 self._x[str(label)][feature] = list()
 
-        for data in dataset:
+        for data in self._dataset:
             label = data[1]
             for feature in self._features:
                 self._x[str(label)][feature].append(data[0][feature])
 
-
         self._prior = dict()
         for label in self._labels:
             self._prior[str(label)] = y.count(label) / self._n
-
-
 
         self._statistics = dict()
         for label in self._labels:
@@ -125,18 +121,21 @@ class NaiveBayesClassifier:
             Exception: If input is not a dictionary or list of dictionaries.
 
         """
-        if type(x) == dict:
-            return self._classify_instance(x)
-        elif type(x) == list:
-            if all(isinstance(item, dict) for item in x):
-                labels = list()
-                for instance in x:
-                    labels.append(self._classify_instance(instance))
-                return labels
+        if self._dataset_type == 'dataframe':
+            pass
+        else:
+            if type(x) == dict:
+                return self._classify_featureset(x)
+            elif type(x) == list:
+                if all(isinstance(item, dict) for item in x):
+                    labels = list()
+                    for instance in x:
+                        labels.append(self._classify_featureset(instance))
+                    return labels
+                else:
+                    raise Exception('Input type is not supported.')
             else:
                 raise Exception('Input type is not supported.')
-        else:
-            raise Exception('Input type is not supported.')
 
     def get_labels(self):
         """Get labels method.
@@ -156,7 +155,7 @@ class NaiveBayesClassifier:
         """
         return self._features
 
-    def _classify_instance(self, x):
+    def _classify_featureset(self, x):
         posterior = list()
         for label in self._labels:
             posterior.append((
@@ -186,3 +185,41 @@ class NaiveBayesClassifier:
             else:
                 raise Exception('Input type is not supported.' + str(x[feature]))
         return np.prod(p)
+
+    def _check_input_validation(self):
+        if self._dataset_type == 'dataframe':
+            self._dataframe_validation()
+        elif self._dataset_type == 'featureset':
+            self._featureset_validation()
+        else:
+            raise BadInput
+
+    def _dataframe_validation(self):
+        pass
+
+    def _featureset_validation(self):
+
+        if not isinstance(self._dataset, list):
+            raise BadInput
+        elif not all(isinstance(item, tuple) for item in self._dataset):
+            raise BadInput
+        elif not all(len(item) == 2 for item in self._dataset):
+            raise BadInput('Dataset tuples must be (featureset, label) pairs.')
+        elif not all(isinstance(item[0], dict) for item in self._dataset):
+            raise BadInput('Dataset feature sets must be dictionary.')
+
+        if all(isinstance(item[1], str) for item in self._dataset):
+            self._is_label_bool = False
+        elif all(isinstance(item[1], bool) for item in self._dataset):
+            self._is_label_bool = True
+        else:
+            raise BadInput('Dataset labels must be string or boolean.')
+
+
+class BadInput(Exception):
+
+    def __init__(self, message='Input type is not supported.'):
+        self.message = message
+
+    def __str__(self):
+        return self.message

@@ -50,7 +50,10 @@ Classification Tools:
 
 ## Dependencies
 
-- [NumPy](https://numpy.org)
+- [NumPy](https://numpy.org)  
+Used to handle data
+- [Pandas](https://pandas.pydata.org)  
+Used in classify package
 
 Keep in mind *NumPy* will be automatically installed with *Reason*.
 

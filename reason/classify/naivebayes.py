@@ -21,7 +21,7 @@ import numpy as np
 import pandas as pd
 
 # Supported feature types
-_numeric = [int, float, bool]
+_numeric = [int, float, bool, np.intc , np.single, np.bool_]
 _categorical = [str]
 
 
@@ -57,16 +57,29 @@ class NaiveBayesClassifier:
             Exception: If input is not valid.
 
         """
-        self._dataset = dataset
         if type(dataset) == pd.DataFrame:
-            self._dataset_type = 'dataframe'
-            self._train_dataframe()
+            self._dataset = dataset
+        elif self._is_pairs_format(dataset):
+            self._dataset = self._pairs_to_dataframe(dataset)
         else:
-            self._dataset_type = 'featureset'
-            self._train_featureset()
+            raise Exception('Dataset type is not supported.')
 
-    def _train_dataframe(self):
-        self._check_input_validation()
+        self._train_classifier()
+
+    def _pairs_to_dataframe(self, pairs):
+        data = dict()
+        features = pairs[0][0].keys()
+
+        for feature in features:
+            data[feature] = pd.Series(pair[0][feature] for pair in pairs)
+        labels = pd.Series(pair[1] for pair in pairs)
+
+        df = pd.DataFrame(data=data)
+        df['label'] = labels
+
+        return df
+
+    def _train_classifier(self):
 
         self._n = len(self._dataset)
 
@@ -135,13 +148,13 @@ class NaiveBayesClassifier:
                     }
             self._statistics[str(label)] = features
 
-    def classify(self, x):
+    def classify(self, data):
         """Classify method.
 
         Classifies new entries (feature sets).
 
         Args:
-            x (dict or list of dict): Features set(s).
+            input (dict or list of dict): Features set(s).
 
         Returns:
             Label or list of labels.
@@ -150,25 +163,28 @@ class NaiveBayesClassifier:
             Exception: If input is not a dictionary or list of dictionaries.
 
         """
-        if self._dataset_type == 'dataframe':
-            self._dataframe_validation()
-            labels = list()
-            for i in range(len(x)):
-                labels.append(self._classify_data(x.iloc[i]))
-            return labels
+        if type(data) == pd.DataFrame:
+            x = data
+        elif self._is_featuresets_format(data):
+            x = self._featuresets_to_dataframe(data)
+        elif type(data) == dict:
+            return self._classify_data(self._dict_to_dataframe(data))
         else:
-            if type(x) == dict:
-                return self._classify_featureset(x)
-            elif type(x) == list:
-                if all(isinstance(item, dict) for item in x):
-                    labels = list()
-                    for instance in x:
-                        labels.append(self._classify_featureset(instance))
-                    return labels
-                else:
-                    raise Exception('Input type is not supported.')
-            else:
-                raise Exception('Input type is not supported.')
+            raise Exception('Data type is not supported.')
+
+        self._dataframe_validation()
+
+        labels = list()
+        for i in range(len(x)):
+            labels.append(self._classify_data(x.iloc[i]))
+        return labels
+
+    def _dict_to_dataframe(self, dictionary):
+        data = dict()
+        for key, value in dictionary.items():
+            data[key] = [value]
+        return pd.DataFrame(data=data)
+
 
     def get_labels(self):
         """Get labels method.
@@ -194,71 +210,67 @@ class NaiveBayesClassifier:
             posterior.append((
                 self._prior[str(label)] * self._likelihood(x, label), label
             ))
-
         return max(posterior)[1]
 
-    def _classify_featureset(self, x):
-        posterior = list()
-        for label in self._labels:
-            posterior.append((
-                self._prior[str(label)] * self._likelihood(x, str(label))
-                , str(label)
-            ))
-
-        label = max(posterior)[1]
-        if self._is_label_bool == True:
-            return bool(label)
-        return label
 
     def _likelihood(self, x, label):
         p = list()
         for feature in self._features:
-            if x[feature].dtype in _numeric:
+            if type(x[feature][0]) in _numeric:
                 mean = self._statistics[str(label)][feature]['mean']
                 var = self._statistics[str(label)][feature]['var']
-                p.append(
+                p.append((
                     1 / np.sqrt(2 * np.pi * var)
                     * np.exp((-(x[feature] - mean) ** 2) / (2 * var))
-                )
-            elif x[feature].dtype in _categorical:
-                p.append(
+                )[0])
+
+            elif type(x[feature][0]) in _categorical:
+                p.append((
                     self._dataset[
                         self._dataset.iloc[:, -1] == label
-                    ][feature].value_counts(x[feature]) / self._n
-                )
+                    ][feature].value_counts(x[feature][0]) / self._n
+                )[0])
+
             else:
-                raise Exception('Input type is not supported.' + str(x[feature]))
+                raise Exception('Input type is not supported.')
         return np.prod(p)
 
-    def _check_input_validation(self):
-        if self._dataset_type == 'dataframe':
-            self._dataframe_validation()
-        elif self._dataset_type == 'featureset':
-            self._featureset_validation()
-        else:
-            raise BadInput
+    def _featuresets_to_dataframe(self, featuresets):
+        data = dict()
+        features = featuresets[0].keys()
+
+        for feature in features:
+            data[feature] = pd.Series(set[feature] for set in featuresets)
+
+        df = pd.DataFrame(data=data)
+
+        return df
+
 
     def _dataframe_validation(self):
         pass
 
-    def _featureset_validation(self):
+    def _is_pairs_format(self, input):
 
-        if not isinstance(self._dataset, list):
-            raise BadInput
-        elif not all(isinstance(item, tuple) for item in self._dataset):
-            raise BadInput
-        elif not all(len(item) == 2 for item in self._dataset):
-            raise BadInput('Dataset tuples must be (featureset, label) pairs.')
-        elif not all(isinstance(item[0], dict) for item in self._dataset):
-            raise BadInput('Dataset feature sets must be dictionary.')
+        if not isinstance(input, list):
+            return False
+        elif not all(isinstance(item, tuple) for item in input):
+            return False
+        elif not all(len(item) == 2 for item in input):
+            return False
+        elif not all(isinstance(item[0], dict) for item in input):
+            return False
 
-        if all(isinstance(item[1], str) for item in self._dataset):
-            self._is_label_bool = False
-        elif all(isinstance(item[1], bool) for item in self._dataset):
-            self._is_label_bool = True
-        else:
-            raise BadInput('Dataset labels must be string or boolean.')
+        return True
 
+    def _is_featuresets_format(self, input):
+
+        if not isinstance(input, list):
+            return False
+        elif not all(isinstance(item, dict) for item in input):
+            return False
+
+        return True
 
 class BadInput(Exception):
 

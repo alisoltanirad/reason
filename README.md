@@ -17,7 +17,7 @@ pip install reason
 
 ## Quick-Start
 
-Word tokenize:
+Tokenization Tools:
 ```python
 >>> from reason.tokenize import word_tokenize
 
@@ -26,7 +26,6 @@ Word tokenize:
 ['Testing', 'reason0.1.0', 'on', '127.0.0.1', 'Cool', 'stuff']
 ```
 
-Sentence tokenize:
 ```python
 >>> from reason.tokenize import sent_tokenize
 
@@ -36,6 +35,17 @@ Sentence tokenize:
 ...     print(sent)
 Hey, what's up?
 I love using Reason library!
+```
+
+Classification Tools:
+```python
+>>> from reason.classify import NaiveBayesClassifier
+>>> classifier = NaiveBayesClassifier(train_set)
+>>> y_pred = classifier.classify(new_data)
+
+>>> from reason.metrics import accuracy
+>>> accuracy(y_true, y_pred)
+93.57
 ```
 
 ## Dependencies

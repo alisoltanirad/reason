@@ -64,7 +64,6 @@ class SentTokenizer:
                     'Tokenize input must be string or a list of strings.'
                 )
 
-
         start = 0
         sents = list()
 

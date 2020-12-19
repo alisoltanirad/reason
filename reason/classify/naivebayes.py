@@ -66,18 +66,56 @@ class NaiveBayesClassifier:
 
         self._train_classifier()
 
-    def _pairs_to_dataframe(self, pairs):
-        data = dict()
-        features = pairs[0][0].keys()
+    def classify(self, data):
+        """Classify method.
 
-        for feature in features:
-            data[feature] = pd.Series(pair[0][feature] for pair in pairs)
-        labels = pd.Series(pair[1] for pair in pairs)
+        Classifies new entries (feature sets).
 
-        df = pd.DataFrame(data=data)
-        df['label'] = labels
+        Args:
+            input (dict or list of dict): Features set(s).
 
-        return df
+        Returns:
+            Label or list of labels.
+
+        Raises:
+            Exception: If input is not a dictionary or list of dictionaries.
+
+        """
+        if type(data) == pd.Series:
+            return self._classify_data(data)
+        elif type(data) == dict:
+            return self._classify_data(pd.Series(data))
+        elif type(data) == pd.DataFrame:
+            x = data
+        elif self._is_featuresets_format(data):
+            x = self._featuresets_to_dataframe(data)
+        else:
+            raise Exception('Data type is not supported.')
+
+        self._dataframe_validation()
+
+        labels = list()
+        for i in range(len(x)):
+            labels.append(self._classify_data(x.iloc[i]))
+        return labels
+
+    def get_labels(self):
+        """Get labels method.
+
+        Returns:
+            List: Labels
+
+        """
+        return list(self._labels)
+
+    def get_features(self):
+        """Get features method.
+
+        Returns:
+            List: Features
+
+        """
+        return self._features
 
     def _train_classifier(self):
 
@@ -110,101 +148,8 @@ class NaiveBayesClassifier:
                     }
             self._statistics[str(label)] = features
 
-    def _train_featureset(self):
-        self._check_input_validation()
-
-        self._n = len(self._dataset)
-
-        y = list()
-        for data in self._dataset:
-            y.append(data[1])
-        self._labels = set(y)
-
-        self._features = list(self._dataset[0][0].keys())
-        self._x = dict()
-
-        for label in self._labels:
-            self._x[str(label)] = dict()
-            for feature in self._features:
-                self._x[str(label)][feature] = list()
-
-        for data in self._dataset:
-            label = data[1]
-            for feature in self._features:
-                self._x[str(label)][feature].append(data[0][feature])
-
-        self._prior = dict()
-        for label in self._labels:
-            self._prior[str(label)] = y.count(label) / self._n
-
-        self._statistics = dict()
-        for label in self._labels:
-            features = dict()
-            for feature in self._features:
-                if type(self._x[str(label)][feature][0]) in _numeric:
-                    features[feature] = {
-                        'mean': np.mean(self._x[str(label)][feature]),
-                        'var': np.var(self._x[str(label)][feature]),
-                    }
-            self._statistics[str(label)] = features
-
-    def classify(self, data):
-        """Classify method.
-
-        Classifies new entries (feature sets).
-
-        Args:
-            input (dict or list of dict): Features set(s).
-
-        Returns:
-            Label or list of labels.
-
-        Raises:
-            Exception: If input is not a dictionary or list of dictionaries.
-
-        """
-        if type(data) == pd.DataFrame:
-            x = data
-        elif self._is_featuresets_format(data):
-            x = self._featuresets_to_dataframe(data)
-        elif type(data) == dict:
-            return self._classify_data(self._dict_to_dataframe(data))
-        else:
-            raise Exception('Data type is not supported.')
-
-        self._dataframe_validation()
-
-        labels = list()
-        for i in range(len(x)):
-            labels.append(self._classify_data(x.iloc[i]))
-        return labels
-
-    def _dict_to_dataframe(self, dictionary):
-        data = dict()
-        for key, value in dictionary.items():
-            data[key] = [value]
-        return pd.DataFrame(data=data)
-
-
-    def get_labels(self):
-        """Get labels method.
-
-        Returns:
-            List: Labels
-
-        """
-        return list(self._labels)
-
-    def get_features(self):
-        """Get features method.
-
-        Returns:
-            List: Features
-
-        """
-        return self._features
-
     def _classify_data(self, x):
+        assert isinstance(x, pd.Series), 'X type must be pandas.Series'
         posterior = list()
         for label in self._labels:
             posterior.append((
@@ -212,40 +157,28 @@ class NaiveBayesClassifier:
             ))
         return max(posterior)[1]
 
-
     def _likelihood(self, x, label):
         p = list()
         for feature in self._features:
-            if type(x[feature][0]) in _numeric:
+            if type(x[feature]) in _numeric:
                 mean = self._statistics[str(label)][feature]['mean']
                 var = self._statistics[str(label)][feature]['var']
-                p.append((
+                p.append(
                     1 / np.sqrt(2 * np.pi * var)
                     * np.exp((-(x[feature] - mean) ** 2) / (2 * var))
-                )[0])
+                )
 
-            elif type(x[feature][0]) in _categorical:
+            elif type(x[feature]) in _categorical:
                 p.append((
                     self._dataset[
                         self._dataset.iloc[:, -1] == label
-                    ][feature].value_counts(x[feature][0]) / self._n
+                    ][feature].value_counts(x[feature]) / self._n
                 )[0])
 
             else:
                 raise Exception('Input type is not supported.')
+
         return np.prod(p)
-
-    def _featuresets_to_dataframe(self, featuresets):
-        data = dict()
-        features = featuresets[0].keys()
-
-        for feature in features:
-            data[feature] = pd.Series(set[feature] for set in featuresets)
-
-        df = pd.DataFrame(data=data)
-
-        return df
-
 
     def _dataframe_validation(self):
         pass
@@ -272,10 +205,26 @@ class NaiveBayesClassifier:
 
         return True
 
-class BadInput(Exception):
+    def _pairs_to_dataframe(self, pairs):
+        data = dict()
+        features = pairs[0][0].keys()
 
-    def __init__(self, message='Input type is not supported.'):
-        self.message = message
+        for feature in features:
+            data[feature] = pd.Series(pair[0][feature] for pair in pairs)
+        labels = pd.Series(pair[1] for pair in pairs)
 
-    def __str__(self):
-        return self.message
+        df = pd.DataFrame(data=data)
+        df['label'] = labels
+
+        return df
+
+    def _featuresets_to_dataframe(self, featuresets):
+        data = dict()
+        features = featuresets[0].keys()
+
+        for feature in features:
+            data[feature] = pd.Series(set[feature] for set in featuresets)
+
+        df = pd.DataFrame(data=data)
+
+        return df

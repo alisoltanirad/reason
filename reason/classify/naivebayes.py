@@ -9,7 +9,7 @@ Example:
         >>> from reason.classify import NaiveBayesClassifier
 
         >>> classifier = NaiveBayesClassifier(train_set)
-        >>> y_pred = classifier.classify(new_data)
+        >>> y_pred = classifier.classify(data)
 
         >>> classifier.get_labels()
         [True, False]
@@ -72,13 +72,13 @@ class NaiveBayesClassifier:
         Classifies new entries (feature sets).
 
         Args:
-            input (dict or list of dict): Features set(s).
+            input (pandas.DataFrame or list of dict): Features set(s).
 
         Returns:
             Label or list of labels.
 
         Raises:
-            Exception: If input is not a dictionary or list of dictionaries.
+            Exception: If input is not valid.
 
         """
         if type(data) == pd.Series:

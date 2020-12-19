@@ -163,10 +163,13 @@ class NaiveBayesClassifier:
             if type(x[feature]) in _numeric:
                 mean = self._statistics[str(label)][feature]['mean']
                 var = self._statistics[str(label)][feature]['var']
-                p.append(
-                    1 / np.sqrt(2 * np.pi * var)
-                    * np.exp((-(x[feature] - mean) ** 2) / (2 * var))
-                )
+                if var == 0:
+                    p.append(1)
+                else:
+                    p.append(
+                        1 / np.sqrt(2 * np.pi * var)
+                        * np.exp((-(x[feature] - mean) ** 2) / (2 * var))
+                    )
 
             elif type(x[feature]) in _categorical:
                 p.append((

@@ -45,7 +45,7 @@ Classification Tools:
 
 >>> from reason.metrics import accuracy
 >>> accuracy(y_true, y_pred)
-93.57
+0.9358
 ```
 
 ## Dependencies

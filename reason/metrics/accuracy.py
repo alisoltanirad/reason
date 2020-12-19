@@ -10,7 +10,7 @@ Example:
         >>> from reason.metrics import accuracy
 
         >>> accuracy(y_true, y_pred)
-        93.57
+        0.9358
 
 """
 
@@ -33,4 +33,4 @@ def accuracy(y_true, y_pred):
     for i in range(all):
         if y_true[i] == y_pred[i]:
             correct += 1
-    return float('{:.2f}'.format(correct / all))
+    return float('{:.4f}'.format(correct / all))

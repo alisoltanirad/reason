@@ -53,19 +53,20 @@ class SentTokenizer:
         """
         wt = WordTokenizer()
         if type(input) == str:
-            words = input
+            words = wt.tokenize(input)
+            sents = [input]
             input_type = 'str'
         else:
             try:
                 words = wt.tokenize(' '.join(input))
+                sents = list()
                 input_type = 'list'
             except TypeError:
                 raise Exception(
                     'Tokenize input must be string or a list of strings.'
                 )
 
-        start = 0
-        sents = list()
+        position, start = 0, 0
 
         for i, token in enumerate(words):
             try:
@@ -73,18 +74,29 @@ class SentTokenizer:
                     self._punc_features(words, i)
                 ) == True:
                     if input_type == 'str':
-                        sents.append(words[start : i + 1].strip())
+                        text = sents.pop(-1)
+                        sent, rest = text[: position + 1], text[position + 1 :]
+                        sents.append(sent.strip())
+                        sents.append(rest.strip())
+                        position = 0
                     else:
                         sents.append(words[start : i + 1])
-                    start = i + 1
+                        start = i + 1
+
+                if input_type == 'str':
+                    position += len(token)
+                    if sents[-1][position] == ' ':
+                        position += 1
+
             except IndexError:
                 break
 
-        if start < len(words):
-            if input_type == 'str':
-                sents.append(words[start:].strip())
-            else:
-                sents.append(words[start:])
+        if input_type == 'list':
+            if start < len(words):
+                if input_type == 'str':
+                    sents.append(words[start:])
+                else:
+                    sents.append(words[start:])
 
         return sents
 

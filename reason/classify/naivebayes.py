@@ -45,7 +45,7 @@ class NaiveBayesClassifier:
         if dataset != None:
             self.train(dataset)
 
-    def train(self, dataset):
+    def train(self, x, y):
         """Train method.
 
         Trains classifier with dataset.
@@ -57,12 +57,18 @@ class NaiveBayesClassifier:
             Exception: If input is not valid.
 
         """
-        if type(dataset) == pd.DataFrame:
-            self._dataset = dataset
-        elif self._is_pairs_format(dataset):
-            self._dataset = self._pairs_to_dataframe(dataset)
+        try:
+            self._y = pd.Series(y)
+        except TypeError:
+            raise Exception('Y must be an array-like object.')
+        if type(x) == pd.DataFrame:
+            self._x = x
+        elif self._is_featuresets_format(x):
+            self._x = self._featuresets_to_dataframe(x)
         else:
             raise Exception('Dataset type is not supported.')
+        self._dataset = self._x.copy()
+        self._dataset['label'] = self._y
 
         self._train_classifier()
 
@@ -119,30 +125,30 @@ class NaiveBayesClassifier:
 
     def _train_classifier(self):
 
-        self._n = len(self._dataset)
+        self._n = min(len(self._x), len(self._y))
 
-        self._features = list(self._dataset.columns[:-1])
-        self._labels = list(self._dataset.iloc[:, -1].unique())
+        self._features = list(self._x.columns)
+        self._labels = list(self._y.unique())
 
         self._prior = dict()
         for label in self._labels:
             self._prior[str(label)] = \
-                self._dataset.iloc[:, -1].value_counts()[label]
+                self._y.value_counts()[label]
 
         self._statistics = dict()
         for label in self._labels:
             features = dict()
             for feature in self._features:
-                if self._dataset[feature].dtype in _numeric:
+                if self._x[feature].dtype in _numeric:
                     features[feature] = {
                         'mean': np.mean(
                             self._dataset[
-                                self._dataset.iloc[:, -1] == label
+                                self._dataset['label'] == label
                             ][feature]
                         ),
                         'var': np.var(
                             self._dataset[
-                                self._dataset.iloc[:, -1] == label
+                                self._dataset['label'] == label
                             ][feature]
                         ),
                     }

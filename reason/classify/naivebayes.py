@@ -38,10 +38,11 @@ class NaiveBayesClassifier:
         Trains classifier with dataset.
 
         Args:
-            dataset (pandas.DataFrame or list of tuple): Feature sets + labels
+            x (pandas.DataFrame or list of dict): Feature sets
+            y (pandas.Series or list): Labels
 
         Raises:
-            Exception: If input is not valid.
+            Exception: If input data is not valid.
 
         """
         try:
@@ -84,8 +85,6 @@ class NaiveBayesClassifier:
             x = self._featuresets_to_dataframe(data)
         else:
             raise Exception('Data type is not supported.')
-
-        self._dataframe_validation()
 
         labels = list()
         for i in range(len(x)):
@@ -175,9 +174,6 @@ class NaiveBayesClassifier:
                 raise Exception('Input type is not supported.')
 
         return np.prod(p)
-
-    def _dataframe_validation(self):
-        pass
 
     def _is_featuresets_format(self, input):
 

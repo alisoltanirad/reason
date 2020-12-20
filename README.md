@@ -67,6 +67,24 @@ Most-Common: [('oh', 3), ('hey', 2), ('yeah', 1)]
 1
 ```
 
+Ngrams:
+
+```python
+>>> sent = 'Reason is easy to use'
+
+>>> from reason.util import bigrams
+>>> bigrams(sent)
+[('Reason', 'is'), ('is', 'easy'), ('easy', 'to'), ('to', 'use')]
+
+>>> from reason.util import trigrams
+>>> trigrams(sent)
+[('Reason', 'is', 'easy'), ('is', 'easy', 'to'), ('easy', 'to', 'use')]
+
+>>> from reason.util import ngrams
+>>> ngrams(sent, 4)
+[('Reason', 'is', 'easy', 'to'), ('is', 'easy', 'to', 'use')]
+```
+
 ## Dependencies
 
 - [NumPy](https://numpy.org)  

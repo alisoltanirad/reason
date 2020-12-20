@@ -15,12 +15,12 @@ def test_train_featureset():
 def test_train_dataframe():
     data = {
         'feature1': [True],
-        'feature2'
+        'feature2': [False],
         'label': [True],
     }
     df = pd.DataFrame(data=data)
     classifier = NaiveBayesClassifier()
-    classifier.train(df[:, :-1], df['label'])
+    classifier.train(df.iloc[:, :-1], df['label'])
 
 def test_classify_dict():
     x = [{'feature': True, }]

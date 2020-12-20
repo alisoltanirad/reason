@@ -11,25 +11,14 @@ def classifier_accuracy_test():
 
 
 def _evaluate_classifier(name):
-    train_set, test_x, test_y = _get_data()
-    classifier = name(train_set)
-    y_pred = classifier.classify(test_x)
-    return accuracy(test_y, y_pred)
+    x_train, y_train, x_test, y_test = _get_data()
+    classifier = name()
+    classifier.train(x_train, y_train)
+    y_pred = classifier.classify(x_test)
+    return accuracy(y_test, y_pred)
 
 
 def _get_data():
-    dataset = _get_dataset()
-    size = int(len(dataset) * 0.1)
-    train_set, test_set = dataset[size:], dataset[:size]
-    test_x, test_y = [], []
-    for t in test_set:
-        test_x.append(t[0])
-        test_y.append(t[1])
-
-    return train_set, test_x, test_y
-
-
-def _get_dataset():
     sents = treebank_raw.sents()
     tokens = list()
     boundaries = set()
@@ -51,7 +40,11 @@ def _get_dataset():
                 (i in boundaries)
             )
 
-    return featuresets, labels
+    test_size = int(len(labels) * 0.1)
+    x_train, x_test = featuresets[test_size:], featuresets[:test_size]
+    y_train, y_test = labels[test_size:], labels[:test_size]
+
+    return x_train, y_train, x_test, y_test
 
 
 def _punc_features(tokens, i):

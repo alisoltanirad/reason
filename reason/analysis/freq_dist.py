@@ -1,3 +1,25 @@
+# -*- coding: utf-8 -*-
+"""Frequency distribution module.
+
+API:
+* *FreqDist* (class): Frequency distribution.
+
+Example:
+    Find word frequencies:
+        >>> from reason.analysis import FreqDist
+
+        >>> words = ['hey', 'hey', 'oh', 'oh', 'oh', 'yeah']
+        >>> fd = FreqDist(words)
+
+        >>> fd
+        Frequency Distribution
+        Most-Common: [('oh', 3), ('hey', 2), ('yeah', 1)]
+        >>> fd.most_common(2)
+        [('oh', 3), ('hey', 2)]
+        >>> fd['yeah']
+        1
+
+"""
 from collections import Counter
 from copy import deepcopy
 
@@ -11,7 +33,8 @@ class FreqDist:
         self._counter = Counter(tokens)
 
     def __str__(self):
-        return str(self._counter)
+        return 'Frequency Distribution\n' + 'Most-Common: ' + \
+            str(self.most_common(10))
 
     def __getitem__(self, key):
         return self._counter[key]

@@ -17,7 +17,19 @@ pip install reason
 
 ## Quick-Start
 
+Classification Tools:
+```python
+>>> from reason.classify import NaiveBayesClassifier
+>>> classifier = NaiveBayesClassifier(train_set)
+>>> y_pred = classifier.classify(new_data)
+
+>>> from reason.metrics import accuracy
+>>> accuracy(y_true, y_pred)
+0.9358
+```
+
 Tokenization Tools:
+
 ```python
 >>> from reason.tokenize import word_tokenize
 
@@ -37,15 +49,20 @@ Hey, what's up?
 I love using Reason library!
 ```
 
-Classification Tools:
+Analysis Tools:
 ```python
->>> from reason.classify import NaiveBayesClassifier
->>> classifier = NaiveBayesClassifier(train_set)
->>> y_pred = classifier.classify(new_data)
+>>> from reason.analysis import FreqDist
 
->>> from reason.metrics import accuracy
->>> accuracy(y_true, y_pred)
-0.9358
+>>> words = ['hey', 'hey', 'oh', 'oh', 'oh', 'yeah']
+>>> fd = FreqDist(words)
+
+>>> fd
+Frequency Distribution
+Most-Common: [('oh', 3), ('hey', 2), ('yeah', 1)]
+>>> fd.most_common(2)
+[('oh', 3), ('hey', 2)]
+>>> fd['yeah']
+1
 ```
 
 ## Dependencies

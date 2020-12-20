@@ -17,7 +17,8 @@ pip install reason
 
 ## Quick-Start
 
-Classification Tools:
+Classification:
+
 ```python
 >>> from reason.classify import NaiveBayesClassifier
 >>> classifier = NaiveBayesClassifier(train_set)
@@ -28,7 +29,7 @@ Classification Tools:
 0.9358
 ```
 
-Tokenization Tools:
+Tokenization:
 
 ```python
 >>> from reason.tokenize import word_tokenize
@@ -49,7 +50,8 @@ Hey, what's up?
 I love using Reason library!
 ```
 
-Analysis Tools:
+Frequency Distribution:
+
 ```python
 >>> from reason.analysis import FreqDist
 

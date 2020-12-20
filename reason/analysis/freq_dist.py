@@ -27,9 +27,28 @@ from reason.tokenize import word_tokenize
 
 
 class FreqDist:
+    """Frequency Distribution
 
+    Counts token frequencies.
+
+    """
     def __init__(self, data):
-        tokens = word_tokenize(data)
+        """FreqDist Constructor
+
+        Tokenize input data and creates a counter dictionary.
+
+        Args:
+            data (str or list of str): Text or corpus.
+
+        Raises:
+            Exception: If data is not valid.
+
+        """
+        try:
+            tokens = word_tokenize(data)
+        except TypeError:
+            raise Exception('Input type is not supported.')
+
         self._counter = Counter(tokens)
 
     def __str__(self):
@@ -46,7 +65,33 @@ class FreqDist:
         del self._counter[key]
 
     def most_common(self, n=1):
-        return self._counter.most_common(n)
+        """FreqDist Constructor
+
+        Most common tokens and their frequencies. if n is not specified, returns
+        one token.
+
+        Args:
+            n (int, optional): Number of tokens.
+
+        Returns:
+            list: Most common tokens + frequencies
+
+        Raises:
+            Exception: If n is not an integer.
+
+        """
+        if isinstance(n, int):
+            return self._counter.most_common(n)
+        else:
+            raise Exception('N must be an integer.')
 
     def copy(self):
+        """FreqDist Copy
+
+        Recursively makes a deep copy of itself.
+
+        Returns:
+            FreqDist: A copy of self object
+
+        """
         return deepcopy(self)

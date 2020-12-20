@@ -6,82 +6,76 @@ from reason.classify import NaiveBayesClassifier
 def test_object_creation():
     NaiveBayesClassifier()
 
-def test_train_init():
-    data = [({'feature': True,}, True)]
-    NaiveBayesClassifier(data)
-
-def test_train_pair():
-    data = [
-        ({'feature': True,}, True)
-    ]
+def test_train_featureset():
+    x = [{'feature': True, }]
+    y = [True]
     classifier = NaiveBayesClassifier()
-    classifier.train(data)
+    classifier.train(x, y)
 
 def test_train_dataframe():
     data = {
-        'feature': [True],
+        'feature1': [True],
+        'feature2'
         'label': [True],
     }
     df = pd.DataFrame(data=data)
     classifier = NaiveBayesClassifier()
-    classifier.train(df)
+    classifier.train(df[:, :-1], df['label'])
 
 def test_classify_dict():
-    data = [
-        ({'feature': True, }, True)
-    ]
+    x = [{'feature': True, }]
+    y = [True]
     classifier = NaiveBayesClassifier()
-    classifier.train(data)
+    classifier.train(x, y)
     new = {'feature': True, }
     assert classifier.classify(new) == True
 
-def test_classify_pair():
-    data = [
-        ({'feature': True, }, True)
-    ]
+def test_classify_featuresets():
+    x = [{'feature': True, }]
+    y = [True]
     classifier = NaiveBayesClassifier()
-    classifier.train(data)
+    classifier.train(x, y)
     new = [
         {'feature': True, }
     ]
     assert classifier.classify(new) == [True]
 
 def test_classify_seires():
-    data = [
-        ({'feature': True, }, True)
-    ]
+    x = [{'feature': True, }]
+    y = [True]
     classifier = NaiveBayesClassifier()
-    classifier.train(data)
+    classifier.train(x, y)
     new = {'feature': [True], }
     dataframe = pd.DataFrame(data=new)
     assert classifier.classify(dataframe) == [True]
 
 def test_classify_dataframe():
-    data = [
-        ({'feature': True, }, True)
-    ]
+    x = [{'feature': True, }]
+    y = [True]
     classifier = NaiveBayesClassifier()
-    classifier.train(data)
+    classifier.train(x, y)
     new = {'feature': True, }
     series = pd.Series(data=new)
     assert classifier.classify(series) == True
 
 def test_get_labels():
-    data = [
-        ({'feature': True, }, True),
-        ({'feature': True, }, False),
-        ({'feature': False, }, True),
+    x = [
+        {'feature': True, },
+        {'feature': True, },
+        {'feature': False, },
     ]
+    y = [True, False, True]
     classifier = NaiveBayesClassifier()
-    classifier.train(data)
+    classifier.train(x, y)
     assert classifier.get_labels() == [True, False]
 
 def test_get_features():
-    data = [
-        ({'feature1': True, 'feature2': 1,}, True),
-        ({'feature1': True, 'feature2': 2,}, False),
-        ({'feature1': False, 'feature2': 3,}, True),
+    x = [
+        {'feature1': True, 'feature2': 1,},
+        {'feature1': True, 'feature2': 2,},
+        {'feature1': False, 'feature2': 3,},
     ]
+    y = [True, False, True]
     classifier = NaiveBayesClassifier()
-    classifier.train(data)
+    classifier.train(x, y)
     assert classifier.get_features() == ['feature1', 'feature2']

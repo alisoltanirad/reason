@@ -34,7 +34,9 @@ class SentTokenizer:
         recognizes sentences using this classifier.
 
         """
-        self._classifier = NaiveBayesClassifier(self._get_dataset())
+        self._classifier = NaiveBayesClassifier()
+        x, y = self._get_dataset()
+        self._classifier.train(x, y)
 
     def tokenize(self, input):
         """Tokenize text method.
@@ -119,13 +121,19 @@ class SentTokenizer:
             offset += len(sent)
             boundaries.add(offset - 1)
 
-        feature_sets = [
-            (self._punc_features(tokens, i), (i in boundaries))
-            for i in range(1, len(tokens) - 1)
-            if tokens[i] in '.?!'
-        ]
+        featuresets, labels = list(), list()
 
-        return feature_sets
+        for i in range(1, len(tokens) - 1):
+            if tokens[i] in '.?!':
+                featuresets.append(
+                    self._punc_features(tokens, i)
+                )
+                labels.append(
+                    (i in boundaries)
+                )
+
+
+        return featuresets, labels
 
 
 def sent_tokenize(input):

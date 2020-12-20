@@ -32,19 +32,6 @@ class NaiveBayesClassifier:
 
     """
 
-    def __init__(self, dataset=None):
-        """Naive Bayes Classifier Constructor.
-
-        Trains classifier when dataset is given, otherwise use train method.
-
-        Args:
-            dataset (list, optional): Dataset for training.
-
-        """
-
-        if dataset != None:
-            self.train(dataset)
-
     def train(self, x, y):
         """Train method.
 
@@ -192,19 +179,6 @@ class NaiveBayesClassifier:
     def _dataframe_validation(self):
         pass
 
-    def _is_pairs_format(self, input):
-
-        if not isinstance(input, list):
-            return False
-        elif not all(isinstance(item, tuple) for item in input):
-            return False
-        elif not all(len(item) == 2 for item in input):
-            return False
-        elif not all(isinstance(item[0], dict) for item in input):
-            return False
-
-        return True
-
     def _is_featuresets_format(self, input):
 
         if not isinstance(input, list):
@@ -213,19 +187,6 @@ class NaiveBayesClassifier:
             return False
 
         return True
-
-    def _pairs_to_dataframe(self, pairs):
-        data = dict()
-        features = pairs[0][0].keys()
-
-        for feature in features:
-            data[feature] = pd.Series(pair[0][feature] for pair in pairs)
-        labels = pd.Series(pair[1] for pair in pairs)
-
-        df = pd.DataFrame(data=data)
-        df['label'] = labels
-
-        return df
 
     def _featuresets_to_dataframe(self, featuresets):
         data = dict()

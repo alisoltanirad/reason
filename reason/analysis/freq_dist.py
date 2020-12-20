@@ -64,8 +64,21 @@ class FreqDist:
     def __delitem__(self, key):
         del self._counter[key]
 
+    def get_data(self):
+        """Get data method
+
+        Converts items to tuples then returns them in a list.
+
+        Returns:
+            list of tuple: Tokens + frequencies
+
+        """
+        return [
+            (key, value) for key, value in self._counter.items()
+        ]
+
     def most_common(self, n=1):
-        """FreqDist Constructor
+        """Most common method
 
         Most common tokens and their frequencies. if n is not specified, returns
         one token.

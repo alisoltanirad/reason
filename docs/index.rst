@@ -21,7 +21,9 @@ Dependencies
 
 * `NumPy <https://numpy.org>`__
 *Used to handle data*
-* `Pandas <https://pandas.pydata.org>`__
+
+
+* `Pandas <https://pandas.pydata.org>`__  
 *Used in classify package*
 
 .. note:: Keep in mind *NumPy* will be automatically installed with *Reason*.

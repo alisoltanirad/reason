@@ -8,6 +8,17 @@
 
 Python easy-to-use natural language processing toolbox.
 
+
+## Toolbox
+
+- Classifier
+- Machine learning metrics
+- Confusion matrix
+- Word and sentence tokenizer
+- Frequency distribution
+- Bigrams, trigrams and Ngrams.
+
+
 ## Install
 
 Install latest stable version using pip:
@@ -15,7 +26,8 @@ Install latest stable version using pip:
 pip install reason
 ```
 
-## Quick-Start
+
+## Quick Start
 
 Classification:
 
@@ -29,7 +41,32 @@ Classification:
 0.9358
 ```
 
-Tokenization:
+Confusion Matrix:
+
+```python
+>>> from reason.metrics import ConfusionMatrix
+>>> cm = ConfusionMatrix(y_true, y_pred)
+
+>>> cm
+68 21 13
+16 70 11
+14 10 77
+
+>>> cm[actual, predicted]
+16
+
+>>> from reason.metrics import BinaryConfusionMatrix
+>>> bcm = BinaryConfusionMatrix(b_y_true, b_y_pred)
+
+>>> bcm.precision()
+0.7837
+>>> bcm.recall()
+0.8055
+>>> bcm.f1_score()
+0.7944
+```
+
+Word Tokenization:
 
 ```python
 >>> from reason.tokenize import word_tokenize
@@ -38,6 +75,8 @@ Tokenization:
 >>> word_tokenize(text, 'alphanumeric')
 ['Testing', 'reason0.1.0', 'on', '127.0.0.1', 'Cool', 'stuff']
 ```
+
+Sentence Tokenization:
 
 ```python
 >>> from reason.tokenize import sent_tokenize
@@ -85,6 +124,7 @@ Ngrams:
 [('Reason', 'is', 'easy', 'to'), ('is', 'easy', 'to', 'use')]
 ```
 
+
 ## Dependencies
 
 - [NumPy](https://numpy.org)  
@@ -93,6 +133,7 @@ Used to handle data
 Used in classify package
 
 Keep in mind *NumPy* will be automatically installed with *Reason*.
+
 
 ## License
 

@@ -2,8 +2,8 @@
 
 [![License](https://img.shields.io/pypi/l/reason.svg)](https://github.com/alisoltanirad/Reason/blob/main/LICENSE)
 [![PyPI](https://img.shields.io/pypi/v/reason.svg)](https://pypi.org/project/reason/)
-[![Downloads](https://img.shields.io/pypi/dw/reason)](https://pypi.org/project/reason/)
-[![Lines](https://img.shields.io/tokei/lines/github/alisoltanirad/reason)](https://github.com/alisoltanirad/Reason/)
+[![Downloads](https://pepy.tech/badge/reason)](https://pepy.tech/project/reason)
+<!--[![Lines](https://img.shields.io/tokei/lines/github/alisoltanirad/reason)](https://github.com/alisoltanirad/Reason/)-->
 [![Activity](https://img.shields.io/github/last-commit/alisoltanirad/reason)](https://github.com/alisoltanirad/Reason/)
 
 Python easy-to-use natural language processing toolbox.

@@ -3,7 +3,7 @@
 [![License](https://img.shields.io/pypi/l/reason.svg)](https://github.com/alisoltanirad/Reason/blob/main/LICENSE)
 [![PyPI](https://img.shields.io/pypi/v/reason.svg)](https://pypi.org/project/reason/)
 [![Downloads](https://pepy.tech/badge/reason)](https://pepy.tech/project/reason)
-<!--[![Lines](https://img.shields.io/tokei/lines/github/alisoltanirad/reason)](https://github.com/alisoltanirad/Reason/)-->
+[![Lines of Code](https://sonarcloud.io/api/project_badges/measure?project=alisoltanirad_reason&metric=ncloc)](https://sonarcloud.io/dashboard?id=alisoltanirad_reason)
 [![Activity](https://img.shields.io/github/last-commit/alisoltanirad/reason)](https://github.com/alisoltanirad/Reason/)
 
 Python easy-to-use natural language processing toolbox.

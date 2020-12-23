@@ -32,7 +32,7 @@ class BaseStemmer:
         stems = list()
         for token in tokens:
             if token.isalph():
-                stems.append(self._token_stem(token))
+                stems.append(self._token_stem(token.lower()))
             else:
                 stems.append(token)
         return stems

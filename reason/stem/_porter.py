@@ -36,7 +36,7 @@ class _PorterAlgorithm:
         self.word = word
 
     def stem(self):
-        
+
         self._step1a()
         self._step1b()
         self._step1c()
@@ -49,7 +49,14 @@ class _PorterAlgorithm:
         return self.word
 
     def _step1a(self):
-        pass
+        if self.word.endswith('s'):
+            if self.word.endswith('ss'):
+                pass
+            elif self.word.endswith('ies') or self.word.endswith('sses'):
+                self.word = self.word[:-2]
+            else:
+                self.word = self.word[:-1]
+
 
     def _step1b(self):
         pass

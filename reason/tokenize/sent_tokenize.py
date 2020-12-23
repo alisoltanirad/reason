@@ -95,10 +95,7 @@ class SentTokenizer:
 
         if input_type == 'list':
             if start < len(words):
-                if input_type == 'str':
-                    sents.append(words[start:])
-                else:
-                    sents.append(words[start:])
+                sents.append(words[start:])
 
         return sents
 

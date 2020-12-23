@@ -17,11 +17,11 @@ Naive bayes classifier
 Confusion matrix, accuracy
 - **tokenize**  
 Regex word and sentence tokenizer
-- **stem**
+- **stem**  
 Porter and regex stemmer
-- **analysis**
+- **analysis**  
 Frequency distribution
-- **util**
+- **util**  
 Bigrams, trigrams and Ngrams
 
 

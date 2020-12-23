@@ -6,7 +6,13 @@ API:
 * *regex_stem* (function): For single word instant use.
 
 Example:
+    Stemming with user-defined pattern:
 
+        >>> from reason.stem import regex_stem
+
+        >>> regex_pattern = r'^(.*?)(ous)?$'
+        >>> regex_stem('dangerous', regex_pattern)
+        danger
 
 """
 import re

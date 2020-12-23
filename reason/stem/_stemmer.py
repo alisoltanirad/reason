@@ -34,5 +34,5 @@ class BaseStemmer:
             if token.isalpha():
                 stems.append(self._word_stem(token.lower()))
             else:
-                stems.append(token)
+                stems.append(token.lower())
         return stems

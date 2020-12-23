@@ -6,7 +6,14 @@ API:
 * *porter_stem* (function): For single word instant use.
 
 Example:
+    Find a sentence word stems:
 
+        >>> from reason.stem import PorterStemmer
+
+        >>> text = 'watched birds flying'
+        >>> stemmer = PorterStemmer()
+        >>> stemmer.stem(text)
+        ['watch', 'bird', 'fly']
 
 """
 import re

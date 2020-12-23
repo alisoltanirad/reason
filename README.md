@@ -9,14 +9,20 @@
 Python easy-to-use natural language processing toolbox.
 
 
-## Toolbox
+## Packages
 
-- Classifier
-- Machine learning metrics
-- Confusion matrix
-- Word and sentence tokenizer
-- Frequency distribution
-- Bigrams, trigrams and Ngrams.
+- **classify**  
+Naive bayes classifier
+- **metrics**  
+Confusion matrix, accuracy
+- **tokenize**  
+Regex word and sentence tokenizer
+- **stem**
+Porter and regex stemmer
+- **analysis**
+Frequency distribution
+- **util**
+Bigrams, trigrams and Ngrams
 
 
 ## Install
@@ -87,6 +93,33 @@ Sentence Tokenization:
 ...     print(sent)
 Hey, what's up?
 I love using Reason library!
+```
+
+Word Stems:
+
+```python
+>>> from reason.stem import PorterStemmer
+
+>>> text = 'watched birds flying'
+>>> stemmer = PorterStemmer()
+>>> stemmer.stem(text)
+['watch', 'bird', 'fly']
+
+>>> from reason.stem import regex_stem
+
+>>> regex_pattern = r'^(.*?)(ous)?$'
+>>> regex_stem('dangerous', regex_pattern)
+danger
+```
+
+Preprocess Text (Tokenizing + Stemming):
+
+```python
+>>> from reason import preprocess
+
+>>> text = "What's up? I love using Reason library!"
+>>> preprocess(text)
+[["what's", 'up', '?'], ['i', 'love', 'us', 'reason', 'librari', '!']]
 ```
 
 Frequency Distribution:

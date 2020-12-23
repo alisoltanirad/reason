@@ -5,8 +5,8 @@ with open('README.md', 'r') as fh:
 
 setup(
     name='reason',
-    version='0.3.0',
-    description='NLP Toolbox',
+    version='0.4.0',
+    description='Easy-to-use NLP toolbox',
     long_description=long_description,
     long_description_content_type='text/markdown',
     url='https://github.com/alisoltanirad/reason',

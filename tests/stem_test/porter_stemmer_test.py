@@ -2,6 +2,19 @@ from reason.stem import PorterStemmer, porter_stem
 from reason.stem._porter import _PorterAlgorithm
 
 
+def test_string_input():
+    input = 'watched birds flying'
+    output = ['watch', 'bird', 'fly']
+    assert PorterStemmer().stem(input) == output
+
+def test_list_input():
+    input = ['watched', 'birds', 'flying']
+    output = ['watch', 'bird', 'fly']
+    assert PorterStemmer().stem(input) == output
+
+def test_regex_stem():
+    assert porter_stem('learning') == 'learn'
+
 def test_step1a_1():
     assert _PorterAlgorithm('caresses').stem(1) == 'caress'
 

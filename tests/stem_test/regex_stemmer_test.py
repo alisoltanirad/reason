@@ -2,12 +2,12 @@ from reason.stem import RegexStemmer, regex_stem
 
 
 def test_string_input():
-    input = 'Watched birds flying'
+    input = 'watched birds flying'
     output = ['watch', 'bird', 'fly']
     assert RegexStemmer().stem(input) == output
 
 def test_list_input():
-    input = ['Watched', 'birds', 'flying']
+    input = ['watched', 'birds', 'flying']
     output = ['watch', 'bird', 'fly']
     assert RegexStemmer().stem(input) == output
 

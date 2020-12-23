@@ -51,13 +51,14 @@ class RegexStemmer(BaseStemmer):
         stem, suffix = re.findall(self.pattern, word)[0]
         return stem
 
-def regex_stem(word):
+def regex_stem(word, pattern=None):
     """Regex stem function.
 
     Easy-to-use regex stem function.
 
     Args:
         word (str): Single word.
+        pattern (str, optional): Regex pattern.
 
     Returns:
         str: Stem.
@@ -69,4 +70,4 @@ def regex_stem(word):
     if not isinstance(word, str):
         raise TypeError('Input word must be string.')
     token = word.split(' ')[0]
-    return RegexStemmer().stem(token)[0]
+    return RegexStemmer(pattern).stem(token)[0]

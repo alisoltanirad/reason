@@ -13,11 +13,6 @@ import re
 
 from ._stemmer import BaseStemmer
 
-cons = '[^aeiou]'
-vowels = '[aeiouy]'
-cons_seq = '[^aeiouy]+'
-vowels_seq = '[aeiou]+'
-
 
 class PorterStemmer(BaseStemmer):
     """Porter stemmer

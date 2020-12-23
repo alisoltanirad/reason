@@ -11,10 +11,10 @@ Example:
 """
 import re
 
-from reason.tokenize import word_tokenize
+from ._stemmer import BaseStemmer
 
 
-class RegexStemmer:
+class RegexStemmer(BaseStemmer):
     """Regex word stemmer
 
     Attributes:
@@ -44,35 +44,7 @@ class RegexStemmer:
                 re.compile(pattern)
                 self.pattern = pattern
             except:
-                raise Exception('Pattern is not valid.')
-
-    def stem(self, input):
-        """Stem finding method.
-
-        Tokenize input text, then finds token stems.
-
-        Args:
-            input (str or list of str): Text.
-
-        Returns:
-            list: Stems.
-
-        Raises:
-            Exception: If input is not string or a list of strings.
-
-        """
-        try:
-            tokens = word_tokenize(input)
-        except TypeError:
-            raise Exception(
-                'Stemmer input must be string or a list of strings.'
-            )
-        stems = list()
-        for token in tokens:
-            stems.append(
-                self._token_stem(token)
-            )
-        return stems
+                raise ValueError('Pattern is not valid.')
 
     def _token_stem(self, token):
         assert isinstance(token, str), 'Token must be string.'
@@ -88,13 +60,13 @@ def regex_stem(word):
         word (str): Single word.
 
     Returns:
-        list: Stem.
+        str: Stem.
 
     Raises:
         Exception: If input word is not string.
 
     """
     if not isinstance(word, str):
-        raise Exception('Input word must be string.')
+        raise TypeError('Input word must be string.')
     token = word.split(' ')[0]
     return RegexStemmer().stem(token)[0]

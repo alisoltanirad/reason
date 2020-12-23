@@ -46,9 +46,9 @@ class RegexStemmer(BaseStemmer):
             except:
                 raise ValueError('Pattern is not valid.')
 
-    def _token_stem(self, token):
-        assert isinstance(token, str), 'Token must be string.'
-        stem, suffix = re.findall(self.pattern, token)[0]
+    def _token_stem(self, word):
+        assert isinstance(word, str), 'Token must be string.'
+        stem, suffix = re.findall(self.pattern, word)[0]
         return stem
 
 def regex_stem(word):

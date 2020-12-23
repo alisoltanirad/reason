@@ -2,7 +2,7 @@ from reason.tokenize import word_tokenize
 
 
 class BaseStemmer:
-    """Stemmer
+    """Base Stemmer
 
     Base class for stemmers
 
@@ -31,7 +31,8 @@ class BaseStemmer:
             )
         stems = list()
         for token in tokens:
-            stems.append(
-                self._token_stem(token)
-            )
+            if token.isalph():
+                stems.append(self._token_stem(token))
+            else:
+                stems.append(token)
         return stems

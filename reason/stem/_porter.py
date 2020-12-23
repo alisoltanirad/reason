@@ -14,6 +14,9 @@ import re
 from ._stemmer import BaseStemmer
 
 
+vowels = '[aeiouy]'
+
+
 class PorterStemmer(BaseStemmer):
     """Porter stemmer
 
@@ -21,8 +24,54 @@ class PorterStemmer(BaseStemmer):
 
     """
 
-    def _token_stem(self, token):
-        assert isinstance(token, str), 'Token must be string.'
+    def _word_stem(self, word):
+        assert isinstance(word, str), 'Token must be string.'
+        porter = _PorterAlgorithm(word)
+        return porter.stem()
+
+
+class _PorterAlgorithm:
+
+    def __init__(self, word):
+        self.word = word
+
+    def stem(self):
+        
+        self._step1a()
+        self._step1b()
+        self._step1c()
+        self._step2()
+        self._step3()
+        self._step4()
+        self._step5a()
+        self._step5b()
+
+        return self.word
+
+    def _step1a(self):
+        pass
+
+    def _step1b(self):
+        pass
+
+    def _step1c(self):
+        pass
+
+    def _step2(self):
+        pass
+
+    def _step3(self):
+        pass
+
+    def _step4(self):
+        pass
+
+    def _step5a(self):
+        pass
+
+    def _step5b(self):
+        pass
+
 
 def porter_stem(word):
     """Porter stem function.

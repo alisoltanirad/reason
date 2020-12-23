@@ -33,6 +33,7 @@ class PorterStemmer(BaseStemmer):
 
 
 class _PorterAlgorithm:
+    _vowels = frozenset(['a', 'e', 'i', 'o', 'u'])
 
     def __init__(self, word):
         self.word = word
@@ -53,7 +54,7 @@ class _PorterAlgorithm:
     def _step1a(self):
         if self.word.endswith('s'):
             if self.word.endswith('ss'):
-                pass
+                return
             elif self.word.endswith('ies') or self.word.endswith('sses'):
                 self.word = self.word[:-2]
             else:
@@ -61,7 +62,21 @@ class _PorterAlgorithm:
 
 
     def _step1b(self):
-        pass
+        if self.word.endswith('eed') and self._measure(self.word[:-3]) > 0:
+            self.word = self.word[:-1]
+
+        elif self.word.endswith('ed') or self.word.endswith('ing'):
+            self.word = re.sub('ed|ing$', '', self.word)
+
+            if self.word[-2:] in ['at', 'bl', 'iz']:
+                self.word += 'e'
+
+            elif self.word[-2] == self.word[-1]:
+                if self.word[-1] not in ['l', 's', 'z']:
+                    self.word = self.word[:-1]
+
+            elif self._ends_cvc(self.word) and self._measure(self.word) == 1:
+                self.word += 'e'
 
     def _step1c(self):
         pass
@@ -80,6 +95,45 @@ class _PorterAlgorithm:
 
     def _step5b(self):
         pass
+
+    def _measure(self, stem):
+        cv_sequence = ''
+
+        for i in range(len(stem)):
+            if self._is_consonant(stem, i):
+                cv_sequence += 'c'
+            else:
+                cv_sequence += 'v'
+
+        return cv_sequence.count('vc')
+
+    def _is_consonant(self, word, i):
+        if word[i] in self._vowels:
+            return False
+
+        if word[i] == 'y':
+            if i == 0:
+                return True
+            else:
+                return not self._is_consonant(word, i - 1)
+
+        return True
+
+    def _contains_vowel(self, word):
+        for i in range(len(word)):
+            if not self._is_consonant(word, i):
+                return True
+
+        return False
+
+    def _ends_cvc(self, word):
+        return (
+            len(word) >= 3 and
+            self._is_consonant(word, len(word) - 3) and
+            not self._is_consonant(word, len(word) - 2) and
+            self._is_consonant(word, len(word) - 1) and
+            word[-1] not in ['w', 'x', 'y']
+        )
 
 
 def porter_stem(word):

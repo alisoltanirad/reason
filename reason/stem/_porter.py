@@ -62,10 +62,14 @@ class _PorterAlgorithm:
 
 
     def _step1b(self):
-        if self.word.endswith('eed') and self._measure(self.word[:-3]) > 0:
-            self.word = self.word[:-1]
+        if self.word.endswith('eed'):
+            if self._measure(self.word[:-3]) > 0:
+                self.word = self.word[:-1]
 
-        elif self.word.endswith('ed') or self.word.endswith('ing'):
+        elif self.word.endswith('ed') and self._contains_vowel(self.word[:-2]) \
+                or self.word.endswith('ing') and \
+                self._contains_vowel(self.word[:-3]):
+
             self.word = re.sub('ed|ing$', '', self.word)
 
             if self.word[-2:] in ['at', 'bl', 'iz']:
@@ -79,10 +83,55 @@ class _PorterAlgorithm:
                 self.word += 'e'
 
     def _step1c(self):
-        pass
+        if self.word[-1] == 'y' and self._contains_vowel(self.word[:-1]):
+            self.word = self.word[:-1] + 'i'
 
     def _step2(self):
-        pass
+        if self._measure(self.word[:-7]) > 0:
+
+            if self.word.endswith('iveness') or self.word.endswith('fulness') \
+                    or self.word.endswith('ousness'):
+                self.word = self.word[:-4]
+
+            elif self.word.endswith('ational') or self.word.endswith('ization'):
+                self.word = self.word[:-5] + 'e'
+
+        if self._measure(self.word[:-6]) > 0:
+
+            if self.word.endswith('tional'):
+                self.word = self.word[:-2]
+
+            elif self.word.endswith('biliti'):
+                self.word = self.word[:-5] + 'le'
+
+        if self._measure(self.word[:-5]) > 0:
+
+            if self.word.endswith('entli') or self.word.endswith('ousli'):
+                self.word = self.word[:-2]
+
+            elif self.word.endswith('alism') or self.word.endswith('aliti'):
+                self.word = self.word[:-3]
+
+            elif self.word.endswith('ation') or self.word.endswith('iviti'):
+                self.word = self.word[:-3] + 'e'
+
+        if self._measure(self.word[:-4]) > 0:
+
+            if self.word.endswith('izer'):
+                self.word = self.word[:-1]
+
+            elif self.word.endswith('enci') or self.word.endswith('anci') or \
+                self.word.endswith('abli'):
+                self.word = self.word[:-1] + 'e'
+
+            elif self.word.endswith('alli'):
+                self.word = self.word[:-2]
+
+            elif self.word.endswith('ator'):
+                self.word = self.word[:-2] + 'e'
+
+        if self._measure(self.word[:-3]) > 0 and self.word.endswith('eli'):
+            self.word = self.word[:-2]
 
     def _step3(self):
         pass

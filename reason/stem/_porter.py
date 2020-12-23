@@ -38,20 +38,33 @@ class _PorterAlgorithm:
     def __init__(self, word):
         self.word = word
 
-    def stem(self):
+    def stem(self, step=None):
 
         self._step1a()
         self._step1b()
         self._step1c()
+        if step == 1:
+            return self.word
+
         self._step2()
+        if step == 2:
+            return self.word
+
         self._step3()
+        if step == 3:
+            return self.word
+
         self._step4()
+        if step == 4:
+            return self.word
+
         self._step5a()
         self._step5b()
 
         return self.word
 
     def _step1a(self):
+
         if self.word.endswith('s'):
             if self.word.endswith('ss'):
                 return
@@ -62,13 +75,13 @@ class _PorterAlgorithm:
 
 
     def _step1b(self):
+
         if self.word.endswith('eed'):
             if self._measure(self.word[:-3]) > 0:
                 self.word = self.word[:-1]
 
         elif self.word.endswith('ed') and self._contains_vowel(self.word[:-2]) \
-                or self.word.endswith('ing') and \
-                self._contains_vowel(self.word[:-3]):
+        or self.word.endswith('ing') and self._contains_vowel(self.word[:-3]):
 
             self.word = re.sub('ed|ing$', '', self.word)
 
@@ -83,14 +96,16 @@ class _PorterAlgorithm:
                 self.word += 'e'
 
     def _step1c(self):
+
         if self.word[-1] == 'y' and self._contains_vowel(self.word[:-1]):
             self.word = self.word[:-1] + 'i'
 
     def _step2(self):
+
         if self._measure(self.word[:-7]) > 0:
 
             if self.word.endswith('iveness') or self.word.endswith('fulness') \
-                    or self.word.endswith('ousness'):
+            or self.word.endswith('ousness'):
                 self.word = self.word[:-4]
 
             elif self.word.endswith('ational') or self.word.endswith('ization'):
@@ -121,7 +136,7 @@ class _PorterAlgorithm:
                 self.word = self.word[:-1]
 
             elif self.word.endswith('enci') or self.word.endswith('anci') or \
-                self.word.endswith('abli'):
+            self.word.endswith('abli'):
                 self.word = self.word[:-1] + 'e'
 
             elif self.word.endswith('alli'):
@@ -134,16 +149,74 @@ class _PorterAlgorithm:
             self.word = self.word[:-2]
 
     def _step3(self):
-        pass
+
+        if self._measure(self.word[:-5]) > 0:
+
+            if self.word.endswith('icate') or self.word.endswith('alize') or \
+            self.word.endswith('iciti'):
+                self.word = self.word[:-3]
+
+            elif self.word.endswith('ative'):
+                self.word = self.word[:-5]
+
+        if self._measure(self.word[:-4]) > 0:
+
+            if self.word.endswith('ical'):
+                self.word = self.word[:-2]
+
+            elif self.word.endswith('ness'):
+                self.word = self.word[:-4]
+
+        if self._measure(self.word[:-3]) > 0 and self.word.endswith('ful'):
+            self.word = self.word[:-3]
 
     def _step4(self):
-        pass
+
+        if self._measure(self.word[:-5]) > 1:
+
+            if self.word.endswith('ement'):
+                self.word = self.word[:-5]
+
+        if self._measure(self.word[:-4]) > 1:
+
+            if self.word.endswith('ance') or self.word.endswith('ence') or \
+            self.word.endswith('able') or self.word.endswith('ible') or \
+            self.word.endswith('ment'):
+                self.word = self.word[:-4]
+
+        if self._measure(self.word[:-3]) > 1:
+
+            if self.word.endswith('ant') or self.word.endswith('ent') or \
+            self.word.endswith('ism') or self.word.endswith('ate') or \
+            self.word.endswith('iti') or self.word.endswith('ous') or \
+            self.word.endswith('ive') or self.word.endswith('ize'):
+                self.word = self.word[:-3]
+
+            elif self.word.endswith('ion') and self.word[-4] in ['s', 't']:
+                self.word = self.word[:-3]
+
+        if self._measure(self.word[:-2]) > 1:
+
+            if self.word.endswith('al') or self.word.endswith('er') or \
+            self.word.endswith('ic') or self.word.endswith('ou'):
+                self.word = self.word[:-2]
 
     def _step5a(self):
-        pass
+
+        if self.word[-1] == 'e':
+
+            if self._measure(self.word[:-1]) > 1:
+                self.word = self.word[:-1]
+
+            elif self._measure(self.word[:-1]) == 1 and \
+            not self._ends_cvc(self.word[:-1]):
+                self.word = self.word[:-1]
 
     def _step5b(self):
-        pass
+
+        if self.word[-1] == 'l' and self.word[-2] == self.word[-1] and \
+            self._measure(self.word[:-2]):
+            self.word = self.word[:-1]
 
     def _measure(self, stem):
         cv_sequence = ''

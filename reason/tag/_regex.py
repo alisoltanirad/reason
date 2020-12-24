@@ -20,7 +20,7 @@ class RegexTagger(BaseTagger):
         Patterns example: patterns = {r'\d+': 'Digits', r'\w+': 'Word'}
 
         Args:
-            patterns (list of tuple, optional): Regex patterns + pattern tags.
+            patterns (dict, optional): Regex patterns + pattern tags.
             backoff (tagger, optional): Backoff tagger object.
 
         Raises:

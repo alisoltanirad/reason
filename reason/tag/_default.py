@@ -6,6 +6,9 @@ class DefaultTagger(BaseTagger):
 
     Tags all entries with a default value
 
+    Attributes:
+        default_tag (str): Default value of tagger.
+
     """
 
     def __init__(self, tag='token', backoff=None):
@@ -15,14 +18,14 @@ class DefaultTagger(BaseTagger):
 
         Args:
             tag (str, optional): Default tag.
-            backoff (class, optional): Default tagger won't set backoffs.
+            backoff (tagger, optional): Backoff tagger object.
 
         Raises:
             TypeError: If tag is not string.
 
         """
+        super().__init__(backoff)
         if isinstance(tag, str):
-            self._taggers = [self]
             self.default_tag = tag
         else:
             raise TypeError('Default tag must be an string.')

@@ -7,6 +7,11 @@ class BaseTagger:
     Base class for taggers.
 
     """
+    def __init__(self, backoff=None):
+        if backoff is None:
+            self._taggers = [self]
+        else:
+            self._taggers = [self] + backoff._taggers
 
     def tag(self, corpus):
         """Tagging method.

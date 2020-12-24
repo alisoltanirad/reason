@@ -15,6 +15,8 @@ Python easy-to-use natural language processing toolbox.
 Naive bayes classifier
 - **metrics**  
 Confusion matrix, accuracy
+- **tag**  
+POS tagger, regex, lookup and default tagging tools
 - **tokenize**  
 Regex word and sentence tokenizer
 - **stem**  
@@ -77,7 +79,7 @@ Part-of-speech tagging:
 ```python
 >>> from reason.tag import POSTagger
 
->>> text = "'10 tools from the file"
+>>> text = "10 tools from the file"
 >>> tagger = POSTagger()
 >>> tagger.tag(text)
 [('10', 'CD'), ('tools', 'NNS'), ('from', 'IN'), ('the', 'AT'), ('file', 'NN')]

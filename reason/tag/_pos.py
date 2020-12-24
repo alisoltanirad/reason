@@ -3,7 +3,7 @@ from ._tagger import BaseTagger
 from ._default import DefaultTagger
 from ._regex import RegexTagger
 from ._lookup import LookupTagger
-from ._pos_tagger_data import get_re_collection, get_freq_100
+from ._pos_tagger_data import get_re_collection, get_freq_1000
 
 
 class POSTagger(BaseTagger):
@@ -14,7 +14,7 @@ class POSTagger(BaseTagger):
     Example:
         >>> from reason.tag import POSTagger
 
-        >>> text = "'10 tools from the file"
+        >>> text = '10 tools from the file'
         >>> tagger = POSTagger()
         >>> tagger.tag(text)
         [('10', 'CD'), ('tools', 'NNS'), ('from', 'IN'), ('the', 'AT'),
@@ -36,7 +36,7 @@ class POSTagger(BaseTagger):
         default_tagger = DefaultTagger('NN')
         re_collection = get_re_collection()
         regex_tagger = RegexTagger(re_collection, backoff=default_tagger)
-        lookup_data = get_freq_100()
+        lookup_data = get_freq_1000()
         lookup_tagger = LookupTagger(lookup_data, backoff=regex_tagger)
         self._tagger = lookup_tagger
 

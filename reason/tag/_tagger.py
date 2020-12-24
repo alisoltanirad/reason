@@ -30,9 +30,16 @@ class BaseTagger:
             raise TypeError(
                 'Tagger input must be string or a list of strings.'
             )
-        word_tags = list()
+        token_tags = list()
         for token in tokens:
-            word_tags.append(
-                (token, self._token_tag(token))
+            tag = ''
+            for tagger in self._taggers:
+                token_tag = tagger._token_tag(token)
+                if token_tag is not None:
+                    tag = token_tag
+                    break
+            token_tags.append(
+                (token, tag)
             )
-        return word_tags
+
+        return token_tags

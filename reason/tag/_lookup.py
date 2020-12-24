@@ -4,6 +4,13 @@ from ._tagger import BaseTagger
 class LookupTagger(BaseTagger):
     """Lookup tagger
 
+    Example:
+        >>> from reason.tag import LookupTagger
+        >>> lookup_data = {'cat': 'animal', 'black': 'color'}
+        >>> tagger = LookupTagger(lookup_data)
+        >>> tagger.tag('a black cat')
+        [('a', ''), ('black', 'color'), ('cat', 'animal')]
+
     """
 
     def __init__(self, data, backoff=None):

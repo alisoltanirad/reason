@@ -9,6 +9,12 @@ class DefaultTagger(BaseTagger):
     Attributes:
         default_tag (str): Default value of tagger.
 
+    Example:
+        >>> from reason.tag import DefaultTagger
+        >>> tagger = DefaultTagger('word')
+        >>> tagger.tag('reason')
+        [('reason', 'word')]
+
     """
 
     def __init__(self, tag='token', backoff=None):

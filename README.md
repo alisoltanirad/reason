@@ -22,7 +22,7 @@ Porter and regex stemmer
 - **analysis**  
 Frequency distribution
 - **util**  
-Bigrams, trigrams and Ngrams
+Bigrams, trigrams and ngrams
 
 
 ## Install
@@ -47,7 +47,7 @@ Classification:
 0.9358
 ```
 
-Confusion Matrix:
+Confusion matrix:
 
 ```python
 >>> from reason.metrics import ConfusionMatrix
@@ -72,7 +72,18 @@ Confusion Matrix:
 0.7944
 ```
 
-Word Tokenization:
+Part-of-speech tagging:
+
+```python
+>>> from reason.tag import POSTagger
+
+>>> text = "'10 tools from the file"
+>>> tagger = POSTagger()
+>>> tagger.tag(text)
+[('10', 'CD'), ('tools', 'NNS'), ('from', 'IN'), ('the', 'AT'), ('file', 'NN')]
+```
+
+Word tokenization:
 
 ```python
 >>> from reason.tokenize import word_tokenize
@@ -82,7 +93,7 @@ Word Tokenization:
 ['Testing', 'reason0.1.0', 'on', '127.0.0.1', 'Cool', 'stuff']
 ```
 
-Sentence Tokenization:
+Sentence tokenization:
 
 ```python
 >>> from reason.tokenize import sent_tokenize
@@ -95,12 +106,12 @@ Hey, what's up?
 I love using Reason library!
 ```
 
-Word Stems:
+Lemmatization:
 
 ```python
 >>> from reason.stem import PorterStemmer
 
->>> text = 'watched birds flying'
+>>> text = "watched birds flying"
 >>> stemmer = PorterStemmer()
 >>> stemmer.stem(text)
 ['watch', 'bird', 'fly']
@@ -112,7 +123,7 @@ Word Stems:
 danger
 ```
 
-Preprocess Text (Tokenizing + Stemming):
+Preprocess text (tokenizing + stemming):
 
 ```python
 >>> from reason import preprocess
@@ -122,7 +133,7 @@ Preprocess Text (Tokenizing + Stemming):
 [["what's", 'up', '?'], ['i', 'love', 'us', 'reason', 'librari', '!']]
 ```
 
-Frequency Distribution:
+Frequency distribution:
 
 ```python
 >>> from reason.analysis import FreqDist
@@ -139,10 +150,10 @@ Most-Common: [('oh', 3), ('hey', 2), ('yeah', 1)]
 1
 ```
 
-Ngrams:
+N-grams:
 
 ```python
->>> sent = 'Reason is easy to use'
+>>> sent = "Reason is easy to use"
 
 >>> from reason.util import bigrams
 >>> bigrams(sent)

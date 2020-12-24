@@ -9,6 +9,13 @@ class RegexTagger(BaseTagger):
     Attributes:
         pattern (str): Regex pattern for finding word stem.
 
+    Example:
+        >>> from reason.tag import RegexTagger
+        >>> patterns = {r'\d+': 'number', r'[a-z]+': 'word'}
+        >>> tagger = RegexTagger(patterns)
+        >>> tagger.tag('10 tools')
+        [('10', 'number'), ('tools', 'word')]
+
     """
 
     def __init__(self, patterns=None, backoff=None):

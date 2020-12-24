@@ -1,5 +1,3 @@
-import re
-
 from reason.tokenize import word_tokenize
 from ._tagger import BaseTagger
 from ._default import DefaultTagger
@@ -12,6 +10,15 @@ class POSTagger(BaseTagger):
     """POS tagger
 
     Part of speech tagger. Uses lookup, regex and default taggers for tagging.
+
+    Example:
+        >>> from reason.tag import POSTagger
+
+        >>> text = "'10 tools from the file"
+        >>> tagger = POSTagger()
+        >>> tagger.tag(text)
+        [('10', 'CD'), ('tools', 'NNS'), ('from', 'IN'), ('the', 'AT'),
+        ('file', 'NN')]
 
     """
 

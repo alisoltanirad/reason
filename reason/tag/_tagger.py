@@ -33,6 +33,6 @@ class BaseTagger:
         word_tags = list()
         for token in tokens:
             word_tags.append(
-                (token, self._word_tag(token))
+                (token, self._token_tag(token))
             )
         return word_tags

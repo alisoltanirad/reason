@@ -20,7 +20,7 @@ class BaseTagger:
         tuples.
 
         Args:
-            corpus (str or list of str): Text.
+            corpus (str or list of str): String text or list of tokens.
 
         Returns:
             list: Tokens + tags.
@@ -29,12 +29,16 @@ class BaseTagger:
             TypeError: If input is not string or a list of strings.
 
         """
-        try:
+        if isinstance(corpus, str):
             tokens = word_tokenize(corpus)
-        except TypeError:
-            raise TypeError(
-                'Tagger input must be string or a list of strings.'
-            )
+        else:
+            if isinstance(corpus, list) and \
+            all(isinstance(token, str) for token in corpus):
+                tokens = corpus
+            else:
+                raise TypeError(
+                    'Tagger input must be string or a list of string tokens.'
+                )
         token_tags = list()
         for token in tokens:
             tag = ''

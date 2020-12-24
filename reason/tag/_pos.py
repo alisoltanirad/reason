@@ -1,3 +1,6 @@
+import re
+
+from reason.tokenize import word_tokenize
 from ._tagger import BaseTagger
 from ._default import DefaultTagger
 from ._regex import RegexTagger
@@ -15,6 +18,8 @@ class POSTagger(BaseTagger):
     def __init__(self, backoff=None):
         """RegexTagger Constructor.
 
+        Sets tagger.
+
         Args:
             backoff (tagger, optional): Backoff tagger object.
 
@@ -30,4 +35,7 @@ class POSTagger(BaseTagger):
 
 
     def _token_tag(self, token):
-        return self._tagger.tag(token)[0][1]
+        if word_tokenize(token, 'alphanumeric') != []:
+            return self._tagger.tag(token)[0][1]
+
+        return token

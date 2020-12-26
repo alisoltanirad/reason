@@ -1,23 +1,27 @@
+import pytest
+
 from reason.util import ngrams, bigrams, trigrams
 
 
-def test_bigrams():
-    input = 'Reason is easy to use'
-    output = [('Reason', 'is'), ('is', 'easy'), ('easy', 'to'), ('to', 'use')]
-    assert bigrams(input) == output
+@pytest.fixture
+def input_value():
+    input_value = 'Reason is easy to use'
+    return input_value
 
-def test_trigrams():
-    input = 'Reason is easy to use'
+
+def test_bigrams(input_value):
+    output = [('Reason', 'is'), ('is', 'easy'), ('easy', 'to'), ('to', 'use')]
+    assert bigrams(input_value) == output
+
+def test_trigrams(input_value):
     output = [('Reason', 'is', 'easy'), ('is', 'easy', 'to'),
               ('easy', 'to', 'use')]
-    assert trigrams(input) == output
+    assert trigrams(input_value) == output
 
-def test_ngrams():
-    input = 'Reason is easy to use'
+def test_ngrams(input_value):
     output = [('Reason',), ('is',), ('easy',), ('to',), ('use',)]
-    assert ngrams(input) == output
+    assert ngrams(input_value) == output
 
-def test_ngrams_with_n():
-    input = 'Reason is easy to use'
+def test_ngrams_with_n(input_value):
     output = [('Reason', 'is', 'easy', 'to'), ('is', 'easy', 'to', 'use')]
-    assert ngrams(input, 4) == output
+    assert ngrams(input_value, 4) == output

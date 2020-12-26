@@ -1,14 +1,24 @@
+import pytest
 import pandas as pd
 
 from reason.classify import NaiveBayesClassifier
 
 
+@pytest.fixture
+def x():
+    x = [{'feature': True,}]
+    return x
+
+@pytest.fixture
+def y():
+    y = [True]
+    return y
+
+
 def test_object_creation():
     NaiveBayesClassifier()
 
-def test_train_featureset():
-    x = [{'feature': True, }]
-    y = [True]
+def test_train_featureset(x, y):
     classifier = NaiveBayesClassifier()
     classifier.train(x, y)
 
@@ -22,17 +32,13 @@ def test_train_dataframe():
     classifier = NaiveBayesClassifier()
     classifier.train(df.iloc[:, :-1], df['label'])
 
-def test_classify_dict():
-    x = [{'feature': True, }]
-    y = [True]
+def test_classify_dict(x, y):
     classifier = NaiveBayesClassifier()
     classifier.train(x, y)
     new = {'feature': True, }
     assert classifier.classify(new) == True
 
-def test_classify_featuresets():
-    x = [{'feature': True, }]
-    y = [True]
+def test_classify_featuresets(x, y):
     classifier = NaiveBayesClassifier()
     classifier.train(x, y)
     new = [
@@ -40,18 +46,14 @@ def test_classify_featuresets():
     ]
     assert classifier.classify(new) == [True]
 
-def test_classify_seires():
-    x = [{'feature': True, }]
-    y = [True]
+def test_classify_seires(x, y):
     classifier = NaiveBayesClassifier()
     classifier.train(x, y)
     new = {'feature': [True], }
     dataframe = pd.DataFrame(data=new)
     assert classifier.classify(dataframe) == [True]
 
-def test_classify_dataframe():
-    x = [{'feature': True, }]
-    y = [True]
+def test_classify_dataframe(x, y):
     classifier = NaiveBayesClassifier()
     classifier.train(x, y)
     new = {'feature': True, }

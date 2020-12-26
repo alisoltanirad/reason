@@ -82,17 +82,21 @@ class _PorterAlgorithm:
             if self._measure(self.word[:-3]) > 0:
                 self.word = self.word[:-1]
 
-        elif self.word.endswith('ed') and self._contains_vowel(self.word[:-2]) \
-        or self.word.endswith('ing') and self._contains_vowel(self.word[:-3]):
-
+        elif (
+            (self.word.endswith('ed') and self._contains_vowel(self.word[:-2]))
+            or
+            (self.word.endswith('ing') and self._contains_vowel(self.word[:-3]))
+        ):
             self.word = re.sub('ed|ing$', '', self.word)
 
             if self.word[-2:] in ['at', 'bl', 'iz']:
                 self.word += 'e'
 
-            elif self.word[-2] == self.word[-1]:
-                if self.word[-1] not in ['l', 's', 'z']:
-                    self.word = self.word[:-1]
+            elif (
+                self.word[-2] == self.word[-1] and
+                self.word[-1] not in ['l', 's', 'z']
+            ):
+                self.word = self.word[:-1]
 
             elif self._ends_cvc(self.word) and self._measure(self.word) == 1:
                 self.word += 'e'
@@ -106,11 +110,10 @@ class _PorterAlgorithm:
 
         if self._measure(self.word[:-7]) > 0:
 
-            if self.word.endswith('iveness') or self.word.endswith('fulness') \
-            or self.word.endswith('ousness'):
+            if self.word[-7:] in ['iveness', 'fulness', 'ousness']:
                 self.word = self.word[:-4]
 
-            elif self.word.endswith('ational') or self.word.endswith('ization'):
+            elif self.word[-7:] in ['ational', 'ization']:
                 self.word = self.word[:-5] + 'e'
 
         if self._measure(self.word[:-6]) > 0:
@@ -123,13 +126,13 @@ class _PorterAlgorithm:
 
         if self._measure(self.word[:-5]) > 0:
 
-            if self.word.endswith('entli') or self.word.endswith('ousli'):
+            if self.word[-5:] in ['entli', 'ousli']:
                 self.word = self.word[:-2]
 
-            elif self.word.endswith('alism') or self.word.endswith('aliti'):
+            elif self.word[-5:] in ['alism', 'aliti']:
                 self.word = self.word[:-3]
 
-            elif self.word.endswith('ation') or self.word.endswith('iviti'):
+            elif self.word[-5:] in ['ation', 'iviti']:
                 self.word = self.word[:-3] + 'e'
 
         if self._measure(self.word[:-4]) > 0:
@@ -137,8 +140,7 @@ class _PorterAlgorithm:
             if self.word.endswith('izer'):
                 self.word = self.word[:-1]
 
-            elif self.word.endswith('enci') or self.word.endswith('anci') or \
-            self.word.endswith('abli'):
+            elif self.word[-4:] in ['enci', 'anci', 'abli']:
                 self.word = self.word[:-1] + 'e'
 
             elif self.word.endswith('alli'):
@@ -154,8 +156,7 @@ class _PorterAlgorithm:
 
         if self._measure(self.word[:-5]) > 0:
 
-            if self.word.endswith('icate') or self.word.endswith('alize') or \
-            self.word.endswith('iciti'):
+            if self.word[-5:] in ['icate', 'alize', 'iciti']:
                 self.word = self.word[:-3]
 
             elif self.word.endswith('ative'):
@@ -174,34 +175,30 @@ class _PorterAlgorithm:
 
     def _step4(self):
 
-        if self._measure(self.word[:-5]) > 1:
+        if self._measure(self.word[:-5]) > 1 and self.word.endswith('ement'):
+            self.word = self.word[:-5]
 
-            if self.word.endswith('ement'):
-                self.word = self.word[:-5]
-
-        if self._measure(self.word[:-4]) > 1:
-
-            if self.word.endswith('ance') or self.word.endswith('ence') or \
-            self.word.endswith('able') or self.word.endswith('ible') or \
-            self.word.endswith('ment'):
-                self.word = self.word[:-4]
+        if (
+            self._measure(self.word[:-4]) > 1 and
+            self.word[-4:] in ['ance', 'ence', 'able', 'ible', 'ment']
+        ):
+            self.word = self.word[:-4]
 
         if self._measure(self.word[:-3]) > 1:
 
-            if self.word.endswith('ant') or self.word.endswith('ent') or \
-            self.word.endswith('ism') or self.word.endswith('ate') or \
-            self.word.endswith('iti') or self.word.endswith('ous') or \
-            self.word.endswith('ive') or self.word.endswith('ize'):
+            if self.word[-3:] in [
+                'ant', 'ent', 'ism', 'ate', 'iti', 'ous', 'ive', 'ize'
+            ]:
                 self.word = self.word[:-3]
 
             elif self.word.endswith('ion') and self.word[-4] in ['s', 't']:
                 self.word = self.word[:-3]
 
-        if self._measure(self.word[:-2]) > 1:
-
-            if self.word.endswith('al') or self.word.endswith('er') or \
-            self.word.endswith('ic') or self.word.endswith('ou'):
-                self.word = self.word[:-2]
+        if (
+            self._measure(self.word[:-2]) > 1 and
+            self.word[-2:] in ['al', 'er', 'ic', 'ou']
+        ):
+            self.word = self.word[:-2]
 
     def _step5a(self):
 
@@ -210,14 +207,19 @@ class _PorterAlgorithm:
             if self._measure(self.word[:-1]) > 1:
                 self.word = self.word[:-1]
 
-            elif self._measure(self.word[:-1]) == 1 and \
-            not self._ends_cvc(self.word[:-1]):
+            elif (
+                self._measure(self.word[:-1]) == 1 and
+                not self._ends_cvc(self.word[:-1])
+            ):
                 self.word = self.word[:-1]
 
     def _step5b(self):
 
-        if self.word[-1] == 'l' and self.word[-2] == self.word[-1] and \
-            self._measure(self.word[:-2]):
+        if (
+            self.word[-1] == 'l' and
+            self.word[-2] == self.word[-1] and
+            self._measure(self.word[:-2])
+        ):
             self.word = self.word[:-1]
 
     def _measure(self, stem):

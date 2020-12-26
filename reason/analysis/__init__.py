@@ -1,1 +1,1 @@
-from .freq_dist import FreqDist
+from ._freq_dist import FreqDist

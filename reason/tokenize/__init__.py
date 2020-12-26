@@ -12,5 +12,5 @@ regex pattern.
 
 """
 
-from .word_tokenize import WordTokenizer, word_tokenize
-from .sent_tokenize import SentTokenizer, sent_tokenize
+from ._word_tokenize import WordTokenizer, word_tokenize
+from ._sent_tokenize import SentTokenizer, sent_tokenize

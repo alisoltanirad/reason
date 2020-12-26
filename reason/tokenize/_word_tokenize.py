@@ -75,8 +75,10 @@ class WordTokenizer:
             try:
                 re.compile(pattern)
                 self.pattern = pattern
-            except:
-                raise Exception('Pattern is not valid.')
+            except TypeError:
+                raise TypeError(
+                    'Pattern must be string or compiled regex pattern.'
+                )
 
     def tokenize(self, input):
         """Tokenize text method.

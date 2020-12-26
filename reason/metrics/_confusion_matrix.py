@@ -27,14 +27,16 @@ class ConfusionMatrix:
             y_pred (list): Predicted labels returned by classifier.
 
         Raises:
-            Exception: If input data is not valid.
+            TypeError: If input data is not valid.
 
         """
         try:
             self._y_true = list(y_true)
             self._y_pred = list(y_pred)
         except TypeError:
-            raise Exception('Inputs must be array-like objects.')
+            raise TypeError(
+                'Confusion matrix inputs must be array-like objects.'
+            )
 
         self._labels = sorted(set(self._y_true))
         self._n_y = len(self._y_true)
@@ -121,12 +123,12 @@ class BinaryConfusionMatrix(ConfusionMatrix):
             y_pred (list): Predicted labels returned by classifier.
 
         Raises:
-            Exception: If labels set has less or more than two values.
+            ValueError: If labels set has less or more than two values.
 
         """
         super().__init__(y_true, y_pred)
         if len(self._labels) != 2:
-            raise Exception('Binary matrix should have only two labels.')
+            raise ValueError('Binary matrix should have only two labels.')
 
     def precision(self):
         """Precision method.

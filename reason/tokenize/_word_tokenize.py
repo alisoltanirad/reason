@@ -64,7 +64,7 @@ class WordTokenizer:
             pattern (str, optional): Regex pattern to use for tokenizing
 
         Raises:
-            Exception: If pattern is not a valid regex.
+            TypeError: If pattern is not a valid regex.
 
         """
         if pattern == None:
@@ -92,7 +92,7 @@ class WordTokenizer:
             list: Tokens.
 
         Raises:
-            Exception: If input is not string or a list of strings.
+            TypeError: If input is not string or a list of strings.
 
         """
         if type(input) == str:
@@ -101,7 +101,7 @@ class WordTokenizer:
             try:
                 text = ' '.join(input)
             except TypeError:
-                raise Exception(
+                raise TypeError(
                     'Tokenize input must be string or a list of strings.'
                 )
 

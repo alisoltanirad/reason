@@ -36,11 +36,14 @@ def ngrams(input, n=1):
     Returns:
         list of tuple: Ngrams.
 
+    Raises:
+        TypeError: If input type is not valid.
+
     """
     try:
         data = word_tokenize(input)
     except TypeError:
-        raise Exception('Input type is not supported.')
+        raise TypeError('Input type must be string or list of strings.')
 
     ngrams = list()
     for i in range(len(data) - (n - 1)):

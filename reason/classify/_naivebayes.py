@@ -32,19 +32,22 @@ class NaiveBayesClassifier:
             y (pandas.Series or list): Labels
 
         Raises:
-            Exception: If input data is not valid.
+            TypeError: If input data is not valid.
 
         """
         try:
             self._y = pd.Series(y)
         except TypeError:
-            raise Exception('Y must be an array-like object.')
+            raise TypeError('Y must be array-like object.')
         if type(x) == pd.DataFrame:
             self._x = x
         elif self._is_featuresets_format(x):
             self._x = self._featuresets_to_dataframe(x)
         else:
-            raise Exception('Dataset type is not supported.')
+            raise TypeError(
+                'X must be pandas.DataFrame object '
+                'or supported featuresets format.'
+            )
         self._dataset = self._x.copy()
         self._dataset['label'] = self._y
 
@@ -62,7 +65,7 @@ class NaiveBayesClassifier:
             Label or list of labels.
 
         Raises:
-            Exception: If input is not valid.
+            TypeError: If input is not valid.
 
         """
         if type(data) == pd.Series:
@@ -74,7 +77,7 @@ class NaiveBayesClassifier:
         elif self._is_featuresets_format(data):
             x = self._featuresets_to_dataframe(data)
         else:
-            raise Exception('Data type is not supported.')
+            raise TypeError('Data type is not supported.')
 
         labels = list()
         for i in range(len(x)):
@@ -161,7 +164,7 @@ class NaiveBayesClassifier:
                 )[0])
 
             else:
-                raise Exception('Input type is not supported.')
+                raise TypeError('Input data type is not supported.')
 
         return np.prod(p)
 

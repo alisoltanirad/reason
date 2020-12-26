@@ -20,7 +20,7 @@ class BaseStemmer:
             list: Stems.
 
         Raises:
-            Exception: If input is not string or a list of strings.
+            TypeError: If input is not string or a list of strings.
 
         """
         try:

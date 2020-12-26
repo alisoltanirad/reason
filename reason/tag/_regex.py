@@ -31,7 +31,7 @@ class RegexTagger(BaseTagger):
             backoff (tagger, optional): Backoff tagger object.
 
         Raises:
-            ValueError: If some patterns are not valid regex patterns.
+            TypeError: If some patterns are not valid regex patterns.
 
         """
         super().__init__(backoff)

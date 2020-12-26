@@ -263,10 +263,10 @@ def porter_stem(word):
         str: Stem.
 
     Raises:
-        Exception: If input word is not string.
+        TypeError: If input word is not string.
 
     """
     if not isinstance(word, str):
-        raise TypeError('Input word must be string.')
+        raise TypeError('Porter_stem function input word must be string.')
     token = word.split(' ')[0]
     return PorterStemmer().stem(token)[0]

@@ -40,7 +40,7 @@ class SentTokenizer:
             list: Tokens.
 
         Raises:
-            Exception: If input is not string or a list of strings.
+            TypeError: If input is not string or a list of strings.
 
         """
         wt = WordTokenizer()
@@ -54,7 +54,7 @@ class SentTokenizer:
                 sents = list()
                 input_type = 'list'
             except TypeError:
-                raise Exception(
+                raise TypeError(
                     'Tokenize input must be string or a list of strings.'
                 )
 

@@ -23,7 +23,7 @@ class LookupTagger(BaseTagger):
             backoff (tagger, optional): Backoff tagger object.
 
         Raises:
-            ValueError: If lookup data is not a dictionary.
+            TypeError: If lookup data is not a dictionary.
 
         """
         super().__init__(backoff)
@@ -31,7 +31,7 @@ class LookupTagger(BaseTagger):
         if isinstance(data, dict):
             self._lookup = data
         else:
-            raise TypeError('Lookup data must be a dictionary.')
+            raise TypeError('Lookup data must be python dictionary.')
 
     def _token_tag(self, token):
         if token in self._lookup.keys():

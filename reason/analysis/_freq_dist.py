@@ -31,13 +31,13 @@ class FreqDist:
             data (str or list of str): Text or corpus.
 
         Raises:
-            Exception: If data is not valid.
+            TypeError: If data is not valid.
 
         """
         try:
             tokens = word_tokenize(data)
         except TypeError:
-            raise Exception('Input type is not supported.')
+            raise TypeError('FreqDist input must be string or list of strings.')
 
         self._counter = Counter(tokens)
 
@@ -80,13 +80,13 @@ class FreqDist:
             list: Most common tokens + frequencies
 
         Raises:
-            Exception: If n is not an integer.
+            TypeError: If n is not an integer.
 
         """
         if isinstance(n, int):
             return self._counter.most_common(n)
         else:
-            raise Exception('N must be an integer.')
+            raise TypeError('N must be an integer.')
 
     def copy(self):
         """FreqDist Copy

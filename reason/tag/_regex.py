@@ -43,8 +43,10 @@ class RegexTagger(BaseTagger):
                 for pattern in patterns.keys():
                     re.compile(pattern)
                 self.patterns = patterns
-            except:
-                raise ValueError('Patterns are not valid.')
+            except TypeError:
+                raise TypeError(
+                    'Pattern must be string or compiled regex pattern.'
+                )
 
     def _token_tag(self, token):
         for pattern, tag in self.patterns.items():

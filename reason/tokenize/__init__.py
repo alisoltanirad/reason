@@ -1,14 +1,15 @@
 # -*- coding: utf-8 -*-
-"""Tokenize package.
+"""tokenize package.
+
+Word and sentence tokenization.
 
 API:
 
-* *WordTokenizer* (class): For frequent word tokenizing use with an specific
+* WordTokenizer (class): For frequent word tokenizing use with an specific
 regex pattern.
-* *word_tokenize* (function): For instant word tokenizing use.
-
-* *SentTokenizer* (class): For frequent sentence tokenizing use.
-* *sent_tokenize* (function): For instant use.
+* word_tokenize (function): For instant word tokenizing use.
+* SentTokenizer (class): For frequent sentence tokenizing use.
+* sent_tokenize (function): For instant use.
 
 """
 

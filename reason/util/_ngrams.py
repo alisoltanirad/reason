@@ -1,28 +1,3 @@
-# -*- coding: utf-8 -*-
-"""Frequency distribution module.
-
-API:
-* *ngrams* (function): Get input ngrams.
-* *bigrams* (function): Get input bigrams.
-* *trigrams* (function): Get input trigrams.
-
-Example:
-    Get ngrams:
-        >>> sent = 'Reason is easy to use'
-
-        >>> from reason.util import bigrams
-        >>> bigrams(sent)
-        [('Reason', 'is'), ('is', 'easy'), ('easy', 'to'), ('to', 'use')]
-
-        >>> from reason.util import trigrams
-        >>> trigrams(sent)
-        [('Reason', 'is', 'easy'), ('is', 'easy', 'to'), ('easy', 'to', 'use')]
-
-        >>> from reason.util import ngrams
-        >>> ngrams(sent, 4)
-        [('Reason', 'is', 'easy', 'to'), ('is', 'easy', 'to', 'use')]
-
-"""
 from reason.tokenize import word_tokenize
 
 
@@ -38,6 +13,12 @@ def ngrams(input, n=1):
 
     Raises:
         TypeError: If input type is not valid.
+
+    Example:
+        >>> sent = 'Reason is easy to use'
+        >>> from reason.util import ngrams
+        >>> ngrams(sent, 4)
+        [('Reason', 'is', 'easy', 'to'), ('is', 'easy', 'to', 'use')]
 
     """
     try:
@@ -64,6 +45,12 @@ def bigrams(input):
     Returns:
         list of tuple: Bigrams.
 
+    Example:
+        >>> sent = 'Reason is easy to use'
+        >>> from reason.util import bigrams
+        >>> bigrams(sent)
+        [('Reason', 'is'), ('is', 'easy'), ('easy', 'to'), ('to', 'use')]
+
     """
     return ngrams(input, 2)
 
@@ -78,6 +65,12 @@ def trigrams(input):
 
     Returns:
         list of tuple: Trigrams.
+
+    Example:
+        >>> sent = 'Reason is easy to use'
+        >>> from reason.util import trigrams
+        >>> trigrams(sent)
+        [('Reason', 'is', 'easy'), ('is', 'easy', 'to'), ('easy', 'to', 'use')]
 
     """
     return ngrams(input, 3)

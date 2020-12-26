@@ -1,20 +1,3 @@
-# -*- coding: utf-8 -*-
-"""Regex stemmer module.
-
-API:
-* *RegexStemmer* (class): For finding stems of the words of a string or list.
-* *regex_stem* (function): For single word instant use.
-
-Example:
-    Stemming with user-defined pattern:
-
-        >>> from reason.stem import regex_stem
-
-        >>> regex_pattern = r'^(.*?)(ous)?$'
-        >>> regex_stem('dangerous', regex_pattern)
-        danger
-
-"""
 import re
 
 from ._stemmer import BaseStemmer
@@ -25,6 +8,12 @@ class RegexStemmer(BaseStemmer):
 
     Attributes:
         pattern (str): Regex pattern for finding word stem.
+
+    Example:
+        >>> from reason.stem import regex_stem
+        >>> regex_pattern = r'^(.*?)(ous)?$'
+        >>> regex_stem('dangerous', regex_pattern)
+        danger
 
     """
 

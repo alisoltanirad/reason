@@ -19,7 +19,7 @@ from .stem import PorterStemmer
 
 
 def preprocess(corpus):
-    """Stem finding method.
+    """Preprocess function.
 
     Tokenize input corpus to sentences and words, then finds token stems
     using porter stemmer.

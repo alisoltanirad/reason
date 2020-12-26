@@ -1,39 +1,18 @@
-# -*- coding: utf-8 -*-
-"""Confusion matrix module.
-
-API:
-* *ConfusionMatrix* (class): Forms up confusion matrix.
-* *BinaryConfusionMatrix* (class): Binary version of confusion matrix class.
-
-Example:
-    Binary Confusion matrix with [False, True] labels:
-        >>> from reason.metrics import BinaryConfusionMatrix
-        >>> cm = BinaryConfusionMatrix(y_true, y_pred)
-
-        >>> cm
-        68 21
-        24 87
-
-        >>> cm[True, False]
-        24
-
-        >>> cm.accuracy()
-        0.775
-        >>> cm.precision()
-        0.7837
-        >>> cm.recall()
-        0.8055
-        >>> cm.f1_score()
-        0.7944
-
-"""
-
-
 class ConfusionMatrix:
     """Confusion Matrix
 
     Forms up an confusion matrix with given data. Has precision, recall and
     f1 score for binary cases.
+
+    Example:
+        >>> from reason.metrics import ConfusionMatrix
+        >>> cm = ConfusionMatrix(y_true, y_pred)
+        >>> cm
+        68 21 13
+        16 70 11
+        14 10 77
+        >>> cm[actual, predicted]
+        16
 
     """
 
@@ -111,6 +90,23 @@ class BinaryConfusionMatrix(ConfusionMatrix):
     """Binary Confusion Matrix
 
     Base class: ConfusionMatrix
+
+    Example:
+        >>> from reason.metrics import BinaryConfusionMatrix
+        >>> cm = BinaryConfusionMatrix(y_true, y_pred)
+        >>> cm
+        68 21
+        24 87
+        >>> cm[True, False]
+        24
+        >>> cm.accuracy()
+        0.775
+        >>> cm.precision()
+        0.7837
+        >>> cm.recall()
+        0.8055
+        >>> cm.f1_score()
+        0.7944
 
     """
 

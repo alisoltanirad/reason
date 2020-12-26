@@ -1,22 +1,3 @@
-# -*- coding: utf-8 -*-
-"""Word tokenize module.
-
-API:
-* *NaiveBayesClassifier* (class): Naive bayes classifier.
-
-Example:
-    Train a classifier and classify new entries:
-        >>> from reason.classify import NaiveBayesClassifier
-
-        >>> classifier = NaiveBayesClassifier(train_set)
-        >>> y_pred = classifier.classify(data)
-
-        >>> classifier.get_labels()
-        [True, False]
-        >>> classifier.get_features()
-        ['length', 'is_upper', 'ends_with']
-
-"""
 import numpy as np
 import pandas as pd
 
@@ -29,6 +10,15 @@ class NaiveBayesClassifier:
     """Naive Bayes Classifier
 
     Uses gaussian distribution when dealing with continuous data.
+
+    Example:
+        >>> from reason.classify import NaiveBayesClassifier
+        >>> classifier = NaiveBayesClassifier(train_set)
+        >>> y_pred = classifier.classify(data)
+        >>> classifier.get_labels()
+        [True, False]
+        >>> classifier.get_features()
+        ['length', 'is_upper', 'ends_with']
 
     """
 

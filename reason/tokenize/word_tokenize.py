@@ -1,20 +1,3 @@
-# -*- coding: utf-8 -*-
-"""Word tokenize module.
-
-API:
-* *WordTokenizer* (class): For frequent use with an specific regex pattern.
-* *word_tokenize* (function): For instant use.
-
-Example:
-    Tokenize an string:
-
-        >>> from reason.tokenize import word_tokenize
-
-        >>> sentence = "Testing reason0.1.0, (on: 127.0.0.1). Cool stuff..."
-        >>> word_tokenize(sentence, 'alphanumeric')
-        ['Testing', 'reason0.1.0', 'on', '127.0.0.1', 'Cool', 'stuff']
-
-"""
 import re
 
 
@@ -57,6 +40,12 @@ class WordTokenizer:
 
     Attributes:
         pattern (str): Regex pattern for tokenizing.
+
+    Example:
+        >>> from reason.tokenize import word_tokenize
+        >>> sentence = "Testing reason0.1.0, (on: 127.0.0.1). Cool stuff..."
+        >>> word_tokenize(sentence, 'alphanumeric')
+        ['Testing', 'reason0.1.0', 'on', '127.0.0.1', 'Cool', 'stuff']
 
     """
 

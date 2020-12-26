@@ -40,7 +40,7 @@ class RegexStemmer(BaseStemmer):
             pattern (str, optional): Regex pattern to use for finding stems.
 
         Raises:
-            Exception: If pattern is not a valid regex.
+            TypeError: If pattern is not a valid regex.
 
         """
         if pattern == None:
@@ -49,8 +49,10 @@ class RegexStemmer(BaseStemmer):
             try:
                 re.compile(pattern)
                 self.pattern = pattern
-            except:
-                raise ValueError('Pattern is not valid.')
+            except TypeError:
+                raise TypeError(
+                    'Pattern must be string or compiled regex pattern.'
+                )
 
     def _word_stem(self, word):
         assert isinstance(word, str), 'Token must be string.'
@@ -70,7 +72,7 @@ def regex_stem(word, pattern=None):
         str: Stem.
 
     Raises:
-        Exception: If input word is not string.
+        TypeError: If input word is not string.
 
     """
     if not isinstance(word, str):

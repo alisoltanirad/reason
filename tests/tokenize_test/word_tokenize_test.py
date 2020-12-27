@@ -53,3 +53,14 @@ def test_list_input(input_value):
     output = ['Hi', ':)', "I'm", 'testing', 'reason0.1.0', ',', '(', 'on', ':',
               '127.0.0.1', ')', '.', 'Cool', 'stuff', '...']
     assert wt([input_value], 'default') == output
+
+def test_bad_input():
+    with pytest.raises(TypeError):
+        wt(1)
+
+def test_custom_pattern():
+    assert wt('10', r'\d') == ['1', '0']
+
+def test_custom_pattern_bad_input():
+    with pytest.raises(TypeError):
+        wt('10', 1)

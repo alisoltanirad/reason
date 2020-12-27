@@ -1,3 +1,5 @@
+import pytest
+
 from reason.stem import PorterStemmer, porter_stem
 from reason.stem._porter import _PorterAlgorithm
 
@@ -12,8 +14,12 @@ def test_list_input():
     output = ['watch', 'bird', 'fly']
     assert PorterStemmer().stem(input_value) == output
 
-def test_regex_stem():
+def test_porter_stem():
     assert porter_stem('learning') == 'learn'
+
+def test_porter_stem_bad_input():
+    with pytest.raises(TypeError):
+        porter_stem(['learning'])
 
 def test_step1a_1():
     assert _PorterAlgorithm('caresses').stem(1) == 'caress'
@@ -227,3 +233,6 @@ def test_step5_4():
 
 def test_step5_5():
     assert _PorterAlgorithm('controll').stem(5) == 'control'
+
+def test_is_consonant():
+    assert _PorterAlgorithm('you')._is_consonant('you', 0) == True

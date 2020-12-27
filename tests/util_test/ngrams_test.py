@@ -25,3 +25,7 @@ def test_ngrams(input_value):
 def test_ngrams_with_n(input_value):
     output = [('Reason', 'is', 'easy', 'to'), ('is', 'easy', 'to', 'use')]
     assert ngrams(input_value, 4) == output
+
+def test_bad_input():
+    with pytest.raises(TypeError):
+        ngrams(1)

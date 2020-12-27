@@ -32,6 +32,16 @@ def test_train_dataframe():
     classifier = NaiveBayesClassifier()
     classifier.train(df.iloc[:, :-1], df['label'])
 
+def test_train_bad_x(y):
+    x = 'True'
+    with pytest.raises(TypeError):
+        NaiveBayesClassifier().train(x, y)
+
+def test_train_bad_y(x):
+    y = pd.DataFrame(data={'col': [0, 0],})
+    with pytest.raises(TypeError):
+        NaiveBayesClassifier().train(x, y)
+
 def test_classify_dict(x, y):
     classifier = NaiveBayesClassifier()
     classifier.train(x, y)
@@ -59,6 +69,18 @@ def test_classify_dataframe(x, y):
     new = {'feature': True, }
     series = pd.Series(data=new)
     assert classifier.classify(series) == True
+
+def test_classify_bad_input(x, y):
+    classifier = NaiveBayesClassifier()
+    classifier.train(x, y)
+    with pytest.raises(TypeError):
+        classifier.classify([0 ,1])
+
+def test_classify_bad_input_data(x, y):
+    classifier = NaiveBayesClassifier()
+    classifier.train(x, y)
+    with pytest.raises(TypeError):
+        classifier.classify(pd.Series(pd.Series({'feature': pd.Series(0),})))
 
 def test_get_labels():
     x = [

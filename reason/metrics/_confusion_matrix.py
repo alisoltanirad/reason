@@ -38,7 +38,7 @@ class ConfusionMatrix:
                 'Confusion matrix inputs must be array-like objects.'
             )
 
-        self._labels = sorted(set(self._y_true))
+        self._labels = sorted(set(self._y_true + self._y_pred))
         self._n_y = len(self._y_true)
 
         self._matrix = dict()

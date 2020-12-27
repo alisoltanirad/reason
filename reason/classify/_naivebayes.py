@@ -37,7 +37,7 @@ class NaiveBayesClassifier:
         """
         try:
             self._y = pd.Series(y)
-        except TypeError:
+        except (TypeError, ValueError):
             raise TypeError('Y must be array-like object.')
         if type(x) == pd.DataFrame:
             self._x = x

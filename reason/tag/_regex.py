@@ -43,9 +43,10 @@ class RegexTagger(BaseTagger):
                 for pattern in patterns.keys():
                     re.compile(pattern)
                 self.patterns = patterns
-            except TypeError:
+            except (AttributeError, TypeError):
                 raise TypeError(
-                    'Pattern must be string or compiled regex pattern.'
+                    'Patterns must be dictionary containing string or compiled '
+                    'regex pattern as keys and strings as values.'
                 )
 
     def _token_tag(self, token):

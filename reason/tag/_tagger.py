@@ -32,8 +32,10 @@ class BaseTagger:
         if isinstance(corpus, str):
             tokens = word_tokenize(corpus)
         else:
-            if isinstance(corpus, list) and \
-            all(isinstance(token, str) for token in corpus):
+            if (
+                isinstance(corpus, list) and
+                all(isinstance(token, str) for token in corpus)
+            ):
                 tokens = corpus
             else:
                 raise TypeError(

@@ -3,14 +3,14 @@ from reason.stem._porter import _PorterAlgorithm
 
 
 def test_string_input():
-    input = 'watched birds flying'
+    input_value = 'watched birds flying'
     output = ['watch', 'bird', 'fly']
-    assert PorterStemmer().stem(input) == output
+    assert PorterStemmer().stem(input_value) == output
 
 def test_list_input():
-    input = ['watched', 'birds', 'flying']
+    input_value = ['watched', 'birds', 'flying']
     output = ['watch', 'bird', 'fly']
-    assert PorterStemmer().stem(input) == output
+    assert PorterStemmer().stem(input_value) == output
 
 def test_regex_stem():
     assert porter_stem('learning') == 'learn'

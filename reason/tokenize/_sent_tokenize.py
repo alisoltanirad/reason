@@ -1,6 +1,6 @@
 from reason.classify import NaiveBayesClassifier
 from ._treebank import get_sents
-from .word_tokenize import WordTokenizer
+from ._word_tokenize import WordTokenizer
 
 
 class SentTokenizer:
@@ -28,13 +28,13 @@ class SentTokenizer:
         x, y = self._get_dataset()
         self._classifier.train(x, y)
 
-    def tokenize(self, input):
+    def tokenize(self, corpus):
         """Tokenize text method.
 
         Tokenize input text
 
         Args:
-            input (str or list of str): Text to tokenize.
+            corpus (str or list of str): Text to tokenize.
 
         Returns:
             list: Tokens.
@@ -43,21 +43,7 @@ class SentTokenizer:
             TypeError: If input is not string or a list of strings.
 
         """
-        wt = WordTokenizer()
-        if type(input) == str:
-            words = wt.tokenize(input)
-            sents = [input]
-            input_type = 'str'
-        else:
-            try:
-                words = wt.tokenize(' '.join(input))
-                sents = list()
-                input_type = 'list'
-            except TypeError:
-                raise TypeError(
-                    'Tokenize input must be string or a list of strings.'
-                )
-
+        words, sents, input_type = self._preprocess_tokenize_input(corpus)
         position, start = 0, 0
 
         for i, token in enumerate(words):
@@ -83,11 +69,28 @@ class SentTokenizer:
             except IndexError:
                 break
 
-        if input_type == 'list':
-            if start < len(words):
-                sents.append(words[start:])
+        if input_type == 'list' and start < len(words):
+            sents.append(words[start:])
 
         return sents
+
+    def _preprocess_tokenize_input(self, corpus):
+        wt = WordTokenizer()
+        if type(corpus) == str:
+            words = wt.tokenize(corpus)
+            sents = [corpus]
+            input_type = 'str'
+        else:
+            try:
+                words = wt.tokenize(' '.join(corpus))
+                sents = list()
+                input_type = 'list'
+            except TypeError:
+                raise TypeError(
+                    'Tokenize input must be string or a list of strings.'
+                )
+
+        return words, sents, input_type
 
     def _punc_features(self, tokens, i):
         return {

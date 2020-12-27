@@ -16,9 +16,9 @@ def accuracy(y_true, y_pred):
         float: Accuracy score.
 
     """
-    all = len(y_true)
+    length = len(y_true)
     correct = 0
-    for i in range(all):
+    for i in range(length):
         if y_true[i] == y_pred[i]:
             correct += 1
-    return float('{:.4f}'.format(correct / all))
+    return float('{:.4f}'.format(correct / length))

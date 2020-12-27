@@ -170,9 +170,10 @@ class NaiveBayesClassifier:
 
     def _is_featuresets_format(self, input):
 
-        if not isinstance(input, list):
-            return False
-        elif not all(isinstance(item, dict) for item in input):
+        if (
+            not isinstance(input, list) or
+            not all(isinstance(item, dict) for item in input)
+        ):
             return False
 
         return True

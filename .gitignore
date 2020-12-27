@@ -20,3 +20,4 @@ docs/Makefile
 docs/make.bat
 reason/tag/__pycache__
 tests/tag_test/pos_tagger_accuracy_test.py
+.coverage

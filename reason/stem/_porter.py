@@ -173,15 +173,15 @@ class _PorterAlgorithm:
         ):
             self.word = self.word[:-4]
 
-        if self._measure(self.word[:-3]) > 1:
-
-            if self.word[-3:] in [
-                'ant', 'ent', 'ism', 'ate', 'iti', 'ous', 'ive', 'ize'
-            ]:
-                self.word = self.word[:-3]
-
-            elif self.word.endswith('ion') and self.word[-4] in ['s', 't']:
-                self.word = self.word[:-3]
+        if (
+            self._measure(self.word[:-3]) > 1 and (
+                self.word[-3:] in [
+                    'ant', 'ent', 'ism', 'ate', 'iti', 'ous', 'ive', 'ize'
+                ] or
+                self.word.endswith('ion') and self.word[-4] in ['s', 't']
+            )
+        ):
+            self.word = self.word[:-3]
 
         if (
             self._measure(self.word[:-2]) > 1 and
@@ -191,16 +191,15 @@ class _PorterAlgorithm:
 
     def _step5a(self):
 
-        if self.word[-1] == 'e':
-
-            if self._measure(self.word[:-1]) > 1:
-                self.word = self.word[:-1]
-
-            elif (
-                self._measure(self.word[:-1]) == 1 and
-                not self._ends_cvc(self.word[:-1])
-            ):
-                self.word = self.word[:-1]
+        if (
+            self.word[-1] == 'e' and (
+                self._measure(self.word[:-1]) > 1 or (
+                    self._measure(self.word[:-1]) == 1 and
+                    not self._ends_cvc(self.word[:-1])
+                )
+            )
+        ):
+            self.word = self.word[:-1]
 
     def _step5b(self):
 

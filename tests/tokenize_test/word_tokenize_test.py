@@ -49,10 +49,7 @@ def test_ideogram(input_value):
     output = [':)']
     assert wt(input_value, 'ideogram') == output
 
-def test_list_input():
-    input_value = [
-        "Hi:) I'm testing reason0.1.0,", "(on: 127.0.0.1). Cool stuff..."
-    ]
+def test_list_input(input_value):
     output = ['Hi', ':)', "I'm", 'testing', 'reason0.1.0', ',', '(', 'on', ':',
               '127.0.0.1', ')', '.', 'Cool', 'stuff', '...']
-    assert wt(input_value, 'default') == output
+    assert wt([input_value], 'default') == output

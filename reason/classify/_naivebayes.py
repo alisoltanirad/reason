@@ -65,7 +65,8 @@ class NaiveBayesClassifier:
             Label or list of labels.
 
         Raises:
-            TypeError: If input is not valid.
+            TypeError: If input data type is not supported.
+            ValueError: If input data is not valid.
 
         """
         if type(data) == pd.Series:
@@ -77,7 +78,7 @@ class NaiveBayesClassifier:
         elif self._is_featuresets_format(data):
             x = self._featuresets_to_dataframe(data)
         else:
-            raise TypeError('Data type is not supported.')
+            raise TypeError('Input data type is not supported.')
 
         labels = list()
         for i in range(len(x)):
@@ -145,7 +146,11 @@ class NaiveBayesClassifier:
     def _likelihood(self, x, label):
         p = list()
         for feature in self._features:
-            if type(x[feature]) in _numeric:
+            try:
+                value = x[feature]
+            except KeyError:
+                raise ValueError('Input data is not valid.')
+            if type(value) in _numeric:
                 mean = self._statistics[str(label)][feature]['mean']
                 var = self._statistics[str(label)][feature]['var']
                 if var == 0:
@@ -153,14 +158,14 @@ class NaiveBayesClassifier:
                 else:
                     p.append(
                         1 / np.sqrt(2 * np.pi * var)
-                        * np.exp((-(x[feature] - mean) ** 2) / (2 * var))
+                        * np.exp((-(value - mean) ** 2) / (2 * var))
                     )
 
-            elif type(x[feature]) in _categorical:
+            elif type(value) in _categorical:
                 p.append((
                     self._dataset[
                         self._dataset.iloc[:, -1] == label
-                    ][feature].value_counts(x[feature]) / self._n
+                    ][feature].value_counts(value) / self._n
                 )[0])
 
             else:
@@ -168,11 +173,11 @@ class NaiveBayesClassifier:
 
         return np.prod(p)
 
-    def _is_featuresets_format(self, input):
+    def _is_featuresets_format(self, input_data):
 
         if (
-            not isinstance(input, list) or
-            not all(isinstance(item, dict) for item in input)
+            not isinstance(input_data, list) or
+            not all(isinstance(item, dict) for item in input_data)
         ):
             return False
 

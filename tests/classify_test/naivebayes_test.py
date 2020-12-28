@@ -70,11 +70,17 @@ def test_classify_dataframe(x, y):
     series = pd.Series(data=new)
     assert classifier.classify(series) == True
 
-def test_classify_bad_input(x, y):
+def test_classify_bad_input_type(x, y):
     classifier = NaiveBayesClassifier()
     classifier.train(x, y)
     with pytest.raises(TypeError):
         classifier.classify([0 ,1])
+
+def test_classify_bad_input_value(x, y):
+    classifier = NaiveBayesClassifier()
+    classifier.train(x, y)
+    with pytest.raises(ValueError):
+        classifier.classify(pd.Series([0, 1]))
 
 def test_classify_bad_input_data(x, y):
     classifier = NaiveBayesClassifier()

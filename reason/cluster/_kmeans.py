@@ -22,11 +22,10 @@ class KMeansClusterer(BaseClusterer):
     Clustering using k-means algorithm.
 
     """
-    def cluster(self, data, distance='euclidean', k=None):
+    def cluster(self, data, k=2, distance='euclidean'):
         """Cluster method.
 
-        Clusters data to k groups. If k is not given, finds the optimal number
-        using the elbow method.
+        Clusters data to k groups.
 
         Args:
             data (pandas.DataFrame or list of dict): Data to cluster.
@@ -38,8 +37,8 @@ class KMeansClusterer(BaseClusterer):
 
         """
         self._set_data(data)
-        self._set_distance(distance)
         self._set_k(k)
+        self._set_distance(distance)
 
         if self._k == 1:
             return self._data
@@ -48,38 +47,44 @@ class KMeansClusterer(BaseClusterer):
         centroids = self._init_centroids(self._k)
         tolerance = (np.max(abs(self._data)) - np.min(abs(self._data))) / 1000
         iter = 100
+        clusters = dict()
 
         while iter > 0:
+            print(iter)
 
-            clusters = dict()
             for i in range(self._k):
-                clusters[i] = pd.DataFrame()
+                clusters[i] = pd.DataFrame(columns=self._data.columns)
 
             for i in range(self._n_samples):
                 distances = [
-                    self._distance(self._data.loc[i], centroid)
-                    for centroid in centroids
+                    self._distance(self._data.loc[i], centroids.loc[j])
+                    for j in range(self._k)
                 ]
                 cluster = distances.index(min(distances))
-                clusters[cluster].append(self._data.loc[i])
+                clusters[cluster] = clusters[cluster].append(self._data.loc[i])
 
             old_centroids = centroids.copy()
             for i in range(self._k):
-                centroids[i] = np.mean(clusters[i])
+               centroids.loc[i] = np.mean(clusters[i])
 
             if (abs(centroids - old_centroids) < tolerance).all().all() is True:
-                break
+               break
+
+            iter -= 1
 
         return list(clusters.values())
-
-    def elbow_method(self):
-        return 1
 
     def _init_centroids(self, k):
         centroids = pd.DataFrame(columns=self._data.columns)
         for i in range(k):
             centroids.loc[i] = self._data.loc[randint(0, self._n_samples)]
         return centroids
+
+    def _set_k(self, k):
+        if isinstance(k, int) and k > 0:
+            self._k = k
+        else:
+            raise TypeError('K must be positive integer.')
 
     def _set_distance(self, distance):
         if isinstance(distance, str) and distance in _distance_funcs.keys():
@@ -91,11 +96,3 @@ class KMeansClusterer(BaseClusterer):
                 'Distance must be a supported distance name string or a '
                 'function returning the distance between two vectors.'
             )
-
-    def _set_k(self, k):
-        if k is None:
-            self._k = self.elbow_method()
-        if isinstance(k, int) and k > 0:
-            self._k = k
-        else:
-            raise TypeError('K must be positive integer.')

@@ -3,6 +3,7 @@ import pandas as pd
 from ._distance import (
     euclidean_distance, manhattan_distance, hamming_distance
 )
+from ._clusterer import BaseClusterer
 
 # Available distance types
 _distance_funcs = {
@@ -12,15 +13,18 @@ _distance_funcs = {
 }
 
 
-class KMeansClusterer:
+class KMeansClusterer(BaseClusterer):
     """K-means clusterer
 
     Clustering using k-means algorithm.
 
     """
 
-    def cluster(self, data, k=1, distance='euclidean'):
+    def cluster(self, data, distance='euclidean', k=None):
         """Cluster method.
+
+        Clusters data to k groups. If k is not given, finds the optimal number
+        using the elbow method.
 
         Args:
             data (pandas.DataFrame or list of dict): Data to cluster.
@@ -32,28 +36,11 @@ class KMeansClusterer:
 
         """
         self._set_data(data)
-        self._set_k(k)
         self._set_distance(distance)
+        self._set_k(k)
 
     def elbow_method(self):
         return 1
-
-    def _set_data(self, data):
-        if isinstance(data, pd.DataFrame):
-            self._data = data
-        elif self._is_featuresets_format(data):
-            self._data = self._featuresets_to_dataframe(data)
-        else:
-            raise TypeError(
-                'Data must be pandas DataFrame object '
-                'or supported featuresets format.'
-            )
-
-    def _set_k(self, k):
-        if isinstance(k, int) and k > 0:
-            self._k = k
-        else:
-            raise TypeError('K must be positive integer.')
 
     def _set_distance(self, distance):
         if isinstance(distance, str) and distance in _distance_funcs.keys():
@@ -66,22 +53,10 @@ class KMeansClusterer:
                 'function returning the distance between two vectors.'
             )
 
-    def _is_featuresets_format(self, input_data):
-        if (
-            not isinstance(input_data, list) or
-            not all(isinstance(item, dict) for item in input_data)
-        ):
-            return False
-
-        return True
-
-    def _featuresets_to_dataframe(self, featuresets):
-        data = dict()
-        features = featuresets[0].keys()
-
-        for feature in features:
-            data[feature] = pd.Series(set[feature] for set in featuresets)
-
-        df = pd.DataFrame(data=data)
-
-        return df
+    def _set_k(self, k):
+        if k is None:
+            self._k = self.elbow_method()
+        if isinstance(k, int) and k > 0:
+            self._k = k
+        else:
+            raise TypeError('K must be positive integer.')

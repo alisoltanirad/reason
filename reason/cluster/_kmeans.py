@@ -1,5 +1,6 @@
 from random import randint
 
+import numpy as np
 import pandas as pd
 
 from ._distance import (
@@ -21,7 +22,6 @@ class KMeansClusterer(BaseClusterer):
     Clustering using k-means algorithm.
 
     """
-
     def cluster(self, data, distance='euclidean', k=None):
         """Cluster method.
 
@@ -41,15 +41,36 @@ class KMeansClusterer(BaseClusterer):
         self._set_distance(distance)
         self._set_k(k)
 
-        if k == 1:
-            return data
+        if self._k == 1:
+            return self._data
 
-        self._max_iters = 100
         self._n_samples = self._data.shape[0]
-        self._n_features = self._data.shape[1]
-
         centroids = self._init_centroids(self._k)
+        tolerance = (np.max(abs(self._data)) - np.min(abs(self._data))) / 1000
+        iter = 100
 
+        while iter > 0:
+
+            clusters = dict()
+            for i in range(self._k):
+                clusters[i] = pd.DataFrame()
+
+            for i in range(self._n_samples):
+                distances = [
+                    self._distance(self._data.loc[i], centroid)
+                    for centroid in centroids
+                ]
+                cluster = distances.index(min(distances))
+                clusters[cluster].append(self._data.loc[i])
+
+            old_centroids = centroids.copy()
+            for i in range(self._k):
+                centroids[i] = np.mean(clusters[i])
+
+            if (abs(centroids - old_centroids) < tolerance).all().all() is True:
+                break
+
+        return list(clusters.values())
 
     def elbow_method(self):
         return 1

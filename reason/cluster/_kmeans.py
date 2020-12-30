@@ -19,35 +19,18 @@ class KMeansClusterer:
 
     """
 
-    def __init__(self, k='euclidean', distance=None):
-        """KMeansClusterer constructor.
+    def cluster(self, data, k=1, distance='euclidean'):
+        """Cluster method.
 
         Args:
             data (pandas.DataFrame or list of dict): Data to cluster.
             k (int, optional): Number of clusters.
+            distance (optional): Function returning distance between 2 vectors.
 
         Raises:
             TypeError: If input data is not valid.
 
         """
-        if k is None:
-            self._k = self.elbow_method()
-        elif isinstance(k, int) and k > 0:
-            self._k = k
-        else:
-            raise TypeError('K must be positive integer.')
-
-        if isinstance(distance, str) and distance in _distance_funcs.keys():
-                self._distance = _distance_funcs[distance]
-        elif callable(distance):
-            self._distance = distance
-        else:
-            raise ValueError(
-                'Distance must be a supported distance name string or a '
-                'function returning the distance between two vectors.'
-            )
-
-    def cluster(self, data):
         if isinstance(data, pd.DataFrame):
             self._data = data
         elif self._is_featuresets_format(data):
@@ -57,7 +40,21 @@ class KMeansClusterer:
                 'Data must be pandas DataFrame object '
                 'or supported featuresets format.'
             )
-        pass
+
+        if isinstance(k, int) and k > 0:
+            self._k = k
+        else:
+            raise TypeError('K must be positive integer.')
+
+        if isinstance(distance, str) and distance in _distance_funcs.keys():
+            self._distance = _distance_funcs[distance]
+        elif callable(distance):
+            self._distance = distance
+        else:
+            raise ValueError(
+                'Distance must be a supported distance name string or a '
+                'function returning the distance between two vectors.'
+            )
 
     def elbow_method(self):
         return 1

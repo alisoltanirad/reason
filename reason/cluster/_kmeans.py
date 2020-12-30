@@ -1,3 +1,5 @@
+from random import randint
+
 import pandas as pd
 
 from ._distance import (
@@ -39,8 +41,24 @@ class KMeansClusterer(BaseClusterer):
         self._set_distance(distance)
         self._set_k(k)
 
+        if k == 1:
+            return data
+
+        self._max_iters = 100
+        self._n_samples = self._data.shape[0]
+        self._n_features = self._data.shape[1]
+
+        centroids = self._init_centroids(self._k)
+
+
     def elbow_method(self):
         return 1
+
+    def _init_centroids(self, k):
+        centroids = pd.DataFrame(columns=self._data.columns)
+        for i in range(k):
+            centroids.loc[i] = self._data.loc[randint(0, self._n_samples)]
+        return centroids
 
     def _set_distance(self, distance):
         if isinstance(distance, str) and distance in _distance_funcs.keys():

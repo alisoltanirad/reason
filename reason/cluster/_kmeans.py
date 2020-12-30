@@ -31,6 +31,14 @@ class KMeansClusterer:
             TypeError: If input data is not valid.
 
         """
+        self._set_data(data)
+        self._set_k(k)
+        self._set_distance(distance)
+
+    def elbow_method(self):
+        return 1
+
+    def _set_data(self, data):
         if isinstance(data, pd.DataFrame):
             self._data = data
         elif self._is_featuresets_format(data):
@@ -41,11 +49,13 @@ class KMeansClusterer:
                 'or supported featuresets format.'
             )
 
+    def _set_k(self, k):
         if isinstance(k, int) and k > 0:
             self._k = k
         else:
             raise TypeError('K must be positive integer.')
 
+    def _set_distance(self, distance):
         if isinstance(distance, str) and distance in _distance_funcs.keys():
             self._distance = _distance_funcs[distance]
         elif callable(distance):
@@ -55,9 +65,6 @@ class KMeansClusterer:
                 'Distance must be a supported distance name string or a '
                 'function returning the distance between two vectors.'
             )
-
-    def elbow_method(self):
-        return 1
 
     def _is_featuresets_format(self, input_data):
         if (

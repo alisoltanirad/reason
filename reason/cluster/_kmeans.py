@@ -3,12 +3,13 @@ from random import randint
 import numpy as np
 import pandas as pd
 
-from ._distance import (
+from reason._mixins import progress_bar
+from reason.metrics import (
     euclidean_distance, manhattan_distance, hamming_distance
 )
 from ._clusterer import BaseClusterer
 
-# Available distance types
+# Available distance metrics
 _distance_funcs = {
     'euclidean': euclidean_distance,
     'manhattan': manhattan_distance,
@@ -22,7 +23,7 @@ class KMeansClusterer(BaseClusterer):
     Clustering using k-means algorithm.
 
     """
-    def cluster(self, data, k=2, distance='euclidean'):
+    def fit(self, data, k=2, distance='euclidean', verbose=1):
         """Cluster method.
 
         Clusters data to k groups.
@@ -31,6 +32,10 @@ class KMeansClusterer(BaseClusterer):
             data (pandas.DataFrame or list of dict): Data to cluster.
             k (int, optional): Number of clusters.
             distance (optional): Function returning distance between 2 vectors.
+            verbose (int, optional): Verbosity mode.
+
+        Returns:
+            labels (array): Data cluster labels.
 
         Raises:
             TypeError: If input data is not valid.
@@ -45,12 +50,12 @@ class KMeansClusterer(BaseClusterer):
 
         self._n_samples = self._data.shape[0]
         centroids = self._init_centroids(self._k)
-        tolerance = (np.max(abs(self._data)) - np.min(abs(self._data))) / 1000
-        iter = 100
+        tolerance = (np.max(abs(self._data)) - np.min(abs(self._data))) / 100
         clusters = dict()
+        MAX_ITER = 10
+        iter = 0
 
-        while iter > 0:
-            print(iter)
+        while iter < MAX_ITER:
 
             for i in range(self._k):
                 clusters[i] = pd.DataFrame(columns=self._data.columns)
@@ -70,14 +75,30 @@ class KMeansClusterer(BaseClusterer):
             if (abs(centroids - old_centroids) < tolerance).all().all() is True:
                break
 
-            iter -= 1
+            if verbose == 1:
+                progress_bar(iter, MAX_ITER, prefix='Progress')
 
-        return list(clusters.values())
+            iter += 1
+
+        self._clusters = clusters
+
+        labels = [-1 for i in range(self._n_samples)]
+        for i in range(self._k):
+            for j in clusters[i].index:
+                labels[j] = i
+
+        return np.array(labels)
+
+    def get_clusters(self):
+        try:
+            return list(self._clusters.values())
+        except NameError:
+            raise NameError('Fit your data using fit method.')
 
     def _init_centroids(self, k):
         centroids = pd.DataFrame(columns=self._data.columns)
         for i in range(k):
-            centroids.loc[i] = self._data.loc[randint(0, self._n_samples)]
+            centroids.loc[i] = self._data.loc[randint(0, self._n_samples - 1)]
         return centroids
 
     def _set_k(self, k):

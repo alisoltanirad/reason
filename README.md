@@ -41,8 +41,9 @@ Classification:
 
 ```python
 >>> from reason.classify import NaiveBayesClassifier
->>> classifier = NaiveBayesClassifier(train_set)
->>> y_pred = classifier.classify(new_data)
+>>> classifier = NaiveBayesClassifier()
+>>> classifier.fit(x, y)
+>>> y_pred = classifier.predict(new_data)
 
 >>> from reason.metrics import accuracy
 >>> accuracy(y_true, y_pred)

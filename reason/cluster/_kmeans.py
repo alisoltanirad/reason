@@ -24,7 +24,7 @@ class KMeansClusterer(BaseClusterer):
 
     """
     def fit(self, data, k=2, distance='euclidean', verbose=1):
-        """Cluster method.
+        """Fit method.
 
         Clusters data to k groups.
 
@@ -35,7 +35,7 @@ class KMeansClusterer(BaseClusterer):
             verbose (int, optional): Verbosity mode.
 
         Returns:
-            labels (array): Data cluster labels.
+            labels (list): Data cluster labels.
 
         Raises:
             TypeError: If input data is not valid.
@@ -81,6 +81,7 @@ class KMeansClusterer(BaseClusterer):
             iter += 1
 
         self._clusters = clusters
+        self._centroids = centroids
 
         labels = [-1 for i in range(self._n_samples)]
         for i in range(self._k):

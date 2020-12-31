@@ -13,17 +13,14 @@ class NaiveBayesClassifier:
 
     Example:
         >>> from reason.classify import NaiveBayesClassifier
-        >>> classifier = NaiveBayesClassifier(train_set)
-        >>> y_pred = classifier.classify(data)
-        >>> classifier.get_labels()
-        [True, False]
-        >>> classifier.get_features()
-        ['length', 'is_upper', 'ends_with']
+        >>> classifier = NaiveBayesClassifier()
+        >>> classifier.fit(x, y)
+        >>> y_pred = classifier.predict(data)
 
     """
 
-    def train(self, x, y):
-        """Train method.
+    def fit(self, x, y):
+        """Fit method.
 
         Trains classifier with dataset.
 
@@ -53,8 +50,8 @@ class NaiveBayesClassifier:
 
         self._train_classifier()
 
-    def classify(self, data):
-        """Classify method.
+    def predict(self, data):
+        """Predict method.
 
         Classifies new entries (feature sets).
 

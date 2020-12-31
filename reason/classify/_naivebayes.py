@@ -56,7 +56,7 @@ class NaiveBayesClassifier:
         Classifies new entries (feature sets).
 
         Args:
-            input (pandas.DataFrame or list of dict): Features set(s).
+            data (pandas.DataFrame or list of dict): Features set(s).
 
         Returns:
             Label or list of labels.
@@ -67,9 +67,9 @@ class NaiveBayesClassifier:
 
         """
         if type(data) == pd.Series:
-            return self._classify_data(data)
+            return self._predict_data(data)
         elif type(data) == dict:
-            return self._classify_data(pd.Series(data))
+            return self._predict_data(pd.Series(data))
         elif type(data) == pd.DataFrame:
             x = data
         elif self._is_featuresets_format(data):
@@ -79,7 +79,7 @@ class NaiveBayesClassifier:
 
         labels = list()
         for i in range(len(x)):
-            labels.append(self._classify_data(x.iloc[i]))
+            labels.append(self._predict_data(x.iloc[i]))
         return labels
 
     def get_labels(self):
@@ -131,8 +131,8 @@ class NaiveBayesClassifier:
                     }
             self._statistics[str(label)] = features
 
-    def _classify_data(self, x):
-        assert isinstance(x, pd.Series), 'X type must be pandas.Series'
+    def _predict_data(self, x):
+        assert isinstance(x, pd.Series), 'X data type must be pandas.Series'
         posterior = list()
         for label in self._labels:
             posterior.append((

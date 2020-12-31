@@ -90,6 +90,38 @@ class KMeansClusterer(BaseClusterer):
 
         return np.array(labels)
 
+    def predict(self, data):
+        """Predict method.
+
+        Clusters new entries (feature sets).
+
+        Args:
+            data (pandas.DataFrame or list of dict): Features set(s).
+
+        Returns:
+            Label or list of labels.
+
+        Raises:
+            TypeError: If input data type is not supported.
+            ValueError: If input data is not valid.
+
+        """
+        if type(data) == pd.Series:
+            return self._predict_data(data)
+        elif type(data) == dict:
+            return self._predict_data(pd.Series(data))
+        elif type(data) == pd.DataFrame:
+            x = data
+        elif self._is_featuresets_format(data):
+            x = self._featuresets_to_dataframe(data)
+        else:
+            raise TypeError('Input data type is not supported.')
+
+        labels = list()
+        for i in range(len(x)):
+            labels.append(self._predict_data(x.iloc[i]))
+        return labels
+
     def get_clusters(self):
         try:
             return list(self._clusters.values())
@@ -118,3 +150,7 @@ class KMeansClusterer(BaseClusterer):
                 'Distance must be a supported distance name string or a '
                 'function returning the distance between two vectors.'
             )
+
+    def _predict_data(self, x):
+        assert isinstance(x, pd.Series), 'X data type must be pandas.Series'
+        return

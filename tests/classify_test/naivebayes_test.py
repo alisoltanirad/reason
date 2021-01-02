@@ -18,11 +18,11 @@ def y():
 def test_object_creation():
     NaiveBayesClassifier()
 
-def test_train_featureset(x, y):
+def test_fit_featureset(x, y):
     classifier = NaiveBayesClassifier()
-    classifier.train(x, y)
+    classifier.fit(x, y)
 
-def test_train_dataframe():
+def test_fit_dataframe():
     data = {
         'feature1': [True],
         'feature2': [False],
@@ -30,63 +30,63 @@ def test_train_dataframe():
     }
     df = pd.DataFrame(data=data)
     classifier = NaiveBayesClassifier()
-    classifier.train(df.iloc[:, :-1], df['label'])
+    classifier.fit(df.iloc[:, :-1], df['label'])
 
-def test_train_bad_x(y):
+def test_fit_bad_x(y):
     x = 'True'
     with pytest.raises(TypeError):
-        NaiveBayesClassifier().train(x, y)
+        NaiveBayesClassifier().fit(x, y)
 
-def test_train_bad_y(x):
+def test_fit_bad_y(x):
     y = pd.DataFrame(data={'col': [0, 0],})
     with pytest.raises(TypeError):
-        NaiveBayesClassifier().train(x, y)
+        NaiveBayesClassifier().fit(x, y)
 
-def test_classify_dict(x, y):
+def test_predict_dict(x, y):
     classifier = NaiveBayesClassifier()
-    classifier.train(x, y)
+    classifier.fit(x, y)
     new = {'feature': True, }
-    assert classifier.classify(new) == True
+    assert classifier.predict(new) == True
 
-def test_classify_featuresets(x, y):
+def test_predict_featuresets(x, y):
     classifier = NaiveBayesClassifier()
-    classifier.train(x, y)
+    classifier.fit(x, y)
     new = [
         {'feature': True, }
     ]
-    assert classifier.classify(new) == [True]
+    assert classifier.predict(new) == [True]
 
-def test_classify_seires(x, y):
+def test_predict_dataframe(x, y):
     classifier = NaiveBayesClassifier()
-    classifier.train(x, y)
+    classifier.fit(x, y)
     new = {'feature': [True], }
     dataframe = pd.DataFrame(data=new)
-    assert classifier.classify(dataframe) == [True]
+    assert classifier.predict(dataframe) == [True]
 
-def test_classify_dataframe(x, y):
+def test_predict_series(x, y):
     classifier = NaiveBayesClassifier()
-    classifier.train(x, y)
+    classifier.fit(x, y)
     new = {'feature': True, }
     series = pd.Series(data=new)
-    assert classifier.classify(series) == True
+    assert classifier.predict(series) == True
 
-def test_classify_bad_input_type(x, y):
+def test_predict_bad_input_type(x, y):
     classifier = NaiveBayesClassifier()
-    classifier.train(x, y)
+    classifier.fit(x, y)
     with pytest.raises(TypeError):
-        classifier.classify([0 ,1])
+        classifier.predict([0 ,1])
 
-def test_classify_bad_input_value(x, y):
+def test_predict_bad_input_value(x, y):
     classifier = NaiveBayesClassifier()
-    classifier.train(x, y)
+    classifier.fit(x, y)
     with pytest.raises(ValueError):
-        classifier.classify(pd.Series([0, 1]))
+        classifier.predict(pd.Series([0, 1]))
 
-def test_classify_bad_input_data(x, y):
+def test_predict_bad_input_data(x, y):
     classifier = NaiveBayesClassifier()
-    classifier.train(x, y)
+    classifier.fit(x, y)
     with pytest.raises(TypeError):
-        classifier.classify(pd.Series(pd.Series({'feature': pd.Series(0),})))
+        classifier.predict(pd.Series(pd.Series({'feature': pd.Series(0),})))
 
 def test_get_labels():
     x = [
@@ -96,7 +96,7 @@ def test_get_labels():
     ]
     y = [True, False, True]
     classifier = NaiveBayesClassifier()
-    classifier.train(x, y)
+    classifier.fit(x, y)
     assert classifier.get_labels() == [True, False]
 
 def test_get_features():
@@ -107,5 +107,5 @@ def test_get_features():
     ]
     y = [True, False, True]
     classifier = NaiveBayesClassifier()
-    classifier.train(x, y)
+    classifier.fit(x, y)
     assert classifier.get_features() == ['feature1', 'feature2']

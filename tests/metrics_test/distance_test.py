@@ -14,11 +14,11 @@ def v():
     return [5, 6]
 
 
-def euclidean_test(u, v):
+def test_euclidean(u, v):
     assert euclidean_distance(u, v) == 5
 
-def manhattan_test(u, v):
+def test_manhattan(u, v):
     assert manhattan_distance(u, v) == 7
 
-def hamming_test(u, v):
+def test_hamming(u, v):
     assert hamming_distance(u, v) == 2

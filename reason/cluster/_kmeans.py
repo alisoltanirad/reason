@@ -60,9 +60,6 @@ class KMeansClusterer(BaseClusterer):
         self._set_k(k)
         self._set_distance(distance)
 
-        if self._k == 1:
-            return self._data
-
         self._n_samples = self._data.shape[0]
         centroids = self._init_centroids(self._k)
         tolerance = (np.max(abs(self._data)) - np.min(abs(self._data))) / 100
@@ -86,7 +83,9 @@ class KMeansClusterer(BaseClusterer):
             for i in range(self._k):
                centroids.loc[i] = np.mean(clusters[i])
 
-            if (abs(centroids - old_centroids) < tolerance).all().all() is True:
+            if (abs(centroids - old_centroids) < tolerance).all().all() == True:
+               if verbose == 1:
+                   progress_bar(max_iter, max_iter, prefix='Progress')
                break
 
             if verbose == 1:
@@ -148,8 +147,8 @@ class KMeansClusterer(BaseClusterer):
         """
         try:
             return list(self._clusters.values())
-        except NameError:
-            raise NameError('Fit your data using fit method.')
+        except AttributeError:
+            raise AttributeError('Fit your data using fit method.')
 
     def get_features(self):
         """Get features method.
@@ -189,7 +188,7 @@ class KMeansClusterer(BaseClusterer):
         if isinstance(k, int) and k > 0:
             self._k = k
         else:
-            raise TypeError('K must be positive integer.')
+            raise ValueError('K must be positive integer.')
 
     def _set_distance(self, distance):
         if isinstance(distance, str) and distance in _distance_funcs.keys():
@@ -206,8 +205,8 @@ class KMeansClusterer(BaseClusterer):
         assert isinstance(x, pd.Series), 'X data type must be pandas.Series'
         try:
             centroids = self._centroids
-        except NameError:
-            raise NameError('Fit your data using fit method.')
+        except AttributeError:
+            raise AttributeError('Fit your data using fit method.')
         distances = [
             self._distance(x, centroids.loc[i])
             for i in range(self._k)

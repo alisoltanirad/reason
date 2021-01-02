@@ -50,6 +50,16 @@ Classification:
 0.9358
 ```
 
+Clustering:
+
+```python
+>>> from reason.cluster import KMeansClusterer
+>>> clusterer = KMeansClusterer()
+>>> clusters = clusterer.fit(x, k=2)
+>>> pred = clusterer.predict(new_data)
+```
+
+
 Confusion matrix:
 
 ```python

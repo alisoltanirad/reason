@@ -10,7 +10,7 @@ from reason.metrics import (
 )
 from ._clusterer import BaseClusterer
 
-# Available distance metrics
+# Available distance functions
 _distance_funcs = {
     'euclidean': euclidean_distance,
     'manhattan': manhattan_distance,
@@ -30,15 +30,23 @@ class KMeansClusterer(BaseClusterer):
         >>> pred = clusterer.predict(new_data)
 
     """
-    def fit(self, data, k=2, distance='euclidean', verbose=1):
+    def fit(self, data, k=2, distance='euclidean', max_iter=8, verbose=1):
         """Fit method.
 
         Clusters data to k groups.
 
+        "distance" parameter can be a function taking 2 vectors and returning
+        distance between them or a ready-to-use distance function name.
+        Ready-to-use distances are: 'euclidean', 'manhattan' and 'hamming'.
+
+        "verbose" can be 0 or 1. 1 verbosity mode shows algorithm progress in
+        the console.
+
         Args:
             data (pandas.DataFrame or list of dict): Data to cluster.
             k (int, optional): Number of clusters.
-            distance (optional): Function returning distance between 2 vectors.
+            distance (function, optional): Distance function.
+            max_iter (int, optional): Maximum number of algorithm iterations.
             verbose (int, optional): Verbosity mode.
 
         Returns:
@@ -59,10 +67,9 @@ class KMeansClusterer(BaseClusterer):
         centroids = self._init_centroids(self._k)
         tolerance = (np.max(abs(self._data)) - np.min(abs(self._data))) / 100
         clusters = dict()
-        MAX_ITER = 10
         iter = 0
 
-        while iter < MAX_ITER:
+        while iter < max_iter:
 
             for i in range(self._k):
                 clusters[i] = pd.DataFrame(columns=self._data.columns)
@@ -83,7 +90,7 @@ class KMeansClusterer(BaseClusterer):
                break
 
             if verbose == 1:
-                progress_bar(iter, MAX_ITER, prefix='Progress')
+                progress_bar(iter + 1, max_iter, prefix='Progress')
 
             iter += 1
 
@@ -130,6 +137,15 @@ class KMeansClusterer(BaseClusterer):
         return labels
 
     def get_clusters(self):
+        """Get clusters method
+
+        Returns:
+            list: Clusters
+
+        Raises:
+            NameError: If data is not fitted yet.
+
+        """
         try:
             return list(self._clusters.values())
         except NameError:

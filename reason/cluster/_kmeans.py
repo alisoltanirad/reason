@@ -1,4 +1,5 @@
 from random import randint
+from sys import maxsize
 
 import numpy as np
 import pandas as pd
@@ -21,6 +22,12 @@ class KMeansClusterer(BaseClusterer):
     """K-means clusterer
 
     Clustering using k-means algorithm.
+
+    Example:
+        >>> from reason.cluster import KMeansClusterer
+        >>> clusterer = KMeansClusterer()
+        >>> clusters = clusterer.fit(x, k=2)
+        >>> pred = clusterer.predict(new_data)
 
     """
     def fit(self, data, k=2, distance='euclidean', verbose=1):
@@ -130,9 +137,28 @@ class KMeansClusterer(BaseClusterer):
 
     def _init_centroids(self, k):
         centroids = pd.DataFrame(columns=self._data.columns)
-        for i in range(k):
-            centroids.loc[i] = self._data.loc[randint(0, self._n_samples - 1)]
+        centroids.loc[0] = self._find_first_centroid()
+        for i in range(1, k):
+            centroids.loc[i] = self._find_next_centroid(centroids)
         return centroids
+
+    def _find_first_centroid(self):
+        return self._data.loc[randint(0, self._n_samples - 1)]
+
+    def _find_next_centroid(self, centroids):
+        distances = []
+        for i in range(self._n_samples):
+            point = self._data.loc[i]
+            min_dist = maxsize
+
+            for j in range(len(centroids)):
+                temp_dist = self._distance(point, centroids.loc[j])
+                min_dist = min(min_dist, temp_dist)
+
+            distances.append(min_dist)
+
+        index = distances.index(max(distances))
+        return self._data.loc[index]
 
     def _set_k(self, k):
         if isinstance(k, int) and k > 0:

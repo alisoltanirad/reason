@@ -151,6 +151,15 @@ class KMeansClusterer(BaseClusterer):
         except NameError:
             raise NameError('Fit your data using fit method.')
 
+    def get_features(self):
+        """Get features method.
+
+        Returns:
+            List: Features
+
+        """
+        return list(self._data)
+
     def _init_centroids(self, k):
         centroids = pd.DataFrame(columns=self._data.columns)
         centroids.loc[0] = self._find_first_centroid()

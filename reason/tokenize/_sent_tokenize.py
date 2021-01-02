@@ -20,13 +20,13 @@ class SentTokenizer:
     def __init__(self):
         """SentTokenizer Constructor.
 
-        Creates and trains a naive bayes classifier. SentTokenizer class
+        Creates and utilises a naive bayes classifier. SentTokenizer class
         recognizes sentences using this classifier.
 
         """
         self._classifier = NaiveBayesClassifier()
         x, y = self._get_dataset()
-        self._classifier.train(x, y)
+        self._classifier.fit(x, y)
 
     def tokenize(self, corpus):
         """Tokenize text method.
@@ -48,7 +48,7 @@ class SentTokenizer:
 
         for i, token in enumerate(words):
             try:
-                if token in '.?!' and self._classifier.classify(
+                if token in '.?!' and self._classifier.predict(
                     self._punc_features(words, i)
                 ) == True:
                     if input_type == 'str':

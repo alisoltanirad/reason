@@ -24,7 +24,7 @@ Dependencies
 
 
 * `Pandas <https://pandas.pydata.org>`__
-*Used in classify package*
+*Used in classify and cluster packages*
 
 .. note:: Keep in mind *NumPy* will be automatically installed with *Reason*.
 

@@ -13,6 +13,8 @@ Python easy-to-use natural language processing toolbox.
 
 - **classify**  
 Naive bayes classifier
+- **cluster**  
+Kmeans++ clusterer
 - **metrics**  
 Confusion matrix, accuracy
 - **tag**  
@@ -187,7 +189,7 @@ N-grams:
 - [NumPy](https://numpy.org)  
 Used to handle data
 - [Pandas](https://pandas.pydata.org)  
-Used in classify package
+Used in classify and cluster packages
 
 Keep in mind *NumPy* will be automatically installed with *Reason*.
 

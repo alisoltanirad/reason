@@ -105,3 +105,8 @@ def test_get_features(df):
     clusterer = KMeansClusterer()
     clusterer.fit(df)
     assert clusterer.get_features() == ['feature1', 'feature2']
+
+def test_inertia(df):
+    clusterer = KMeansClusterer()
+    clusterer.fit(df)
+    assert isinstance(clusterer.inertia(), float)

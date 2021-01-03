@@ -7,6 +7,15 @@ class BaseClusterer:
     Base class for clusterers.
 
     """
+    def inertia(self):
+        inertia = 0
+        for i in range(self._k):
+            for j in self._clusters[i].index:
+                inertia += self._distance(
+                    self._clusters[i].loc[j], self._centroids.loc[i]
+                )
+        return inertia
+
     def _set_data(self, data):
         if isinstance(data, pd.DataFrame):
             self._data = data

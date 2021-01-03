@@ -8,6 +8,14 @@ class BaseClusterer:
 
     """
     def inertia(self):
+        """Inertia score.
+
+        Sum of distances between points and center of their clusters.
+
+        Returns:
+              inertia (float): Inertia score.
+
+        """
         inertia = 0
         for i in range(self._k):
             for j in self._clusters[i].index:

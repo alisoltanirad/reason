@@ -5,8 +5,8 @@ Clustering tools using machine learning methods.
 
 API:
 
-* KMeansClusterer (class): Clusterer which uses k-means algorithm.
-
+* KMeansClusterer (class): Clusterer using k-means(++) algorithm.
+* elbow_method (function): Finds optimum number of clusters.
 
 """
 

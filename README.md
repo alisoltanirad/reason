@@ -14,7 +14,7 @@ Python easy-to-use natural language processing toolbox.
 - **classify**  
 Naive bayes classifier
 - **cluster**  
-Kmeans++ clusterer
+Kmeans++ clusterer, elbow method
 - **metrics**  
 Confusion matrix, accuracy
 - **tag**  
@@ -56,8 +56,12 @@ Clustering:
 
 ```python
 >>> from reason.cluster import KMeansClusterer
+>>> from reason.cluster import elbow_method
+>>> elbow_method(x, clusterer=KMeansClusterer, max_k=10)
+5
+
 >>> clusterer = KMeansClusterer()
->>> clusters = clusterer.fit(x, k=2)
+>>> clusters = clusterer.fit(x, k=5)
 >>> pred = clusterer.predict(new_data)
 ```
 

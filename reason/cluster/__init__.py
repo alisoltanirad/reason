@@ -11,3 +11,4 @@ API:
 """
 
 from ._kmeans import KMeansClusterer
+from ._elbow_method import elbow_method

@@ -61,103 +61,55 @@ class KMeansClusterer(BaseClusterer):
         self._set_distance(distance)
 
         self._n_samples = self._data.shape[0]
-        centroids = self._init_centroids(self._k)
-        tolerance = (np.max(abs(self._data)) - np.min(abs(self._data))) / 100
-        clusters = dict()
-        iter = 0
+        self._centroids = self._init_centroids(self._k)
+        self._clusters = dict()
+        tolerance = (np.max(abs(self._data)) - np.min(abs(self._data))) / 144
+        itr = 0
 
-        while iter < max_iter:
+        while itr < max_iter:
 
-            for i in range(self._k):
-                clusters[i] = pd.DataFrame(columns=self._data.columns)
+            self._init_clusters()
+            self._set_clusters()
 
-            for i in range(self._n_samples):
-                distances = [
-                    self._distance(self._data.loc[i], centroids.loc[j])
-                    for j in range(self._k)
-                ]
-                cluster = distances.index(min(distances))
-                clusters[cluster] = clusters[cluster].append(self._data.loc[i])
+            old_centroids = self._centroids.copy()
+            self._update_centroids()
 
-            old_centroids = centroids.copy()
-            for i in range(self._k):
-               centroids.loc[i] = np.mean(clusters[i])
-
-            if (abs(centroids - old_centroids) < tolerance).all().all() == True:
+            if (abs(self._centroids - old_centroids) < tolerance).all().all() \
+                    == True:
                if verbose == 1:
                    progress_bar(max_iter, max_iter, prefix='Progress')
                break
 
             if verbose == 1:
-                progress_bar(iter + 1, max_iter, prefix='Progress')
+                progress_bar(itr + 1, max_iter, prefix='Progress')
 
-            iter += 1
+            itr += 1
 
-        self._clusters = clusters
-        self._centroids = centroids
-
-        labels = [-1 for i in range(self._n_samples)]
-        for i in range(self._k):
-            for j in clusters[i].index:
-                labels[j] = i
+        labels = self._set_labels()
 
         return np.array(labels)
 
-    def predict(self, data):
-        """Predict method.
-
-        Clusters new entries (feature sets).
-
-        Args:
-            data (pandas.DataFrame or list of dict): Features set(s).
-
-        Returns:
-            Label or list of labels.
-
-        Raises:
-            TypeError: If input data type is not supported.
-            ValueError: If input data is not valid.
-
-        """
-        if type(data) == pd.Series:
-            return self._predict_data(data)
-        elif type(data) == dict:
-            return self._predict_data(pd.Series(data))
-        elif type(data) == pd.DataFrame:
-            x = data
-        elif self._is_featuresets_format(data):
-            x = self._featuresets_to_dataframe(data)
-        else:
-            raise TypeError('Input data type is not supported.')
-
-        labels = list()
-        for i in range(len(x)):
-            labels.append(self._predict_data(x.iloc[i]))
+    def _set_labels(self):
+        labels = [-1] * self._n_samples
+        for i in range(self._k):
+            for j in self._clusters[i].index:
+                labels[j] = i
         return labels
 
-    def get_clusters(self):
-        """Get clusters method
+    def _init_clusters(self):
+        for i in range(self._k):
+            self._clusters[i] = pd.DataFrame(columns=self._data.columns)
 
-        Returns:
-            list: Clusters
-
-        Raises:
-            NameError: If data is not fitted yet.
-
-        """
-        try:
-            return list(self._clusters.values())
-        except AttributeError:
-            raise AttributeError('Fit your data using fit method.')
-
-    def get_features(self):
-        """Get features method.
-
-        Returns:
-            List: Features
-
-        """
-        return list(self._data)
+    def _set_clusters(self):
+        for i in range(self._n_samples):
+            distances = [
+                self._distance(self._data.loc[i], self._centroids.loc[j])
+                for j in range(self._k)
+            ]
+            cluster = distances.index(min(distances))
+            self._clusters[cluster] = self._clusters[cluster].append(
+                self._data.loc[i]
+            )
 
     def _init_centroids(self, k):
         centroids = pd.DataFrame(columns=self._data.columns)
@@ -183,6 +135,10 @@ class KMeansClusterer(BaseClusterer):
 
         index = distances.index(max(distances))
         return self._data.loc[index]
+
+    def _update_centroids(self):
+        for i in range(self._k):
+            self._centroids.loc[i] = np.mean(self._clusters[i])
 
     def _set_k(self, k):
         if isinstance(k, int) and k > 0:

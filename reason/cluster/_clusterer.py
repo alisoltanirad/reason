@@ -7,6 +7,10 @@ class BaseClusterer:
     Base class for clusterers.
 
     """
+    def fit(self, data, distance, verbose):
+        self._set_data(data)
+        self._set_distance(distance)
+
     def predict(self, data):
         """Predict method.
 
@@ -89,6 +93,14 @@ class BaseClusterer:
             raise TypeError(
                 'Data must be pandas DataFrame object '
                 'or supported featuresets format.'
+            )
+
+    def _set_distance(self, distance):
+        if callable(distance):
+            self._distance = distance
+        else:
+            raise TypeError(
+                'Distance must be a function.'
             )
 
     def _is_featuresets_format(self, input_data):

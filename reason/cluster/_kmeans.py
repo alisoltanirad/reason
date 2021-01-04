@@ -5,17 +5,8 @@ import numpy as np
 import pandas as pd
 
 from reason._mixins import progress_bar
-from reason.metrics import (
-    euclidean_distance, manhattan_distance, hamming_distance
-)
+from reason.metrics import euclidean_distance as euclidean
 from ._clusterer import BaseClusterer
-
-# Available distance functions
-_distance_funcs = {
-    'euclidean': euclidean_distance,
-    'manhattan': manhattan_distance,
-    'hamming': hamming_distance,
-}
 
 
 class KMeansClusterer(BaseClusterer):
@@ -30,14 +21,13 @@ class KMeansClusterer(BaseClusterer):
         >>> pred = clusterer.predict(new_data)
 
     """
-    def fit(self, data, k=2, distance='euclidean', max_iter=8, verbose=1):
+    def fit(self, data, k=2, distance=euclidean, max_iter=21, verbose=1):
         """Fit method.
 
         Clusters data to k groups.
 
         "distance" parameter can be a function taking 2 vectors and returning
-        distance between them or a ready-to-use distance function name.
-        Ready-to-use distances are: 'euclidean', 'manhattan' and 'hamming'.
+        distance between them in the form of a float number.
 
         "verbose" can be 0 or 1. 1 verbosity mode shows algorithm progress in
         the console.
@@ -53,12 +43,12 @@ class KMeansClusterer(BaseClusterer):
             labels (list): Data cluster labels.
 
         Raises:
-            TypeError: If input data is not valid.
+            TypeError: If input data type is not valid.
+            ValueError: If input data value is not valid.
 
         """
-        self._set_data(data)
+        super().fit(data, distance, verbose)
         self._set_k(k)
-        self._set_distance(distance)
 
         self._n_samples = self._data.shape[0]
         self._centroids = self._init_centroids(self._k)
@@ -145,17 +135,6 @@ class KMeansClusterer(BaseClusterer):
             self._k = k
         else:
             raise ValueError('K must be positive integer.')
-
-    def _set_distance(self, distance):
-        if isinstance(distance, str) and distance in _distance_funcs.keys():
-            self._distance = _distance_funcs[distance]
-        elif callable(distance):
-            self._distance = distance
-        else:
-            raise ValueError(
-                'Distance must be a supported distance name string or a '
-                'function returning the distance between two vectors.'
-            )
 
     def _predict_data(self, x):
         assert isinstance(x, pd.Series), 'X data type must be pandas.Series'

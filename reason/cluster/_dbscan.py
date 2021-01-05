@@ -61,7 +61,7 @@ class DBSCAN(BaseClusterer):
         self._n_samples = self._data.shape[0]
         self._clusters = dict()
         self._visited = np.zeros(self._n_samples, dtype=int)
-        self._labels = [-1] * self._n_samples
+        self._labels = np.full(self._n_samples, -1)
         cluster_index = 0
 
         for i in range(self._n_samples):
@@ -69,12 +69,12 @@ class DBSCAN(BaseClusterer):
                 self._visited[i] = 1
 
                 neighbors = self._dist_matrix.neighbors(i)
-                if neighbors.shape[0] < self._min_pts:
-                    pass
-                else:
+                if neighbors.shape[0] >= self._min_pts:
                     cluster = self._expand_cluster(i, neighbors, cluster_index)
                     self._clusters[cluster_index] = cluster
                     cluster_index += 1
+
+        return self._labels
 
     def _expand_cluster(self, init, neighbors, cluster_index):
         cluster = pd.DataFrame(columns=self._data.columns)

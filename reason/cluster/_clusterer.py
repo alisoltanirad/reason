@@ -7,7 +7,7 @@ class BaseClusterer:
     Base class for clusterers.
 
     """
-    def fit(self, data, distance, verbose):
+    def fit(self, data, distance):
         self._set_data(data)
         self._set_distance(distance)
 
@@ -66,23 +66,6 @@ class BaseClusterer:
 
         """
         return list(self._data)
-
-    def inertia(self):
-        """Inertia score.
-
-        Sum of distances between points and center of their clusters.
-
-        Returns:
-              inertia (float): Inertia score.
-
-        """
-        inertia = 0
-        for i in range(self._k):
-            for j in self._clusters[i].index:
-                inertia += self._distance(
-                    self._clusters[i].loc[j], self._centroids.loc[i]
-                )
-        return inertia
 
     def _set_data(self, data):
         if isinstance(data, pd.DataFrame):

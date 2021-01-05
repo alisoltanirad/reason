@@ -47,7 +47,7 @@ class KMeansClusterer(BaseClusterer):
             ValueError: If input data value is not valid.
 
         """
-        super().fit(data, distance, verbose)
+        super().fit(data, distance)
         self._set_k(k)
 
         self._n_samples = self._data.shape[0]
@@ -64,11 +64,10 @@ class KMeansClusterer(BaseClusterer):
             old_centroids = self._centroids.copy()
             self._update_centroids()
 
-            if (abs(self._centroids - old_centroids) < tolerance).all().all() \
-                    == True:
-               if verbose == 1:
-                   progress_bar(max_iter, max_iter, prefix='Progress')
-               break
+            if (abs(self._centroids - old_centroids) < tolerance).all().all():
+                if verbose == 1:
+                    progress_bar(max_iter, max_iter, prefix='Progress')
+                break
 
             if verbose == 1:
                 progress_bar(itr + 1, max_iter, prefix='Progress')
@@ -78,6 +77,23 @@ class KMeansClusterer(BaseClusterer):
         labels = self._set_labels()
 
         return np.array(labels)
+
+    def inertia(self):
+        """Inertia score.
+
+        Sum of distances between points and center of their clusters.
+
+        Returns:
+              inertia (float): Inertia score.
+
+        """
+        inertia = 0
+        for i in range(len(self._clusters)):
+            for j in self._clusters[i].index:
+                inertia += self._distance(
+                    self._clusters[i].loc[j], self._centroids.loc[i]
+                )
+        return inertia
 
     def _set_labels(self):
         labels = [-1] * self._n_samples

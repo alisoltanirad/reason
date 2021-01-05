@@ -5,13 +5,14 @@ with open('README.md', 'r') as fh:
 
 setup(
     name='reason',
-    version='0.6.0',
+    version='0.6.1',
     description='Easy-to-use NLP toolbox',
     long_description=long_description,
     long_description_content_type='text/markdown',
     url='https://github.com/alisoltanirad/reason',
     author='Ali Soltani Rad',
     author_email='soltaniradali@gmail.com',
+    license='MIT',
     packages=find_packages(),
     include_package_data=True,
     classifiers=[

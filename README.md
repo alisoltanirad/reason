@@ -6,7 +6,8 @@
 [![Lines of Code](https://sonarcloud.io/api/project_badges/measure?project=alisoltanirad_reason&metric=ncloc)](https://sonarcloud.io/dashboard?id=alisoltanirad_reason)
 [![Activity](https://img.shields.io/github/last-commit/alisoltanirad/reason)](https://github.com/alisoltanirad/Reason/)
 
-Python easy-to-use natural language processing toolbox.
+Python easy-to-use natural language processing toolbox with powerful integrated
+machine learning packages.
 
 
 ## Packages
@@ -14,7 +15,7 @@ Python easy-to-use natural language processing toolbox.
 - **classify**  
 Naive bayes classifier
 - **cluster**  
-Kmeans++ clusterer, elbow method
+Kmeans++ and DBSCAN clusterer, elbow method
 - **metrics**  
 Confusion matrix, accuracy
 - **tag**  
@@ -61,8 +62,12 @@ Clustering:
 5
 
 >>> clusterer = KMeansClusterer()
->>> clusters = clusterer.fit(x, k=5)
+>>> labels = clusterer.fit(x, k=5)
 >>> pred = clusterer.predict(new_data)
+
+>>> from reason.cluster import DBSCAN
+>>> clusterer = DBSCAN()
+>>> labels = clusterer.fit(x, eps=0.21)
 ```
 
 

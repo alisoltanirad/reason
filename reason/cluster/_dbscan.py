@@ -33,6 +33,11 @@ class DBSCAN(BaseClusterer):
 
     Clustering using DBSCAN algorithm.
 
+    Example:
+        >>> from reason.cluster import DBSCAN
+        >>> clusterer = DBSCAN()
+        >>> labels = clusterer.fit(x, eps=0.21)
+
     """
     def fit(self, data, eps, min_pts=3, distance=euclidean, verbose=1):
         """Fit method.

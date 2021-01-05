@@ -17,7 +17,7 @@ class KMeansClusterer(BaseClusterer):
     Example:
         >>> from reason.cluster import KMeansClusterer
         >>> clusterer = KMeansClusterer()
-        >>> clusters = clusterer.fit(x, k=2)
+        >>> labels = clusterer.fit(x, k=2)
         >>> pred = clusterer.predict(new_data)
 
     """

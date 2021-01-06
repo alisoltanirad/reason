@@ -1,5 +1,7 @@
 import pandas as pd
 
+from reason._mixins import is_featuresets_format, featuresets_to_dataframe
+
 
 class BaseClusterer:
     """Base Clusterer
@@ -33,8 +35,8 @@ class BaseClusterer:
             return self._predict_data(pd.Series(data))
         elif type(data) == pd.DataFrame:
             x = data
-        elif self._is_featuresets_format(data):
-            x = self._featuresets_to_dataframe(data)
+        elif is_featuresets_format(data):
+            x = featuresets_to_dataframe(data)
         else:
             raise TypeError('Input data type is not supported.')
 
@@ -85,23 +87,3 @@ class BaseClusterer:
             raise TypeError(
                 'Distance must be a function.'
             )
-
-    def _is_featuresets_format(self, input_data):
-        if (
-            not isinstance(input_data, list) or
-            not all(isinstance(item, dict) for item in input_data)
-        ):
-            return False
-
-        return True
-
-    def _featuresets_to_dataframe(self, featuresets):
-        data = dict()
-        features = featuresets[0].keys()
-
-        for feature in features:
-            data[feature] = pd.Series(set[feature] for set in featuresets)
-
-        df = pd.DataFrame(data=data)
-
-        return df

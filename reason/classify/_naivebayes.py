@@ -1,12 +1,14 @@
 import numpy as np
 import pandas as pd
 
+from ._classifier import BaseClassifier
+
 # Supported feature types
 _numeric = [int, float, bool, np.intc , np.single, np.bool_]
 _categorical = [str]
 
 
-class NaiveBayesClassifier:
+class NaiveBayesClassifier(BaseClassifier):
     """Naive Bayes Classifier
 
     Uses gaussian distribution when dealing with continuous data.
@@ -18,87 +20,6 @@ class NaiveBayesClassifier:
         >>> y_pred = classifier.predict(data)
 
     """
-
-    def fit(self, x, y):
-        """Fit method.
-
-        Trains classifier with dataset.
-
-        Args:
-            x (pandas.DataFrame or list of dict): Feature sets
-            y (pandas.Series or list): Labels
-
-        Raises:
-            TypeError: If input data is not valid.
-
-        """
-        try:
-            self._y = pd.Series(y)
-        except (TypeError, ValueError):
-            raise TypeError('Y must be array-like object.')
-        if type(x) == pd.DataFrame:
-            self._x = x
-        elif self._is_featuresets_format(x):
-            self._x = self._featuresets_to_dataframe(x)
-        else:
-            raise TypeError(
-                'X must be pandas.DataFrame object '
-                'or supported featuresets format.'
-            )
-        self._dataset = self._x.copy()
-        self._dataset['label'] = self._y
-
-        self._train_classifier()
-
-    def predict(self, data):
-        """Predict method.
-
-        Classifies new entries (feature sets).
-
-        Args:
-            data (pandas.DataFrame or list of dict): Features set(s).
-
-        Returns:
-            Label or list of labels.
-
-        Raises:
-            TypeError: If input data type is not supported.
-            ValueError: If input data is not valid.
-
-        """
-        if type(data) == pd.Series:
-            return self._predict_data(data)
-        elif type(data) == dict:
-            return self._predict_data(pd.Series(data))
-        elif type(data) == pd.DataFrame:
-            x = data
-        elif self._is_featuresets_format(data):
-            x = self._featuresets_to_dataframe(data)
-        else:
-            raise TypeError('Input data type is not supported.')
-
-        labels = list()
-        for i in range(len(x)):
-            labels.append(self._predict_data(x.iloc[i]))
-        return labels
-
-    def get_labels(self):
-        """Get labels method.
-
-        Returns:
-            List: Labels
-
-        """
-        return list(self._labels)
-
-    def get_features(self):
-        """Get features method.
-
-        Returns:
-            List: Features
-
-        """
-        return self._features
 
     def _train_classifier(self):
 
@@ -169,24 +90,3 @@ class NaiveBayesClassifier:
                 raise TypeError('Input data type is not supported.')
 
         return np.prod(p)
-
-    def _is_featuresets_format(self, input_data):
-
-        if (
-            not isinstance(input_data, list) or
-            not all(isinstance(item, dict) for item in input_data)
-        ):
-            return False
-
-        return True
-
-    def _featuresets_to_dataframe(self, featuresets):
-        data = dict()
-        features = featuresets[0].keys()
-
-        for feature in features:
-            data[feature] = pd.Series(set[feature] for set in featuresets)
-
-        df = pd.DataFrame(data=data)
-
-        return df

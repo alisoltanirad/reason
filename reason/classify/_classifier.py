@@ -9,6 +9,7 @@ class BaseClassifier(MachineLearningModel):
     Base class for classifiers.
 
     """
+
     def __init__(self):
         self._x = None
         self._y = None
@@ -29,10 +30,16 @@ class BaseClassifier(MachineLearningModel):
             TypeError: If input data is not valid.
 
         """
-        try:
-            self._y = pd.Series(y)
-        except (TypeError, ValueError):
-            raise TypeError('Y must be array-like object.')
+        self._set_parameters(x, y)
+
+        self._train_classifier()
+
+    def _set_parameters(self, x, y):
+        self._set_x(x)
+        self._set_y(y)
+        self._set_data()
+
+    def _set_x(self, x):
         if type(x) == pd.DataFrame:
             self._x = x
         elif self._is_featuresets_format(x):
@@ -42,7 +49,13 @@ class BaseClassifier(MachineLearningModel):
                 'X must be pandas.DataFrame object '
                 'or supported featuresets format.'
             )
+
+    def _set_y(self, y):
+        try:
+            self._y = pd.Series(y)
+        except (TypeError, ValueError):
+            raise TypeError('Y must be array-like object.')
+
+    def _set_data(self):
         self._dataset = self._x.copy()
         self._dataset['label'] = self._y
-
-        self._train_classifier()

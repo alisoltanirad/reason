@@ -24,6 +24,7 @@ class KMeansClusterer(BaseClusterer):
     def __init__(self):
         super().__init__()
         self._centroids = None
+        self._tolerance = None
 
     def fit(self, data, k=2, distance=euclidean, max_iter=21, verbose=1):
         """Fit method.
@@ -53,14 +54,16 @@ class KMeansClusterer(BaseClusterer):
         """
         super().fit(data, distance)
         self._set_k(k)
+        self._set_max_iter(max_iter)
+        self._set_tolerance()
+        self._init_centroids(self._k)
 
-        self._n = self._data.shape[0]
-        self._centroids = self._init_centroids(self._k)
-        self._clusters = dict()
-        tolerance = (np.max(abs(self._data)) - np.min(abs(self._data))) / 144
+        return self._cluster(verbose)
+
+    def _cluster(self, verbose):
         itr = 0
 
-        while itr < max_iter:
+        while itr < self._max_iter:
 
             self._init_clusters()
             self._set_clusters()
@@ -68,13 +71,15 @@ class KMeansClusterer(BaseClusterer):
             old_centroids = self._centroids.copy()
             self._update_centroids()
 
-            if (abs(self._centroids - old_centroids) < tolerance).all().all():
+            if (abs(self._centroids - old_centroids) < self._tolerance).all().all():
                 if verbose == 1:
-                    progress_bar(max_iter, max_iter, prefix='Progress')
+                    progress_bar(
+                        self._max_iter, self._max_iter, prefix='Progress'
+                    )
                 break
 
             if verbose == 1:
-                progress_bar(itr + 1, max_iter, prefix='Progress')
+                progress_bar(itr + 1, self._max_iter, prefix='Progress')
 
             itr += 1
 
@@ -122,23 +127,22 @@ class KMeansClusterer(BaseClusterer):
             )
 
     def _init_centroids(self, k):
-        centroids = pd.DataFrame(columns=self._data.columns)
-        centroids.loc[0] = self._find_first_centroid()
+        self._centroids = pd.DataFrame(columns=self._data.columns)
+        self._centroids.loc[0] = self._find_first_centroid()
         for i in range(1, k):
-            centroids.loc[i] = self._find_next_centroid(centroids)
-        return centroids
+            self._centroids.loc[i] = self._find_next_centroid()
 
     def _find_first_centroid(self):
         return self._data.loc[randint(0, self._n - 1)]
 
-    def _find_next_centroid(self, centroids):
+    def _find_next_centroid(self):
         distances = []
         for i in range(self._n):
             point = self._data.loc[i]
             min_dist = maxsize
 
-            for j in range(len(centroids)):
-                temp_dist = self._distance(point, centroids.loc[j])
+            for j in range(len(self._centroids)):
+                temp_dist = self._distance(point, self._centroids.loc[j])
                 min_dist = min(min_dist, temp_dist)
 
             distances.append(min_dist)
@@ -155,6 +159,17 @@ class KMeansClusterer(BaseClusterer):
             self._k = k
         else:
             raise ValueError('K must be positive integer.')
+
+    def _set_max_iter(self, max_iter):
+        if isinstance(max_iter, int) and max_iter > 0:
+            self._max_iter = max_iter
+        else:
+            raise ValueError("max_iter must be positive integer.")
+
+    def _set_tolerance(self):
+        self._tolerance = (
+            (np.max(abs(self._data)) - np.min(abs(self._data))) / 144
+        )
 
     def _predict_data(self, x):
         assert isinstance(x, pd.Series), 'X data type must be pandas.Series'

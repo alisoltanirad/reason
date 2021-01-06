@@ -3,6 +3,9 @@ import pandas as pd
 
 class MachineLearningModel:
 
+    def fit(self):
+        raise NotImplementedError
+
     def predict(self, data):
         """Predict method.
 
@@ -53,7 +56,7 @@ class MachineLearningModel:
         """
         return self._features
 
-    def _is_featuresets_format(input_data):
+    def _is_featuresets_format(self, input_data):
         if (
                 not isinstance(input_data, list) or
                 not all(isinstance(item, dict) for item in input_data)
@@ -62,7 +65,7 @@ class MachineLearningModel:
 
         return True
 
-    def _featuresets_to_dataframe(featuresets):
+    def _featuresets_to_dataframe(self, featuresets):
         data = dict()
         features = featuresets[0].keys()
 

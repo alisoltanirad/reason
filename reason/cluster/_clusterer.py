@@ -19,6 +19,8 @@ class BaseClusterer(MachineLearningModel):
     def fit(self, data, distance):
         self._set_data(data)
         self._set_distance(distance)
+        self._n = self._data.shape[0]
+        self._clusters = dict()
 
     def get_clusters(self):
         """Get clusters method

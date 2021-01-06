@@ -43,6 +43,8 @@ class DBSCAN(BaseClusterer):
         super().__init__()
         self._eps = None
         self._min_pts = None
+        self._dist_matrix = None
+        self._visited = None
 
     def fit(self, data, eps, min_pts=3, distance=euclidean, verbose=1):
         """Fit method.
@@ -65,12 +67,13 @@ class DBSCAN(BaseClusterer):
         super().fit(data, distance)
         self._set_min_pts(min_pts)
         self._set_eps(eps)
-        self._dist_matrix = _DistanceMatrix(self._data, distance, eps)
+        self._init_dist_matrix()
+        self._init_visited()
+        self._init_labels()
 
-        self._n = self._data.shape[0]
-        self._clusters = dict()
-        self._visited = np.zeros(self._n, dtype=int)
-        self._labels = np.full(self._n, -1)
+        return self._cluster()
+
+    def _cluster(self):
         cluster_index = 0
 
         for i in range(self._n):
@@ -120,3 +123,12 @@ class DBSCAN(BaseClusterer):
             assert self._eps > 0
         except (ValueError, AssertionError):
             raise ValueError('min_pts must be positive float number.')
+
+    def _init_dist_matrix(self):
+        self._dist_matrix = _DistanceMatrix(self._data, self._distance, self._eps)
+
+    def _init_visited(self):
+        self._visited = np.zeros(self._n, dtype=int)
+
+    def _init_labels(self):
+        self._labels = np.full(self._n, -1)

@@ -39,6 +39,11 @@ class DBSCAN(BaseClusterer):
         >>> labels = clusterer.fit(x, eps=0.21)
 
     """
+    def __init__(self):
+        super().__init__()
+        self._eps = None
+        self._min_pts = None
+
     def fit(self, data, eps, min_pts=3, distance=euclidean, verbose=1):
         """Fit method.
 
@@ -62,13 +67,13 @@ class DBSCAN(BaseClusterer):
         self._set_eps(eps)
         self._dist_matrix = _DistanceMatrix(self._data, distance, eps)
 
-        self._n_samples = self._data.shape[0]
+        self._n = self._data.shape[0]
         self._clusters = dict()
-        self._visited = np.zeros(self._n_samples, dtype=int)
-        self._labels = np.full(self._n_samples, -1)
+        self._visited = np.zeros(self._n, dtype=int)
+        self._labels = np.full(self._n, -1)
         cluster_index = 0
 
-        for i in range(self._n_samples):
+        for i in range(self._n):
             if self._visited[i] == 0:
                 self._visited[i] = 1
 

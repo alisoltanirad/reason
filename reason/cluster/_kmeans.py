@@ -21,6 +21,10 @@ class KMeansClusterer(BaseClusterer):
         >>> pred = clusterer.predict(new_data)
 
     """
+    def __init__(self):
+        super().__init__()
+        self._centroids = None
+
     def fit(self, data, k=2, distance=euclidean, max_iter=21, verbose=1):
         """Fit method.
 
@@ -50,7 +54,7 @@ class KMeansClusterer(BaseClusterer):
         super().fit(data, distance)
         self._set_k(k)
 
-        self._n_samples = self._data.shape[0]
+        self._n = self._data.shape[0]
         self._centroids = self._init_centroids(self._k)
         self._clusters = dict()
         tolerance = (np.max(abs(self._data)) - np.min(abs(self._data))) / 144
@@ -96,7 +100,7 @@ class KMeansClusterer(BaseClusterer):
         return inertia
 
     def _set_labels(self):
-        labels = [-1] * self._n_samples
+        labels = [-1] * self._n
         for i in range(self._k):
             for j in self._clusters[i].index:
                 labels[j] = i
@@ -107,7 +111,7 @@ class KMeansClusterer(BaseClusterer):
             self._clusters[i] = pd.DataFrame(columns=self._data.columns)
 
     def _set_clusters(self):
-        for i in range(self._n_samples):
+        for i in range(self._n):
             distances = [
                 self._distance(self._data.loc[i], self._centroids.loc[j])
                 for j in range(self._k)
@@ -125,11 +129,11 @@ class KMeansClusterer(BaseClusterer):
         return centroids
 
     def _find_first_centroid(self):
-        return self._data.loc[randint(0, self._n_samples - 1)]
+        return self._data.loc[randint(0, self._n - 1)]
 
     def _find_next_centroid(self, centroids):
         distances = []
-        for i in range(self._n_samples):
+        for i in range(self._n):
             point = self._data.loc[i]
             min_dist = maxsize
 

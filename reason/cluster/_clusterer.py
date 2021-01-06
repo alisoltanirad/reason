@@ -9,6 +9,13 @@ class BaseClusterer(MachineLearningModel):
     Base class for clusterers.
 
     """
+    def __init__(self):
+        self._dataset = None
+        self._distance = None
+        self._n = None
+        self._clusters = None
+        self._labels = None
+
     def fit(self, data, distance):
         self._set_data(data)
         self._set_distance(distance)

@@ -9,6 +9,13 @@ class BaseClassifier(MachineLearningModel):
     Base class for classifiers.
 
     """
+    def __init__(self):
+        self._x = None
+        self._y = None
+        self._dataset = None
+        self._features = None
+        self._n = None
+
     def fit(self, x, y):
         """Fit method.
 

@@ -20,6 +20,11 @@ class NaiveBayesClassifier(BaseClassifier):
         >>> y_pred = classifier.predict(data)
 
     """
+    def __init__(self):
+        super().__init__()
+        self._statistics = None
+        self._prior = None
+        self._labels = None
 
     def _train_classifier(self):
 

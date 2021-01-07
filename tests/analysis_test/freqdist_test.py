@@ -53,3 +53,8 @@ def test_str_(input_value):
     output = "Frequency Distribution\n" \
              "Most-Common: [('oh', 3), ('hey', 2), ('yeah', 1)]"
     assert FreqDist(input_value).__str__() == output
+
+def test_conditional():
+    input_value = [('a', 'a'), ('a', 'b'), ('b', 'c'), ('a', 'b')]
+    output = [(('a', 'b'), 2)]
+    assert FreqDist(input_value).most_common() == output

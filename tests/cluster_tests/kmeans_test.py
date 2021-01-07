@@ -49,6 +49,11 @@ def test_fit_bad_distance(df):
     with pytest.raises(TypeError):
         clusterer.fit(df, distance=1)
 
+def test_fit_bad_max_iter(df):
+    clusterer = KMeansClusterer()
+    with pytest.raises(ValueError):
+        clusterer.fit(df, max_iter=0)
+
 def test_predict_dict(df):
     clusterer = KMeansClusterer()
     clusterer.fit(df)

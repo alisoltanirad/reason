@@ -7,7 +7,7 @@ from reason.tokenize import word_tokenize
 class FreqDist:
     """Frequency Distribution
 
-    Counts token frequencies.
+    Counts token or pair of (token, condition) frequencies.
 
     Example:
         >>> from reason.analysis import FreqDist
@@ -35,11 +35,16 @@ class FreqDist:
 
         """
         try:
-            tokens = word_tokenize(data)
+            if all(isinstance(i, tuple) for i in data):
+                items = list(data)
+            else:
+                items = word_tokenize(data)
         except TypeError:
-            raise TypeError('FreqDist input must be string or list of strings.')
+            raise TypeError(
+                'FreqDist input must be string or list of string or tuple.'
+            )
 
-        self._counter = Counter(tokens)
+        self._counter = Counter(items)
 
     def __repr__(self):
         return 'Frequency Distribution\n' + 'Most-Common: ' + \
@@ -98,58 +103,3 @@ class FreqDist:
 
         """
         return deepcopy(self)
-
-
-class ConditionalFreqDist:
-    """Conditional Frequency Distribution
-
-    Counts token frequencies with given conditions.
-
-    """
-    def __init__(self, data):
-        """ConditionalFreqDist Constructor
-
-        Checks if data is valid then creates a counter dictionary.
-
-        Args:
-            data (list of tuple): Tuples (word + condition)
-
-        Raises:
-            TypeError: If data is not valid.
-
-        """
-        try:
-            pairs = list(data)
-            assert all(isinstance(i, tuple) for i in pairs)
-        except AssertionError:
-            raise ValueError(
-                'Input data must be list of tuples (word, condition).'
-            )
-
-        self._counter = Counter(pairs)
-
-    def __repr__(self):
-        return 'Frequency Distribution\n' + 'Most-Common: ' + \
-            str(self.most_common(10))
-
-    def __getitem__(self, key):
-        return self._counter[key]
-
-    def __setitem__(self, key, value):
-        self._counter[key] = value
-
-    def __delitem__(self, key):
-        del self._counter[key]
-
-    def get_data(self):
-        """Get data method
-
-        Converts items to tuples then returns them in a list.
-
-        Returns:
-            list of tuple: Tokens + frequencies
-
-        """
-        return [
-            (key, value) for key, value in self._counter.items()
-        ]

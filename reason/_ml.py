@@ -3,9 +3,6 @@ import pandas as pd
 
 class MachineLearningModel:
 
-    def fit(self):
-        raise NotImplementedError
-
     def predict(self, data):
         """Predict method.
 

@@ -173,12 +173,10 @@ class KMeansClusterer(BaseClusterer):
 
     def _predict_data(self, x):
         assert isinstance(x, pd.Series), 'X data type must be pandas.Series'
-        try:
-            centroids = self._centroids
-        except AttributeError:
+        if self._centroids is None:
             raise AttributeError('Fit your data using fit method.')
         distances = [
-            self._distance(x, centroids.loc[i])
+            self._distance(x, self._centroids.loc[i])
             for i in range(self._k)
         ]
         return distances.index(min(distances))

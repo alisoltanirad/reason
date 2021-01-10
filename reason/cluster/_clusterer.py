@@ -1,6 +1,6 @@
 import pandas as pd
 
-from reason._ml import MachineLearningModel
+from reason.ml.model import MachineLearningModel
 
 
 class BaseClusterer(MachineLearningModel):

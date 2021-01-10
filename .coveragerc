@@ -1,0 +1,12 @@
+[run]
+
+omit =
+
+    # Abstract classes and methods
+    reason/tag/_tagger.py
+    reason/ml/model.py
+    reason/classify/_classifier.py
+    reason/cluster/_clusterer.py
+
+    # Other
+    temp_test.py

@@ -10,11 +10,11 @@ class BaseClusterer(MachineLearningModel):
 
     """
     def __init__(self):
+        super().__init__()
         self._dataset = None
         self._distance = None
         self._n = None
         self._clusters = None
-        self._labels = None
 
     def fit(self, data, distance):
         self._set_data(data)
@@ -45,6 +45,9 @@ class BaseClusterer(MachineLearningModel):
 
         """
         return list(self._data)
+
+    def _predict_data(self, data):
+        raise NotImplementedError
 
     def _set_data(self, data):
         if isinstance(data, pd.DataFrame):

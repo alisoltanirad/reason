@@ -9,11 +9,10 @@ class BaseClassifier(MachineLearningModel):
     Base class for classifiers.
 
     """
-
     def __init__(self):
+        super().__init__()
         self._x = None
         self._y = None
-        self._dataset = None
         self._features = None
         self._n = None
 
@@ -33,6 +32,12 @@ class BaseClassifier(MachineLearningModel):
         self._set_parameters(x, y)
 
         self._train_classifier()
+
+    def _train_classifier(self):
+        raise NotImplementedError
+
+    def _predict_data(self, data):
+        raise NotImplementedError
 
     def _set_parameters(self, x, y):
         self._set_x(x)

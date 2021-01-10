@@ -11,14 +11,14 @@ class FreqDist:
 
     Example:
         >>> from reason.analysis import FreqDist
-        >>> words = ['hey', 'hey', 'oh', 'oh', 'oh', 'yeah']
+        >>> words = ['x', 'x', 'y', 'y', 'y', 'z']
         >>> fd = FreqDist(words)
         >>> fd
         Frequency Distribution
-        Most-Common: [('oh', 3), ('hey', 2), ('yeah', 1)]
+        Most-Common: [('y', 3), ('x', 2), ('z', 1)]
         >>> fd.most_common(2)
-        [('oh', 3), ('hey', 2)]
-        >>> fd['yeah']
+        [('y', 3), ('x', 2)]
+        >>> fd['z']
         1
 
     """

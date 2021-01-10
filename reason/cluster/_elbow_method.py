@@ -22,7 +22,7 @@ def elbow_method(data, clusterer, max_k):
             break
         score = current_score
 
-    if k == None:
+    if k is None:
         return max_k
 
     return k

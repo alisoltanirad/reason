@@ -24,7 +24,6 @@ class NaiveBayesClassifier(BaseClassifier):
         super().__init__()
         self._statistics = None
         self._prior = None
-        self._labels = None
 
     def _train_classifier(self):
 

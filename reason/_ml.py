@@ -3,6 +3,10 @@ import pandas as pd
 
 class MachineLearningModel:
 
+    def __init__(self):
+        self._labels = None
+        self._features = None
+
     def predict(self, data):
         """Predict method.
 
@@ -51,12 +55,15 @@ class MachineLearningModel:
             List: Features
 
         """
-        return self._features
+        return list(self._features)
+
+    def _predict_data(self, data):
+        raise NotImplementedError
 
     def _is_featuresets_format(self, input_data):
         if (
-                not isinstance(input_data, list) or
-                not all(isinstance(item, dict) for item in input_data)
+            not isinstance(input_data, list) or
+            not all(isinstance(item, dict) for item in input_data)
         ):
             return False
 

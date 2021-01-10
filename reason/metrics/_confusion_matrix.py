@@ -87,7 +87,6 @@ class ConfusionMatrix:
         return float('{:.4f}'.format(correct / self._n_y))
 
 
-
 class BinaryConfusionMatrix(ConfusionMatrix):
     """Binary Confusion Matrix
 

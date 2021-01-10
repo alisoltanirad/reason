@@ -1,10 +1,3 @@
-# -*- coding: utf-8 -*-
-"""Preprocess module.
-
-API:
-* *preprocess* (function): Easy-to-use preprocessing tool.
-
-"""
 from .tokenize import sent_tokenize, word_tokenize
 from .stem import PorterStemmer
 

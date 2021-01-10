@@ -67,7 +67,7 @@ class WordTokenizer:
             TypeError: If pattern is not a valid regex.
 
         """
-        if pattern == None:
+        if pattern is None:
             self.pattern = regex_patterns['default']
         elif pattern in regex_patterns.keys():
             self.pattern = regex_patterns[pattern]
@@ -80,13 +80,13 @@ class WordTokenizer:
                     'Pattern must be string or compiled regex pattern.'
                 )
 
-    def tokenize(self, input):
+    def tokenize(self, input_value):
         """Tokenize text method.
 
         Tokenize input text
 
         Args:
-            input (str or list of str): Text to tokenize.
+            input_value (str or list of str): Text to tokenize.
 
         Returns:
             list: Tokens.
@@ -95,11 +95,11 @@ class WordTokenizer:
             TypeError: If input is not string or a list of strings.
 
         """
-        if type(input) == str:
-            text = input
+        if isinstance(input_value, str):
+            text = input_value
         else:
             try:
-                text = ' '.join(input)
+                text = ' '.join(input_value)
             except TypeError:
                 raise TypeError(
                     'Tokenize input must be string or a list of strings.'
@@ -108,17 +108,17 @@ class WordTokenizer:
         return re.findall(self.pattern, text)
 
 
-def word_tokenize(input, pattern='default'):
+def word_tokenize(input_value, pattern='default'):
     """Tokenize text function.
 
     Easy-to-use word tokenize function.
 
     Args:
-        input (str or list of str): Text to tokenize.
+        input_value (str or list of str): Text to tokenize.
         pattern (str, optional): Regex pattern to use for tokenizing.
 
     Returns:
         list: Tokens.
 
     """
-    return WordTokenizer(pattern).tokenize(input)
+    return WordTokenizer(pattern).tokenize(input_value)

@@ -9,9 +9,9 @@ class BaseTagger:
     """
     def __init__(self, backoff=None):
         if backoff is None:
-            self._taggers = [self]
+            self.taggers = [self]
         else:
-            self._taggers = [self] + backoff._taggers
+            self.taggers = [self] + backoff.taggers
 
     def tag(self, corpus):
         """Tagging method.
@@ -44,7 +44,7 @@ class BaseTagger:
         token_tags = list()
         for token in tokens:
             tag = ''
-            for tagger in self._taggers:
+            for tagger in self.taggers:
                 token_tag = tagger._token_tag(token)
                 if token_tag is not None:
                     tag = token_tag
@@ -54,3 +54,6 @@ class BaseTagger:
             )
 
         return token_tags
+
+    def _token_tag(self, token):
+        raise NotImplementedError

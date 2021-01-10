@@ -1,11 +1,11 @@
 from reason.tokenize import word_tokenize
 
 
-def ngrams(input, n=1):
+def ngrams(input_value, n=1):
     """Ngrams function.
 
     Args:
-        input (str or list of str): Text or corpus.
+        input_value (str or list of str): Text or corpus.
         n (int): Number.
 
     Returns:
@@ -22,25 +22,25 @@ def ngrams(input, n=1):
 
     """
     try:
-        data = word_tokenize(input)
+        data = word_tokenize(input_value)
     except TypeError:
         raise TypeError('Input type must be string or list of strings.')
 
-    ngrams = list()
+    n_grams = list()
     for i in range(len(data) - (n - 1)):
-        ngram = tuple([token for token in data[i : (i + n)]])
-        ngrams.append(ngram)
+        n_gram = tuple([token for token in data[i : (i + n)]])
+        n_grams.append(n_gram)
 
-    return ngrams
+    return n_grams
 
 
-def bigrams(input):
+def bigrams(input_value):
     """Bigrams function.
 
     Uses Ngrams with n = 2.
 
     Args:
-        input (str or list of str): Text or corpus.
+        input_value (str or list of str): Text or corpus.
 
     Returns:
         list of tuple: Bigrams.
@@ -52,16 +52,16 @@ def bigrams(input):
         [('Reason', 'is'), ('is', 'easy'), ('easy', 'to'), ('to', 'use')]
 
     """
-    return ngrams(input, 2)
+    return ngrams(input_value, 2)
 
 
-def trigrams(input):
+def trigrams(input_value):
     """Trigrams function.
 
     Uses Ngrams with n = 3.
 
     Args:
-        input (str or list of str): Text or corpus.
+        input_value (str or list of str): Text or corpus.
 
     Returns:
         list of tuple: Trigrams.
@@ -73,4 +73,4 @@ def trigrams(input):
         [('Reason', 'is', 'easy'), ('is', 'easy', 'to'), ('easy', 'to', 'use')]
 
     """
-    return ngrams(input, 3)
+    return ngrams(input_value, 3)

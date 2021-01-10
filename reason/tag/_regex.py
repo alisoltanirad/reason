@@ -36,8 +36,8 @@ class RegexTagger(BaseTagger):
         """
         super().__init__(backoff)
 
-        if patterns == None:
-            self.patterns = {r'.*': 'token',}
+        if patterns is None:
+            self.patterns = {r'.*': 'token', }
         else:
             try:
                 for pattern in patterns.keys():
@@ -51,7 +51,7 @@ class RegexTagger(BaseTagger):
 
     def _token_tag(self, token):
         for pattern, tag in self.patterns.items():
-            if re.findall(pattern, token) != []:
+            if re.findall(pattern, token):
                 return tag
 
         return None

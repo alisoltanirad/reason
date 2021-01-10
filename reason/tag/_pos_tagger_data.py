@@ -14,5 +14,6 @@ _freq_1000 = {"the": "AT", "of": "IN", "and": "CC", "to": "TO", "a": "AT", "in":
 def get_re_collection():
     return _re_collection
 
+
 def get_freq_1000():
     return _freq_1000

@@ -40,9 +40,8 @@ class POSTagger(BaseTagger):
         lookup_tagger = LookupTagger(lookup_data, backoff=regex_tagger)
         self._tagger = lookup_tagger
 
-
     def _token_tag(self, token):
-        if word_tokenize(token, 'alphanumeric') != []:
+        if word_tokenize(token, 'alphanumeric'):
             return self._tagger.tag(token)[0][1]
 
         return token

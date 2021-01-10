@@ -28,13 +28,13 @@ class SentTokenizer:
         x, y = self._get_dataset()
         self._classifier.fit(x, y)
 
-    def tokenize(self, corpus):
+    def tokenize(self, input_value):
         """Tokenize text method.
 
         Tokenize input text
 
         Args:
-            corpus (str or list of str): Text to tokenize.
+            input_value (str or list of str): Text to tokenize.
 
         Returns:
             list: Tokens.
@@ -43,7 +43,7 @@ class SentTokenizer:
             TypeError: If input is not string or a list of strings.
 
         """
-        words, sents, input_type = self._preprocess_tokenize_input(corpus)
+        words, sents, input_type = self._preprocess_tokenize_input(input_value)
         position, start = 0, 0
 
         for i, token in enumerate(words):
@@ -74,15 +74,15 @@ class SentTokenizer:
 
         return sents
 
-    def _preprocess_tokenize_input(self, corpus):
+    def _preprocess_tokenize_input(self, input_value):
         wt = WordTokenizer()
-        if type(corpus) == str:
-            words = wt.tokenize(corpus)
-            sents = [corpus]
+        if isinstance(input_value, str):
+            words = wt.tokenize(input_value)
+            sents = [input_value]
             input_type = 'str'
         else:
             try:
-                words = wt.tokenize(' '.join(corpus))
+                words = wt.tokenize(' '.join(input_value))
                 sents = list()
                 input_type = 'list'
             except TypeError:
@@ -122,20 +122,19 @@ class SentTokenizer:
                     (i in boundaries)
                 )
 
-
         return featuresets, labels
 
 
-def sent_tokenize(input):
+def sent_tokenize(input_value):
     """Tokenize text function.
 
         Easy-to-use sentence tokenize function.
 
         Args:
-            input (str or list of str): Text to tokenize.
+            input_value (str or list of str): Text to tokenize.
 
         Returns:
             list: Tokens.
 
         """
-    return SentTokenizer().tokenize(input)
+    return SentTokenizer().tokenize(input_value)

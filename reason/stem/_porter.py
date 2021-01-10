@@ -64,7 +64,6 @@ class _PorterAlgorithm:
             else:
                 self.word = self.word[:-1]
 
-
     def _step1b(self):
 
         if self.word.endswith('eed'):

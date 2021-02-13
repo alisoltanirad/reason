@@ -1,2 +1,4 @@
+reason
 pytest
-nltk
+pandas
+sklearn

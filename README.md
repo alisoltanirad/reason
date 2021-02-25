@@ -17,14 +17,14 @@ Install latest stable version using pip:
 pip install reason
 ```
 
-[**Quick-Start Guide**](https://python-reason.readthedocs.io/en/latest/#quick-start)
+[**Quick-Start Guide**](https://python-reason.readthedocs.io/en/latest/#quick-start){:target="_blank"}
 
 
 ## Dependencies
 
-- [NumPy](https://numpy.org)  
+- [NumPy](https://numpy.org){:target="_blank"}  
 Used to handle data
-- [Pandas](https://pandas.pydata.org)  
+- [Pandas](https://pandas.pydata.org){:target="_blank"}  
 Used in classify and cluster packages
 
 Keep in mind *NumPy* will be automatically installed with *Reason*.

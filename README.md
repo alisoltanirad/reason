@@ -10,32 +10,14 @@ Python easy-to-use natural language processing toolbox with powerful integrated
 machine learning packages.
 
 
-## Packages
-
-- **classify**  
-Naive bayes classifier
-- **cluster**  
-Kmeans++ and DBSCAN clusterer, elbow method
-- **metrics**  
-Confusion matrix, accuracy
-- **tag**  
-POS tagger, regex, lookup and default tagging tools
-- **tokenize**  
-Regex word and sentence tokenizer
-- **stem**  
-Porter and regex stemmer
-- **analysis**  
-Frequency distribution
-- **util**  
-Bigrams, trigrams and ngrams
-
-
-## Install
+## Install & Quick-Start
 
 Install latest stable version using pip:
 ```
 pip install reason
 ```
+
+[**Quick-Start Guide**](https://python-reason.readthedocs.io/en/latest/#quick-start)
 
 
 ## Dependencies

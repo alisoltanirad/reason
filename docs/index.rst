@@ -40,8 +40,8 @@ for details.
 Quick-Start
 ================================================================================
 
-Classification:
-
+Classification
++++++++++++++++
 
 >>> from reason.classify import NaiveBayesClassifier
 >>> classifier = NaiveBayesClassifier()
@@ -53,9 +53,9 @@ Classification:
 0.9358
 
 
-Clustering:
+Clustering
++++++++++++
 
-```python
 >>> from reason.cluster import KMeansClusterer
 >>> from reason.cluster import elbow_method
 >>> elbow_method(x, clusterer=KMeansClusterer, max_k=10)
@@ -68,12 +68,11 @@ Clustering:
 >>> from reason.cluster import DBSCAN
 >>> clusterer = DBSCAN()
 >>> labels = clusterer.fit(x, eps=0.21)
-```
 
 
-Confusion matrix:
+Confusion Matrix
++++++++++++++++++
 
-```python
 >>> from reason.metrics import ConfusionMatrix
 >>> cm = ConfusionMatrix(y_true, y_pred)
 
@@ -94,32 +93,29 @@ Confusion matrix:
 0.8055
 >>> bcm.f1_score()
 0.7944
-```
 
-Part-of-speech tagging:
+Part-of-Speech Tagging
++++++++++++++++++++++++
 
-```python
 >>> from reason.tag import POSTagger
 
 >>> text = "10 tools from the file"
 >>> tagger = POSTagger()
 >>> tagger.tag(text)
 [('10', 'CD'), ('tools', 'NNS'), ('from', 'IN'), ('the', 'AT'), ('file', 'NN')]
-```
 
-Word tokenization:
+Word Tokenization
+++++++++++++++++++
 
-```python
 >>> from reason.tokenize import word_tokenize
 
 >>> text = "Testing reason0.1.0, (on: 127.0.0.1). Cool stuff..."
 >>> word_tokenize(text, 'alphanumeric')
 ['Testing', 'reason0.1.0', 'on', '127.0.0.1', 'Cool', 'stuff']
-```
 
-Sentence tokenization:
+Sentence Tokenization
+++++++++++++++++++++++
 
-```python
 >>> from reason.tokenize import sent_tokenize
 
 >>> text = "Hey, what's up? I love using Reason library!"
@@ -128,11 +124,10 @@ Sentence tokenization:
 ...     print(sent)
 Hey, what's up?
 I love using Reason library!
-```
 
-Lemmatization:
+Lemmatization
+++++++++++++++
 
-```python
 >>> from reason.stem import PorterStemmer
 
 >>> text = "watched birds flying"
@@ -145,21 +140,19 @@ Lemmatization:
 >>> regex_pattern = r'^(.*?)(ous)?$'
 >>> regex_stem('dangerous', regex_pattern)
 danger
-```
 
-Preprocess text (tokenizing + stemming):
+Preprocess Text (Tokenizing + Stemming)
+++++++++++++++++++++++++++++++++++++++++
 
-```python
 >>> from reason import preprocess
 
 >>> text = "What's up? I love using Reason library!"
 >>> preprocess(text)
 [["what's", 'up', '?'], ['i', 'love', 'us', 'reason', 'librari', '!']]
-```
 
-Frequency distribution:
+Frequency Distribution
++++++++++++++++++++++++
 
-```python
 >>> from reason.analysis import FreqDist
 
 >>> words = ['hey', 'hey', 'oh', 'oh', 'oh', 'yeah']
@@ -172,11 +165,10 @@ Most-Common: [('oh', 3), ('hey', 2), ('yeah', 1)]
 [('oh', 3), ('hey', 2)]
 >>> fd['yeah']
 1
-```
 
-N-grams:
+N-Grams
+++++++++
 
-```python
 >>> sent = "Reason is easy to use"
 
 >>> from reason.util import bigrams
@@ -190,4 +182,3 @@ N-grams:
 >>> from reason.util import ngrams
 >>> ngrams(sent, 4)
 [('Reason', 'is', 'easy', 'to'), ('is', 'easy', 'to', 'use')]
-```

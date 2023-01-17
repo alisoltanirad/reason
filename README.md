@@ -20,16 +20,6 @@ pip install reason
 [**Quick-Start Guide**](https://python-reason.readthedocs.io/en/latest/#quick-start)
 
 
-## Dependencies
-
-- [NumPy](https://numpy.org)  
-Used to handle data
-- [Pandas](https://pandas.pydata.org)  
-Used in classify and cluster packages
-
-Keep in mind *NumPy* will be automatically installed with *Reason*.
-
-
 ## License
 
 MIT -- See [LICENSE](https://github.com/alisoltanirad/Reason/blob/main/LICENSE)

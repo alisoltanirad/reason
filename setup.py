@@ -35,6 +35,7 @@ setup(
     ],
     python_requires='>=3.7',
     install_requires=[
-        'numpy'
+        'numpy',
+        'pandas'
     ],
 )

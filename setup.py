@@ -10,7 +10,7 @@ setup(
     long_description=long_description,
     long_description_content_type='text/markdown',
     url='https://github.com/alisoltanirad/reason',
-    author='Ali Soltani Rad',
+    author='Ali Soltanirad',
     author_email='soltaniradali@gmail.com',
     license='MIT',
     packages=find_packages(),

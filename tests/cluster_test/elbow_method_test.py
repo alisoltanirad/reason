@@ -1,9 +1,8 @@
-import pytest
 import pandas as pd
+import pytest
 from sklearn.datasets import make_blobs
 
-from reason.cluster import KMeansClusterer
-from reason.cluster import elbow_method
+from reason.cluster import KMeansClusterer, elbow_method
 
 
 @pytest.fixture

@@ -1,7 +1,7 @@
 from nltk.corpus import treebank
 
-from reason.tag import POSTagger
 from reason.metrics import accuracy
+from reason.tag import POSTagger
 
 
 def _evaluate_pos_tagger():

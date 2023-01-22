@@ -1,6 +1,6 @@
 import pytest
 
-from reason.metrics import ConfusionMatrix, BinaryConfusionMatrix
+from reason.metrics import BinaryConfusionMatrix, ConfusionMatrix
 
 
 def test_bad_input():

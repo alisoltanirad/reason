@@ -1,6 +1,6 @@
 import pytest
 
-from reason.util import ngrams, bigrams, trigrams
+from reason.util import bigrams, ngrams, trigrams
 
 
 @pytest.fixture

@@ -1,9 +1,10 @@
 from reason.tokenize import word_tokenize
-from ._tagger import BaseTagger
+
 from ._default import DefaultTagger
-from ._regex import RegexTagger
 from ._lookup import LookupTagger
-from ._pos_tagger_data import get_re_collection, get_freq_1000
+from ._pos_tagger_data import get_freq_1000, get_re_collection
+from ._regex import RegexTagger
+from ._tagger import BaseTagger
 
 
 class POSTagger(BaseTagger):

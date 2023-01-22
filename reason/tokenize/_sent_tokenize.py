@@ -1,4 +1,5 @@
 from reason.classify import NaiveBayesClassifier
+
 from ._treebank import get_sents
 from ._word_tokenize import WordTokenizer
 

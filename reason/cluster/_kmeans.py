@@ -6,6 +6,7 @@ import pandas as pd
 
 from reason._mixins import progress_bar
 from reason.metrics import euclidean_distance as euclidean
+
 from ._clusterer import BaseClusterer
 
 

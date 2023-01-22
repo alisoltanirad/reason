@@ -2,6 +2,7 @@ import numpy as np
 import pandas as pd
 
 from reason.metrics import euclidean_distance as euclidean
+
 from ._clusterer import BaseClusterer
 
 

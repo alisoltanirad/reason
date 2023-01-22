@@ -1,5 +1,5 @@
-from .tokenize import sent_tokenize, word_tokenize
 from .stem import PorterStemmer
+from .tokenize import sent_tokenize, word_tokenize
 
 
 def preprocess(corpus):

@@ -25,6 +25,6 @@ def _split_tagged_words(tagged_words):
     return words, tags
 
 
-if __name__ == '__main__':
+if __name__ == "__main__":
     accuracy = _evaluate_pos_tagger()
-    print('Accuracy: {}%'.format(accuracy * 100))
+    print("Accuracy: {}%".format(accuracy * 100))

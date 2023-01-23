@@ -17,7 +17,7 @@ class DefaultTagger(BaseTagger):
 
     """
 
-    def __init__(self, tag='token', backoff=None):
+    def __init__(self, tag="token", backoff=None):
         """DefaultTagger constructor.
 
         Sets default tag value.
@@ -34,7 +34,7 @@ class DefaultTagger(BaseTagger):
         if isinstance(tag, str):
             self.default_tag = tag
         else:
-            raise TypeError('Default tag must be an string.')
+            raise TypeError("Default tag must be an string.")
 
     def _token_tag(self, token):
         return self.default_tag

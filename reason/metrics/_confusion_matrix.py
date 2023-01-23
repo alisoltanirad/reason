@@ -34,9 +34,7 @@ class ConfusionMatrix:
             self._y_true = list(y_true)
             self._y_pred = list(y_pred)
         except TypeError:
-            raise TypeError(
-                'Confusion matrix inputs must be array-like objects.'
-            )
+            raise TypeError("Confusion matrix inputs must be array-like objects.")
 
         self._labels = sorted(set(self._y_true + self._y_pred))
         self._n_y = len(self._y_true)
@@ -51,8 +49,7 @@ class ConfusionMatrix:
             self._matrix[self._y_pred[i]][self._y_true[i]] += 1
 
         self._array_matrix = [
-            [str(n) for n in self._matrix[key].values()]
-            for key in self._matrix.keys()
+            [str(n) for n in self._matrix[key].values()] for key in self._matrix.keys()
         ]
 
     def __str__(self):
@@ -64,10 +61,8 @@ class ConfusionMatrix:
             str: String presentation of the matrix.
 
         """
-        return '\n'.join(
-            ' '.join(
-                self._array_matrix[i]
-            ) for i in range(len(self._labels))
+        return "\n".join(
+            " ".join(self._array_matrix[i]) for i in range(len(self._labels))
         )
 
     def __getitem__(self, keys):
@@ -84,7 +79,7 @@ class ConfusionMatrix:
         correct = 0.0
         for label in self._labels:
             correct += self._matrix[label][label]
-        return float('{:.4f}'.format(correct / self._n_y))
+        return float("{:.4f}".format(correct / self._n_y))
 
 
 class BinaryConfusionMatrix(ConfusionMatrix):
@@ -127,7 +122,7 @@ class BinaryConfusionMatrix(ConfusionMatrix):
         """
         super().__init__(y_true, y_pred)
         if len(self._labels) != 2:
-            raise ValueError('Binary matrix should have only two labels.')
+            raise ValueError("Binary matrix should have only two labels.")
 
     def precision(self):
         """Precision method.
@@ -137,10 +132,12 @@ class BinaryConfusionMatrix(ConfusionMatrix):
 
         """
         false, true = self._labels[0], self._labels[1]
-        return float('{:.4f}'.format(
-            self._matrix[true][true] /
-            (self._matrix[true][true] + self._matrix[true][false])
-        ))
+        return float(
+            "{:.4f}".format(
+                self._matrix[true][true]
+                / (self._matrix[true][true] + self._matrix[true][false])
+            )
+        )
 
     def recall(self):
         """Recall method.
@@ -150,10 +147,12 @@ class BinaryConfusionMatrix(ConfusionMatrix):
 
         """
         false, true = self._labels[0], self._labels[1]
-        return float('{:.4f}'.format(
-                self._matrix[true][true] /
-                (self._matrix[true][true] + self._matrix[false][true])
-        ))
+        return float(
+            "{:.4f}".format(
+                self._matrix[true][true]
+                / (self._matrix[true][true] + self._matrix[false][true])
+            )
+        )
 
     def f1_score(self):
         """F1 score method.
@@ -163,6 +162,4 @@ class BinaryConfusionMatrix(ConfusionMatrix):
 
         """
         precision, recall = self.precision(), self.recall()
-        return float('{:.4f}'.format(
-            2 * precision * recall / (precision + recall)
-        ))
+        return float("{:.4f}".format(2 * precision * recall / (precision + recall)))

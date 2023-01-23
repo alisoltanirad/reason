@@ -49,10 +49,11 @@ class SentTokenizer:
 
         for i, token in enumerate(words):
             try:
-                if token in '.?!' and self._classifier.predict(
-                    self._punc_features(words, i)
-                ) == True:
-                    if input_type == 'str':
+                if (
+                    token in ".?!"
+                    and self._classifier.predict(self._punc_features(words, i)) == True
+                ):
+                    if input_type == "str":
                         text = sents.pop(-1)
                         sent, rest = text[: position + 1], text[position + 1 :]
                         sents.append(sent.strip())
@@ -62,15 +63,15 @@ class SentTokenizer:
                         sents.append(words[start : i + 1])
                         start = i + 1
 
-                if input_type == 'str':
+                if input_type == "str":
                     position += len(token)
-                    if sents[-1][position] == ' ':
+                    if sents[-1][position] == " ":
                         position += 1
 
             except IndexError:
                 break
 
-        if input_type == 'list' and start < len(words):
+        if input_type == "list" and start < len(words):
             sents.append(words[start:])
 
         return sents
@@ -80,25 +81,23 @@ class SentTokenizer:
         if isinstance(input_value, str):
             words = wt.tokenize(input_value)
             sents = [input_value]
-            input_type = 'str'
+            input_type = "str"
         else:
             try:
-                words = wt.tokenize(' '.join(input_value))
+                words = wt.tokenize(" ".join(input_value))
                 sents = list()
-                input_type = 'list'
+                input_type = "list"
             except TypeError:
-                raise TypeError(
-                    'Tokenize input must be string or a list of strings.'
-                )
+                raise TypeError("Tokenize input must be string or a list of strings.")
 
         return words, sents, input_type
 
     def _punc_features(self, tokens, i):
         return {
-            'next_word_capitalized': tokens[i + 1][0].isupper(),
-            'punctuation': tokens[i],
-            'prev_word': tokens[i - 1].lower(),
-            'prev_word_is_one_char': len(tokens[i - 1]) == 1,
+            "next_word_capitalized": tokens[i + 1][0].isupper(),
+            "punctuation": tokens[i],
+            "prev_word": tokens[i - 1].lower(),
+            "prev_word_is_one_char": len(tokens[i - 1]) == 1,
         }
 
     def _get_dataset(self):
@@ -115,13 +114,9 @@ class SentTokenizer:
         featuresets, labels = list(), list()
 
         for i in range(1, len(tokens) - 1):
-            if tokens[i] in '.?!':
-                featuresets.append(
-                    self._punc_features(tokens, i)
-                )
-                labels.append(
-                    (i in boundaries)
-                )
+            if tokens[i] in ".?!":
+                featuresets.append(self._punc_features(tokens, i))
+                labels.append((i in boundaries))
 
         return featuresets, labels
 
@@ -129,13 +124,13 @@ class SentTokenizer:
 def sent_tokenize(input_value):
     """Tokenize text function.
 
-        Easy-to-use sentence tokenize function.
+    Easy-to-use sentence tokenize function.
 
-        Args:
-            input_value (str or list of str): Text to tokenize.
+    Args:
+        input_value (str or list of str): Text to tokenize.
 
-        Returns:
-            list: Tokens.
+    Returns:
+        list: Tokens.
 
-        """
+    """
     return SentTokenizer().tokenize(input_value)

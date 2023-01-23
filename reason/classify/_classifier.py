@@ -9,6 +9,7 @@ class BaseClassifier(MachineLearningModel):
     Base class for classifiers.
 
     """
+
     def __init__(self):
         super().__init__()
         self._x = None
@@ -51,16 +52,15 @@ class BaseClassifier(MachineLearningModel):
             self._x = self._featuresets_to_dataframe(x)
         else:
             raise TypeError(
-                'X must be pandas.DataFrame object '
-                'or supported featuresets format.'
+                "X must be pandas.DataFrame object " "or supported featuresets format."
             )
 
     def _set_y(self, y):
         try:
             self._y = pd.Series(y)
         except (TypeError, ValueError):
-            raise TypeError('Y must be array-like object.')
+            raise TypeError("Y must be array-like object.")
 
     def _set_data(self):
         self._dataset = self._x.copy()
-        self._dataset['label'] = self._y
+        self._dataset["label"] = self._y

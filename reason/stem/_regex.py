@@ -33,20 +33,19 @@ class RegexStemmer(BaseStemmer):
 
         """
         if pattern == None:
-            self.pattern = r'^(.*?)(ing|ly|ed|ious|ies|ive|es|s|ment|ful)?$'
+            self.pattern = r"^(.*?)(ing|ly|ed|ious|ies|ive|es|s|ment|ful)?$"
         else:
             try:
                 re.compile(pattern)
                 self.pattern = pattern
             except TypeError:
-                raise TypeError(
-                    'Pattern must be string or compiled regex pattern.'
-                )
+                raise TypeError("Pattern must be string or compiled regex pattern.")
 
     def _word_stem(self, word):
-        assert isinstance(word, str), 'Token must be string.'
+        assert isinstance(word, str), "Token must be string."
         stem, suffix = re.findall(self.pattern, word)[0]
         return stem
+
 
 def regex_stem(word, pattern=None):
     """Regex stem function.
@@ -65,6 +64,6 @@ def regex_stem(word, pattern=None):
 
     """
     if not isinstance(word, str):
-        raise TypeError('Input word must be string.')
-    token = word.split(' ')[0]
+        raise TypeError("Input word must be string.")
+    token = word.split(" ")[0]
     return RegexStemmer(pattern).stem(token)[0]

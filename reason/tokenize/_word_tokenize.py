@@ -1,36 +1,36 @@
 import re
 
 re_collection = {
-    'etc': r"[\.]{3}",
-    'ideogram': r"[:;][\)\(\*\|o0]+|[\)\(\*\|o0][:;]+|[-@$\^\*]_[-@$\^\*]",
-    'abbr': r"(?:[A-Z]\.)+",
-    'decimal': r"\$?\d+(?:,\d+)*(?:\.\d+)*%?",
-    'word': r"\w+(?:['\.]\w+)*",
-    'other': r"[^\w\s]",
+    "etc": r"[\.]{3}",
+    "ideogram": r"[:;][\)\(\*\|o0]+|[\)\(\*\|o0][:;]+|[-@$\^\*]_[-@$\^\*]",
+    "abbr": r"(?:[A-Z]\.)+",
+    "decimal": r"\$?\d+(?:,\d+)*(?:\.\d+)*%?",
+    "word": r"\w+(?:['\.]\w+)*",
+    "other": r"[^\w\s]",
 }
 
 re_micro_collection = {
-    'alpha': r"[A-Za-z]+(?:'[A-Za-z]+)?",
-    'numeric': r"\d+(?:,\d+)*(?:\.\d+)*",
+    "alpha": r"[A-Za-z]+(?:'[A-Za-z]+)?",
+    "numeric": r"\d+(?:,\d+)*(?:\.\d+)*",
 }
 
 re_pure_collection = {
-    'alpha': r"[A-Za-z]+",
-    'numeric': r"\d+",
+    "alpha": r"[A-Za-z]+",
+    "numeric": r"\d+",
 }
 
 regex_patterns = {
-    'default': '|'.join([re for re in re_collection.values()]),
-    'word': re_collection['word'],
-    'ideogram': re_collection['ideogram'],
-    'alphanumeric': re_collection['word'],
-    'alpha': re_micro_collection['alpha'],
-    'alpha-pure': re_pure_collection['alpha'],
-    'numeric': re_micro_collection['numeric'],
-    'numeric-pure': re_pure_collection['numeric'],
-    'non-alphanumeric': '|'.join([
-        re_collection['etc'], re_collection['ideogram'], re_collection['other']
-    ]),
+    "default": "|".join([re for re in re_collection.values()]),
+    "word": re_collection["word"],
+    "ideogram": re_collection["ideogram"],
+    "alphanumeric": re_collection["word"],
+    "alpha": re_micro_collection["alpha"],
+    "alpha-pure": re_pure_collection["alpha"],
+    "numeric": re_micro_collection["numeric"],
+    "numeric-pure": re_pure_collection["numeric"],
+    "non-alphanumeric": "|".join(
+        [re_collection["etc"], re_collection["ideogram"], re_collection["other"]]
+    ),
 }
 
 
@@ -67,7 +67,7 @@ class WordTokenizer:
 
         """
         if pattern is None:
-            self.pattern = regex_patterns['default']
+            self.pattern = regex_patterns["default"]
         elif pattern in regex_patterns.keys():
             self.pattern = regex_patterns[pattern]
         else:
@@ -75,9 +75,7 @@ class WordTokenizer:
                 re.compile(pattern)
                 self.pattern = pattern
             except TypeError:
-                raise TypeError(
-                    'Pattern must be string or compiled regex pattern.'
-                )
+                raise TypeError("Pattern must be string or compiled regex pattern.")
 
     def tokenize(self, input_value):
         """Tokenize text method.
@@ -98,16 +96,14 @@ class WordTokenizer:
             text = input_value
         else:
             try:
-                text = ' '.join(input_value)
+                text = " ".join(input_value)
             except TypeError:
-                raise TypeError(
-                    'Tokenize input must be string or a list of strings.'
-                )
+                raise TypeError("Tokenize input must be string or a list of strings.")
 
         return re.findall(self.pattern, text)
 
 
-def word_tokenize(input_value, pattern='default'):
+def word_tokenize(input_value, pattern="default"):
     """Tokenize text function.
 
     Easy-to-use word tokenize function.

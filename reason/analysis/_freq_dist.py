@@ -22,6 +22,7 @@ class FreqDist:
         1
 
     """
+
     def __init__(self, data):
         """FreqDist Constructor
 
@@ -40,15 +41,12 @@ class FreqDist:
             else:
                 items = word_tokenize(data)
         except TypeError:
-            raise TypeError(
-                'FreqDist input must be string or list of string or tuple.'
-            )
+            raise TypeError("FreqDist input must be string or list of string or tuple.")
 
         self._counter = Counter(items)
 
     def __repr__(self):
-        return 'Frequency Distribution\n' + 'Most-Common: ' + \
-            str(self.most_common(10))
+        return "Frequency Distribution\n" + "Most-Common: " + str(self.most_common(10))
 
     def __getitem__(self, key):
         return self._counter[key]
@@ -68,9 +66,7 @@ class FreqDist:
             list of tuple: Tokens + frequencies
 
         """
-        return [
-            (key, value) for key, value in self._counter.items()
-        ]
+        return [(key, value) for key, value in self._counter.items()]
 
     def most_common(self, n=1):
         """Most common method
@@ -91,7 +87,7 @@ class FreqDist:
         if isinstance(n, int):
             return self._counter.most_common(n)
         else:
-            raise TypeError('N must be an integer.')
+            raise TypeError("N must be an integer.")
 
     def copy(self):
         """FreqDist Copy

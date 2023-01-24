@@ -11,6 +11,6 @@ API:
 
 """
 
-from ._naivebayes import NaiveBayesClassifier
-from ._knn import KNNClassifier
 from ._decisiontree import DecisionTreeClassifier
+from ._knn import KNNClassifier
+from ._naivebayes import NaiveBayesClassifier

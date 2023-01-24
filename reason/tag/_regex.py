@@ -37,7 +37,9 @@ class RegexTagger(BaseTagger):
         super().__init__(backoff)
 
         if patterns is None:
-            self.patterns = {r'.*': 'token', }
+            self.patterns = {
+                r".*": "token",
+            }
         else:
             try:
                 for pattern in patterns.keys():
@@ -45,8 +47,8 @@ class RegexTagger(BaseTagger):
                 self.patterns = patterns
             except (AttributeError, TypeError):
                 raise TypeError(
-                    'Patterns must be dictionary containing string or compiled '
-                    'regex pattern as keys and strings as values.'
+                    "Patterns must be dictionary containing string or compiled "
+                    "regex pattern as keys and strings as values."
                 )
 
     def _token_tag(self, token):

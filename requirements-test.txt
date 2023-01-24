@@ -1,4 +1,3 @@
 reason
 pytest
-pandas
-sklearn
+nltk

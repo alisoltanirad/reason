@@ -21,4 +21,4 @@ def accuracy(y_true, y_pred):
     for i in range(length):
         if y_true[i] == y_pred[i]:
             correct += 1
-    return float('{:.4f}'.format(correct / length))
+    return float("{:.4f}".format(correct / length))

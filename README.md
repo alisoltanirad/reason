@@ -22,5 +22,4 @@ pip install reason
 
 ## License
 
-MIT -- See [LICENSE](https://github.com/alisoltanirad/Reason/blob/main/LICENSE)
-for details.
+MIT -- See [LICENSE](https://github.com/alisoltanirad/Reason/blob/main/LICENSE) for details.

@@ -11,4 +11,4 @@ API:
 
 """
 
-from ._ngrams import ngrams, bigrams, trigrams
+from ._ngrams import bigrams, ngrams, trigrams

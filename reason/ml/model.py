@@ -2,7 +2,6 @@ import pandas as pd
 
 
 class MachineLearningModel:
-
     def __init__(self):
         self._labels = None
         self._features = None
@@ -32,7 +31,7 @@ class MachineLearningModel:
         elif self._is_featuresets_format(data):
             x = self._featuresets_to_dataframe(data)
         else:
-            raise TypeError('Input data type is not supported.')
+            raise TypeError("Input data type is not supported.")
 
         labels = list()
         for i in range(len(x)):
@@ -61,9 +60,8 @@ class MachineLearningModel:
         raise NotImplementedError
 
     def _is_featuresets_format(self, input_data):
-        if (
-            not isinstance(input_data, list) or
-            not all(isinstance(item, dict) for item in input_data)
+        if not isinstance(input_data, list) or not all(
+            isinstance(item, dict) for item in input_data
         ):
             return False
 

@@ -14,8 +14,6 @@ API:
 
 """
 
-from ._confusion_matrix import ConfusionMatrix, BinaryConfusionMatrix
 from ._accuracy import accuracy
-from ._distance import (
-    euclidean_distance, manhattan_distance, hamming_distance
-)
+from ._confusion_matrix import BinaryConfusionMatrix, ConfusionMatrix
+from ._distance import euclidean_distance, hamming_distance, manhattan_distance

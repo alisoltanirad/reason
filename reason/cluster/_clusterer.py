@@ -9,6 +9,7 @@ class BaseClusterer(MachineLearningModel):
     Base class for clusterers.
 
     """
+
     def __init__(self):
         super().__init__()
         self._dataset = None
@@ -35,7 +36,7 @@ class BaseClusterer(MachineLearningModel):
         try:
             return list(self._clusters.values())
         except AttributeError:
-            raise AttributeError('Fit your data using fit method.')
+            raise AttributeError("Fit your data using fit method.")
 
     def get_features(self):
         """Get features method.
@@ -56,14 +57,12 @@ class BaseClusterer(MachineLearningModel):
             self._data = self._featuresets_to_dataframe(data)
         else:
             raise TypeError(
-                'Data must be pandas DataFrame object '
-                'or supported featuresets format.'
+                "Data must be pandas DataFrame object "
+                "or supported featuresets format."
             )
 
     def _set_distance(self, distance):
         if callable(distance):
             self._distance = distance
         else:
-            raise TypeError(
-                'Distance must be a function.'
-            )
+            raise TypeError("Distance must be a function.")

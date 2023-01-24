@@ -24,7 +24,7 @@ def ngrams(input_value, n=1):
     try:
         data = word_tokenize(input_value)
     except TypeError:
-        raise TypeError('Input type must be string or list of strings.')
+        raise TypeError("Input type must be string or list of strings.")
 
     n_grams = list()
     for i in range(len(data) - (n - 1)):

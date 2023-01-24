@@ -1,5 +1,5 @@
-from .tokenize import sent_tokenize, word_tokenize
 from .stem import PorterStemmer
+from .tokenize import sent_tokenize, word_tokenize
 
 
 def preprocess(corpus):
@@ -27,9 +27,7 @@ def preprocess(corpus):
     try:
         sents = sent_tokenize(corpus)
     except TypeError:
-        raise TypeError(
-            'Preprocess input must be string or a list of strings.'
-        )
+        raise TypeError("Preprocess input must be string or a list of strings.")
 
     stemmer = PorterStemmer()
     output = list()

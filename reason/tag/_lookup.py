@@ -31,7 +31,7 @@ class LookupTagger(BaseTagger):
         if isinstance(data, dict):
             self._lookup = data
         else:
-            raise TypeError('Lookup data must be python dictionary.')
+            raise TypeError("Lookup data must be python dictionary.")
 
     def _token_tag(self, token):
         if token in self._lookup.keys():

@@ -6,7 +6,7 @@ from reason.metrics import accuracy
 
 def classifier_accuracy_test():
     return {
-        'Naive-Bayes': _evaluate_classifier(NaiveBayesClassifier),
+        "Naive-Bayes": _evaluate_classifier(NaiveBayesClassifier),
     }
 
 
@@ -32,13 +32,9 @@ def _get_data():
     featuresets, labels = list(), list()
 
     for i in range(1, len(tokens) - 1):
-        if tokens[i] in '.?!':
-            featuresets.append(
-                _punc_features(tokens, i)
-            )
-            labels.append(
-                (i in boundaries)
-            )
+        if tokens[i] in ".?!":
+            featuresets.append(_punc_features(tokens, i))
+            labels.append((i in boundaries))
 
     test_size = int(len(labels) * 0.1)
     x_train, x_test = featuresets[test_size:], featuresets[:test_size]
@@ -49,14 +45,14 @@ def _get_data():
 
 def _punc_features(tokens, i):
     return {
-        'next_word_capitalized': tokens[i+1][0].isupper(),
-        'punctuation': tokens[i],
-        'prev_word': tokens[i - 1].lower(),
-        'prev_word_is_one_char': len(tokens[i-1]) == 1,
+        "next_word_capitalized": tokens[i + 1][0].isupper(),
+        "punctuation": tokens[i],
+        "prev_word": tokens[i - 1].lower(),
+        "prev_word_is_one_char": len(tokens[i - 1]) == 1,
     }
 
 
-if __name__ == '__main__':
+if __name__ == "__main__":
     data = classifier_accuracy_test()
     for key, value in data.items():
-        print('{name}: {accuracy}%'.format(name=key, accuracy=value*100))
+        print("{name}: {accuracy}%".format(name=key, accuracy=value * 100))

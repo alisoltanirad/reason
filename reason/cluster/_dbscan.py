@@ -2,6 +2,7 @@ import numpy as np
 import pandas as pd
 
 from reason.metrics import euclidean_distance as euclidean
+
 from ._clusterer import BaseClusterer
 
 
@@ -21,9 +22,7 @@ class _DistanceMatrix:
         matrix = np.zeros((self._n, self._n))
         for i in range(self._n):
             for j in range(self._n):
-                matrix[i][j] = self._distance(
-                    self._data.loc[i], self._data.loc[j]
-                )
+                matrix[i][j] = self._distance(self._data.loc[i], self._data.loc[j])
 
         return matrix
 
@@ -39,6 +38,7 @@ class DBSCAN(BaseClusterer):
         >>> labels = clusterer.fit(x, eps=0.21)
 
     """
+
     def __init__(self):
         super().__init__()
         self._eps = None
@@ -115,14 +115,14 @@ class DBSCAN(BaseClusterer):
         if isinstance(min_pts, int) and min_pts > 0:
             self._min_pts = min_pts
         else:
-            raise ValueError('min_pts must be positive integer.')
+            raise ValueError("min_pts must be positive integer.")
 
     def _set_eps(self, eps):
         try:
             self._eps = float(eps)
             assert self._eps > 0
         except (ValueError, AssertionError):
-            raise ValueError('min_pts must be positive float number.')
+            raise ValueError("min_pts must be positive float number.")
 
     def _init_dist_matrix(self):
         self._dist_matrix = _DistanceMatrix(self._data, self._distance, self._eps)

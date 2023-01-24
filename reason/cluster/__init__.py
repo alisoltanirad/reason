@@ -11,6 +11,6 @@ API:
 
 """
 
-from ._kmeans import KMeansClusterer
 from ._dbscan import DBSCAN
 from ._elbow_method import elbow_method
+from ._kmeans import KMeansClusterer

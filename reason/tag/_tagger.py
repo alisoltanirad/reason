@@ -7,6 +7,7 @@ class BaseTagger:
     Base class for taggers.
 
     """
+
     def __init__(self, backoff=None):
         if backoff is None:
             self.taggers = [self]
@@ -32,26 +33,23 @@ class BaseTagger:
         if isinstance(corpus, str):
             tokens = word_tokenize(corpus)
         else:
-            if (
-                isinstance(corpus, list) and
-                all(isinstance(token, str) for token in corpus)
+            if isinstance(corpus, list) and all(
+                isinstance(token, str) for token in corpus
             ):
                 tokens = corpus
             else:
                 raise TypeError(
-                    'Tagger input must be string or a list of string tokens.'
+                    "Tagger input must be string or a list of string tokens."
                 )
         token_tags = list()
         for token in tokens:
-            tag = ''
+            tag = ""
             for tagger in self.taggers:
                 token_tag = tagger._token_tag(token)
                 if token_tag is not None:
                     tag = token_tag
                     break
-            token_tags.append(
-                (token, tag)
-            )
+            token_tags.append((token, tag))
 
         return token_tags
 

@@ -6,6 +6,7 @@ import pandas as pd
 
 from reason._mixins import progress_bar
 from reason.metrics import euclidean_distance as euclidean
+
 from ._clusterer import BaseClusterer
 
 
@@ -21,6 +22,7 @@ class KMeansClusterer(BaseClusterer):
         >>> pred = clusterer.predict(new_data)
 
     """
+
     def __init__(self):
         super().__init__()
         self._centroids = None
@@ -73,13 +75,11 @@ class KMeansClusterer(BaseClusterer):
 
             if (abs(self._centroids - old_centroids) < self._tolerance).all().all():
                 if verbose == 1:
-                    progress_bar(
-                        self._max_iter, self._max_iter, prefix='Progress'
-                    )
+                    progress_bar(self._max_iter, self._max_iter, prefix="Progress")
                 break
 
             if verbose == 1:
-                progress_bar(itr + 1, self._max_iter, prefix='Progress')
+                progress_bar(itr + 1, self._max_iter, prefix="Progress")
 
             itr += 1
 
@@ -122,9 +122,7 @@ class KMeansClusterer(BaseClusterer):
                 for j in range(self._k)
             ]
             cluster = distances.index(min(distances))
-            self._clusters[cluster] = self._clusters[cluster].append(
-                self._data.loc[i]
-            )
+            self._clusters[cluster] = self._clusters[cluster].append(self._data.loc[i])
 
     def _init_centroids(self, k):
         self._centroids = pd.DataFrame(columns=self._data.columns)
@@ -158,7 +156,7 @@ class KMeansClusterer(BaseClusterer):
         if isinstance(k, int) and k > 0:
             self._k = k
         else:
-            raise ValueError('K must be positive integer.')
+            raise ValueError("K must be positive integer.")
 
     def _set_max_iter(self, max_iter):
         if isinstance(max_iter, int) and max_iter > 0:
@@ -167,16 +165,11 @@ class KMeansClusterer(BaseClusterer):
             raise ValueError("max_iter must be positive integer.")
 
     def _set_tolerance(self):
-        self._tolerance = (
-            (np.max(abs(self._data)) - np.min(abs(self._data))) / 144
-        )
+        self._tolerance = (np.max(abs(self._data)) - np.min(abs(self._data))) / 144
 
     def _predict_data(self, x):
-        assert isinstance(x, pd.Series), 'X data type must be pandas.Series'
+        assert isinstance(x, pd.Series), "X data type must be pandas.Series"
         if self._centroids is None:
-            raise AttributeError('Fit your data using fit method.')
-        distances = [
-            self._distance(x, self._centroids.loc[i])
-            for i in range(self._k)
-        ]
+            raise AttributeError("Fit your data using fit method.")
+        distances = [self._distance(x, self._centroids.loc[i]) for i in range(self._k)]
         return distances.index(min(distances))

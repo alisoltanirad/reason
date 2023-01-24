@@ -1,9 +1,8 @@
-import pytest
 import pandas as pd
+import pytest
 from sklearn.datasets import make_blobs
 
-from reason.cluster import KMeansClusterer
-from reason.cluster import elbow_method
+from reason.cluster import KMeansClusterer, elbow_method
 
 
 @pytest.fixture
@@ -15,8 +14,10 @@ def df():
 def test_elbow_method(df):
     assert elbow_method(df, KMeansClusterer, 10) == 5
 
+
 def test_k_1(df):
     assert elbow_method(df, KMeansClusterer, 1) == 1
+
 
 def test_k_max(df):
     assert elbow_method(df, KMeansClusterer, 2) == 2

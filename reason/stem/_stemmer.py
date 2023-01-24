@@ -26,9 +26,7 @@ class BaseStemmer:
         try:
             tokens = word_tokenize(corpus)
         except TypeError:
-            raise TypeError(
-                'Stemmer input must be string or a list of strings.'
-            )
+            raise TypeError("Stemmer input must be string or a list of strings.")
         stems = list()
         for token in tokens:
             if token.isalpha():

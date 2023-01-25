@@ -11,8 +11,9 @@ class DecisionTreeClassifier(BaseClassifier):
     """
 
     def __init__(self):
-        super().__init__()
-        pass
+        raise NotImplementedError(
+            "Decision tree classifier will be implemented in future versions."
+        )
 
     def _train_classifier(self):
         pass

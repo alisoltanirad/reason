@@ -13,8 +13,9 @@ class KNNClassifier(BaseClassifier):
     """
 
     def __init__(self):
-        super().__init__()
-        pass
+        raise NotImplementedError(
+            "KNN classifier will be implemented in future versions."
+        )
 
     def _train_classifier(self):
         pass

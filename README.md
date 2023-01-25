@@ -12,13 +12,9 @@ machine learning packages.
 
 ## Install & Quick-Start
 
-### Install requirements
+### Requirements
 
-Requirements for **Reason** are listed in `requirements.txt` file,
-to install the packages, from the project's root directory, run:
-```
-pip install --upgrade -r requirements.txt
-```
+Requirements for **Reason** are listed in `requirements.txt` file.
 
 ### Install Reason
 

@@ -12,12 +12,24 @@ machine learning packages.
 
 ## Install & Quick-Start
 
+### Install requirements
+
+Requirements for **Reason** are listed in `requirements.txt` file,
+to install the packages, from the project's root directory, run:
+```
+pip install --upgrade -r requirements.txt
+```
+
+### Install Reason
+
 Install latest stable version using pip:
 ```
 pip install reason
 ```
 
-[**Quick-Start Guide**](https://python-reason.readthedocs.io/en/latest/#quick-start)
+### Quick-Start
+
+See [**Quick-Start Guide**](https://python-reason.readthedocs.io/en/latest/#quick-start)
 
 
 ## License

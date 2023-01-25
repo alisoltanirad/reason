@@ -6,7 +6,7 @@
 [![Lines of Code](https://sonarcloud.io/api/project_badges/measure?project=alisoltanirad_reason&metric=ncloc)](https://sonarcloud.io/dashboard?id=alisoltanirad_reason)
 [![Activity](https://img.shields.io/github/last-commit/alisoltanirad/reason)](https://github.com/alisoltanirad/Reason/)
 
-Python easy-to-use natural language processing toolbox with powerful integrated
+Python lightweight easy-to-use natural language processing toolbox with powerful integrated
 machine learning packages.
 
 

@@ -73,7 +73,7 @@ class _PorterAlgorithm:
         elif (self.word.endswith("ed") and self._contains_vowel(self.word[:-2])) or (
             self.word.endswith("ing") and self._contains_vowel(self.word[:-3])
         ):
-            self.word = re.sub("ed|ing$", "", self.word)
+            self.word = re.sub("(ed|ing)$", "", self.word)
 
             if self.word[-2:] in ["at", "bl", "iz"]:
                 self.word += "e"

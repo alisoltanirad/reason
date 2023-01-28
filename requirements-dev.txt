@@ -1,6 +1,7 @@
+black
 ipdb
 isort
+nltk
+nox
 twine
 wheel
-black
-nox

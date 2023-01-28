@@ -1,7 +1,6 @@
 import pytest
 
-from reason.metrics import (euclidean_distance, hamming_distance,
-                            manhattan_distance)
+from reason.metrics import euclidean_distance, hamming_distance, manhattan_distance
 
 
 @pytest.fixture

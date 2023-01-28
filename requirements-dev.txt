@@ -2,4 +2,5 @@ ipdb
 isort
 twine
 wheel
--e git+https://github.com/psf/black#egg=black
+black
+nox

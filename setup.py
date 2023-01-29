@@ -42,5 +42,5 @@ setup(
         "Topic :: Text Processing :: Linguistic",
     ],
     python_requires=">=3.7",
-    install_requires=["numpy", "pandas", "scikit-learn"],
+    install_requires=["numpy==1.24.1", "pandas==1.5.3", "scikit-learn==1.2.1"],
 )

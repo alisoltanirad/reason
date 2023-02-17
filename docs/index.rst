@@ -28,53 +28,6 @@ for details.
 Quick-Start
 ================================================================================
 
-Classification
-+++++++++++++++
-
->>> from reason.classify import NaiveBayesClassifier
->>> classifier = NaiveBayesClassifier()
->>> classifier.fit(x, y)
->>> y_pred = classifier.predict(new_data)
->>> from reason.metrics import accuracy
->>> accuracy(y_true, y_pred)
-0.9358
-
-
-Clustering
-+++++++++++
-
->>> from reason.cluster import KMeansClusterer
->>> from reason.cluster import elbow_method
->>> elbow_method(x, clusterer=KMeansClusterer, max_k=10)
-5
->>> clusterer = KMeansClusterer()
->>> labels = clusterer.fit(x, k=5)
->>> pred = clusterer.predict(new_data)
->>> from reason.cluster import DBSCAN
->>> clusterer = DBSCAN()
->>> labels = clusterer.fit(x, eps=0.21)
-
-
-Confusion Matrix
-+++++++++++++++++
-
->>> from reason.metrics import ConfusionMatrix
->>> cm = ConfusionMatrix(y_true, y_pred)
->>> cm
-68 21 13
-16 70 11
-14 10 77
->>> cm[actual, predicted]
-16
->>> from reason.metrics import BinaryConfusionMatrix
->>> bcm = BinaryConfusionMatrix(b_y_true, b_y_pred)
->>> bcm.precision()
-0.7837
->>> bcm.recall()
-0.8055
->>> bcm.f1_score()
-0.7944
-
 Part-of-Speech Tagging
 +++++++++++++++++++++++
 
@@ -151,3 +104,51 @@ N-Grams
 >>> from reason.util import ngrams
 >>> ngrams(sent, 4)
 [('Reason', 'is', 'easy', 'to'), ('is', 'easy', 'to', 'use')]
+
+
+Classification
++++++++++++++++
+
+>>> from reason.classify import NaiveBayesClassifier
+>>> classifier = NaiveBayesClassifier()
+>>> classifier.fit(x, y)
+>>> y_pred = classifier.predict(new_data)
+>>> from reason.metrics import accuracy
+>>> accuracy(y_true, y_pred)
+0.9358
+
+
+Clustering
++++++++++++
+
+>>> from reason.cluster import KMeansClusterer
+>>> from reason.cluster import elbow_method
+>>> elbow_method(x, clusterer=KMeansClusterer, max_k=10)
+5
+>>> clusterer = KMeansClusterer()
+>>> labels = clusterer.fit(x, k=5)
+>>> pred = clusterer.predict(new_data)
+>>> from reason.cluster import DBSCAN
+>>> clusterer = DBSCAN()
+>>> labels = clusterer.fit(x, eps=0.21)
+
+
+Confusion Matrix
++++++++++++++++++
+
+>>> from reason.metrics import ConfusionMatrix
+>>> cm = ConfusionMatrix(y_true, y_pred)
+>>> cm
+68 21 13
+16 70 11
+14 10 77
+>>> cm[actual, predicted]
+16
+>>> from reason.metrics import BinaryConfusionMatrix
+>>> bcm = BinaryConfusionMatrix(b_y_true, b_y_pred)
+>>> bcm.precision()
+0.7837
+>>> bcm.recall()
+0.8055
+>>> bcm.f1_score()
+0.7944

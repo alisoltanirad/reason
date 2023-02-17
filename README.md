@@ -20,7 +20,7 @@ Requirements for **Reason** are listed in `requirements.txt` file.
 
 Install latest stable version using pip:
 ```
-pip install reason
+pip install --upgrade reason
 ```
 
 ### Quick-Start

@@ -13,7 +13,7 @@ Install latest stable version using pip:
 
 .. code-block:: bash
 
-    $ pip install reason
+    $ pip install --upgrade reason
 
 
 License

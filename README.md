@@ -31,3 +31,7 @@ See [**Quick-Start Guide**](https://python-reason.readthedocs.io/en/latest/#quic
 ## License
 
 MIT -- See [LICENSE](https://github.com/alisoltanirad/Reason/blob/main/LICENSE) for details.
+
+## Report issues
+
+Please contact soltaniradali@gmail.com to report issues with the package.

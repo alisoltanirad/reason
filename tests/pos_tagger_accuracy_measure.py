@@ -19,7 +19,7 @@ def _get_data():
 
 def _split_tagged_words(tagged_words):
     words, tags = list(), list()
-    for (word, tag) in tagged_words:
+    for word, tag in tagged_words:
         words.append(word)
         tags.append(tag)
     return words, tags

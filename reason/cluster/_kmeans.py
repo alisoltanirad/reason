@@ -66,7 +66,6 @@ class KMeansClusterer(BaseClusterer):
         itr = 0
 
         while itr < self._max_iter:
-
             self._init_clusters()
             self._set_clusters()
 

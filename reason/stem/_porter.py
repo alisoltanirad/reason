@@ -30,7 +30,6 @@ class _PorterAlgorithm:
         self.word = word
 
     def stem(self, step=None):
-
         self._step1a()
         self._step1b()
         self._step1c()
@@ -55,7 +54,6 @@ class _PorterAlgorithm:
         return self.word
 
     def _step1a(self):
-
         if self.word.endswith("s"):
             if self.word.endswith("ss"):
                 return
@@ -65,7 +63,6 @@ class _PorterAlgorithm:
                 self.word = self.word[:-1]
 
     def _step1b(self):
-
         if self.word.endswith("eed"):
             if self._measure(self.word[:-3]) > 0:
                 self.word = self.word[:-1]
@@ -89,14 +86,11 @@ class _PorterAlgorithm:
                 self.word += "e"
 
     def _step1c(self):
-
         if self.word[-1] == "y" and self._contains_vowel(self.word[:-1]):
             self.word = self.word[:-1] + "i"
 
     def _step2(self):
-
         if self._measure(self.word[:-7]) > 0:
-
             if self.word[-7:] in ["iveness", "fulness", "ousness"]:
                 self.word = self.word[:-4]
 
@@ -104,7 +98,6 @@ class _PorterAlgorithm:
                 self.word = self.word[:-5] + "e"
 
         if self._measure(self.word[:-6]) > 0:
-
             if self.word.endswith("tional"):
                 self.word = self.word[:-2]
 
@@ -112,7 +105,6 @@ class _PorterAlgorithm:
                 self.word = self.word[:-5] + "le"
 
         if self._measure(self.word[:-5]) > 0:
-
             if self.word[-5:] in ["entli", "ousli"]:
                 self.word = self.word[:-2]
 
@@ -123,7 +115,6 @@ class _PorterAlgorithm:
                 self.word = self.word[:-3] + "e"
 
         if self._measure(self.word[:-4]) > 0:
-
             if self.word.endswith("izer"):
                 self.word = self.word[:-1]
 
@@ -140,9 +131,7 @@ class _PorterAlgorithm:
             self.word = self.word[:-2]
 
     def _step3(self):
-
         if self._measure(self.word[:-5]) > 0:
-
             if self.word[-5:] in ["icate", "alize", "iciti"]:
                 self.word = self.word[:-3]
 
@@ -150,7 +139,6 @@ class _PorterAlgorithm:
                 self.word = self.word[:-5]
 
         if self._measure(self.word[:-4]) > 0:
-
             if self.word.endswith("ical"):
                 self.word = self.word[:-2]
 
@@ -161,7 +149,6 @@ class _PorterAlgorithm:
             self.word = self.word[:-3]
 
     def _step4(self):
-
         if self._measure(self.word[:-5]) > 1 and self.word.endswith("ement"):
             self.word = self.word[:-5]
 
@@ -190,7 +177,6 @@ class _PorterAlgorithm:
             self.word = self.word[:-2]
 
     def _step5a(self):
-
         if self.word[-1] == "e" and (
             self._measure(self.word[:-1]) > 1
             or (
@@ -201,7 +187,6 @@ class _PorterAlgorithm:
             self.word = self.word[:-1]
 
     def _step5b(self):
-
         if (
             self.word[-1] == "l"
             and self.word[-2] == self.word[-1]

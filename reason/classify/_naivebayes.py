@@ -27,7 +27,6 @@ class NaiveBayesClassifier(BaseClassifier):
         self._prior = None
 
     def _train_classifier(self):
-
         self._n = min(len(self._x), len(self._y))
 
         self._features = list(self._x.columns)

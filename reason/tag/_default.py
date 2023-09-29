@@ -24,7 +24,9 @@ class DefaultTagger(BaseTagger):
 
         Args:
             tag (str, optional): Default tag.
+                Default="token"
             backoff (tagger, optional): Backoff tagger object.
+                Default=None
 
         Raises:
             TypeError: If tag is not string.

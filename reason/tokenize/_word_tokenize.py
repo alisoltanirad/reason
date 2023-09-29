@@ -61,6 +61,7 @@ class WordTokenizer:
 
         Args:
             pattern (str, optional): Regex pattern to use for tokenizing
+                Default=None
 
         Raises:
             TypeError: If pattern is not a valid regex.
@@ -111,6 +112,7 @@ def word_tokenize(input_value, pattern="default"):
     Args:
         input_value (str or list of str): Text to tokenize.
         pattern (str, optional): Regex pattern to use for tokenizing.
+            Default=None
 
     Returns:
         list: Tokens.

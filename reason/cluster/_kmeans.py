@@ -42,9 +42,13 @@ class KMeansClusterer(BaseClusterer):
         Args:
             data (pandas.DataFrame or list of dict): Data to cluster.
             k (int, optional): Number of clusters.
+                Default=2
             distance (function, optional): Distance function.
+                Default=euclidean
             max_iter (int, optional): Maximum number of algorithm iterations.
+                Default=21
             verbose (int, optional): Verbosity mode.
+                Default=1
 
         Returns:
             labels (list): Data cluster labels.

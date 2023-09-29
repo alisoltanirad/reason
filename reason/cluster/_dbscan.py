@@ -54,7 +54,9 @@ class DBSCAN(BaseClusterer):
             eps (float): Epsilon.
             min_pts (int): Minimum number of points required to form a cluster.
             distance (function, optional): Distance function.
+                Default=euclidean
             verbose (int, optional): Verbosity mode.
+                Default=1
 
         Returns:
             labels (list): Data cluster labels.

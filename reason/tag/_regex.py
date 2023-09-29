@@ -28,7 +28,9 @@ class RegexTagger(BaseTagger):
 
         Args:
             patterns (dict, optional): Regex patterns + pattern tags.
+                Default=None
             backoff (tagger, optional): Backoff tagger object.
+                Default=None
 
         Raises:
             TypeError: If some patterns are not valid regex patterns.

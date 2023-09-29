@@ -27,6 +27,7 @@ class RegexStemmer(BaseStemmer):
 
         Args:
             pattern (str, optional): Regex pattern to use for finding stems.
+                Default=None
 
         Raises:
             TypeError: If pattern is not a valid regex.
@@ -55,6 +56,7 @@ def regex_stem(word, pattern=None):
     Args:
         word (str): Single word.
         pattern (str, optional): Regex pattern.
+            Default=None
 
     Returns:
         str: Stem.

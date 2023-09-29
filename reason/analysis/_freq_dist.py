@@ -76,6 +76,7 @@ class FreqDist:
 
         Args:
             n (int, optional): Number of tokens.
+                Default=1
 
         Returns:
             list: Most common tokens + frequencies

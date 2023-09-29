@@ -21,6 +21,7 @@ class LookupTagger(BaseTagger):
         Args:
             data (dict): Tokens + tags.
             backoff (tagger, optional): Backoff tagger object.
+                Default=None
 
         Raises:
             TypeError: If lookup data is not a dictionary.

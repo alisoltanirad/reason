@@ -30,6 +30,7 @@ class POSTagger(BaseTagger):
 
         Args:
             backoff (tagger, optional): Backoff tagger object.
+                Default=None
 
         """
         super().__init__(backoff)

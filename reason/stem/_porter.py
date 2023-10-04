@@ -6,12 +6,13 @@ from ._stemmer import BaseStemmer
 class PorterStemmer(BaseStemmer):
     """Porter stemmer
 
-    Uses porter algorithm to find word stems.
+    Uses porter algorithm to remove morphological affixes from words,
+    leaving only word stems.
 
     Example:
         >>> from reason.stem import PorterStemmer
-        >>> text = 'watched birds flying'
         >>> stemmer = PorterStemmer()
+        >>> text = 'watched birds flying'
         >>> stemmer.stem(text)
         ['watch', 'bird', 'fly']
 

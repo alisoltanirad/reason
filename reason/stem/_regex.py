@@ -6,14 +6,18 @@ from ._stemmer import BaseStemmer
 class RegexStemmer(BaseStemmer):
     """Regex word stemmer
 
+    Finds word stems using regex patterns.
+
     Attributes:
         pattern (str): Regex pattern for finding word stem.
 
     Example:
-        >>> from reason.stem import regex_stem
+        >>> from reason.stem import RegexStemmer
         >>> regex_pattern = r'^(.*?)(ous)?$'
-        >>> regex_stem('dangerous', regex_pattern)
-        danger
+        >>> stemmer = RegexStemmer(regex_pattern)
+        >>> text = 'dangerous'
+        >>> stemmer.stem(text)
+        ['danger']
 
     """
 
@@ -59,10 +63,16 @@ def regex_stem(word, pattern=None):
             Default=None
 
     Returns:
-        str: Stem.
+        str: Word stem.
 
     Raises:
         TypeError: If input word is not string.
+
+    Example:
+        >>> from reason.stem import regex_stem
+        >>> regex_pattern = r'^(.*?)(ous)?$'
+        >>> regex_stem('dangerous', regex_pattern)
+        danger
 
     """
     if not isinstance(word, str):

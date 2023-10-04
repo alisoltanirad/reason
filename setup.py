@@ -5,7 +5,7 @@ with open("README.md", "r") as fh:
 
 setup(
     name="reason",
-    version="1.0.4",
+    version="1.0.5",
     description="Natural language processing toolbox",
     long_description=long_description,
     long_description_content_type="text/markdown",

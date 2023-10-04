@@ -8,11 +8,12 @@ class SentTokenizer:
     """Sentence Tokenizer
 
     Example:
-        >>> from reason.tokenize import sent_tokenize
+        >>> from reason.tokenize import SentTokenizer
+        >>> tokenizer = SentTokenizer()
         >>> text = "Hey, what's up? I love using Reason library!"
-        >>> sents = sent_tokenize(text)
-        >>> for sent in sents:
-        ...     print(sent)
+        >>> sentences = tokenizer.tokenize(text)
+        >>> for sentence in sentences:
+        ...     print(sentence)
         Hey, what's up?
         I love using Reason library!
 
@@ -131,6 +132,12 @@ def sent_tokenize(input_value):
 
     Returns:
         list: Tokens.
+
+    Example:
+        >>> from reason.tokenize import sent_tokenize
+        >>> text = "Hey, what's up? I love using Reason library!"
+        >>> sent_tokenize(text)
+        ["Hey, what's up?", 'I love using Reason library!']
 
     """
     return SentTokenizer().tokenize(input_value)

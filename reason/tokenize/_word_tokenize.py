@@ -41,9 +41,10 @@ class WordTokenizer:
         pattern (str): Regex pattern for tokenizing.
 
     Example:
-        >>> from reason.tokenize import word_tokenize
+        >>> from reason.tokenize import WordTokenizer
+        >>> tokenizer = WordTokenizer(pattern='alphanumeric')
         >>> sentence = "Testing reason0.1.0, (on: 127.0.0.1). Cool stuff..."
-        >>> word_tokenize(sentence, 'alphanumeric')
+        >>> tokenizer.tokenize(sentence)
         ['Testing', 'reason0.1.0', 'on', '127.0.0.1', 'Cool', 'stuff']
 
     """
@@ -60,7 +61,8 @@ class WordTokenizer:
         You can also define your own regex pattern in the format of string.
 
         Args:
-            pattern (str, optional): Regex pattern to use for tokenizing
+            pattern (str, optional): Regex or ready to use pattern
+                to use for tokenizing.
                 Default=None
 
         Raises:
@@ -116,6 +118,12 @@ def word_tokenize(input_value, pattern="default"):
 
     Returns:
         list: Tokens.
+
+    Example:
+        >>> from reason.tokenize import word_tokenize
+        >>> sentence = "Testing reason0.1.0, (on: 127.0.0.1). Cool stuff..."
+        >>> word_tokenize(sentence, 'alphanumeric')
+        ['Testing', 'reason0.1.0', 'on', '127.0.0.1', 'Cool', 'stuff']
 
     """
     return WordTokenizer(pattern).tokenize(input_value)

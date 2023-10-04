@@ -14,9 +14,8 @@ class POSTagger(BaseTagger):
 
     Example:
         >>> from reason.tag import POSTagger
-
-        >>> text = '10 tools from the file'
         >>> tagger = POSTagger()
+        >>> text = '10 tools from the file'
         >>> tagger.tag(text)
         [('10', 'CD'), ('tools', 'NNS'), ('from', 'IN'), ('the', 'AT'),
         ('file', 'NN')]

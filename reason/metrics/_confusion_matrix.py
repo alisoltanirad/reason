@@ -7,7 +7,7 @@ class ConfusionMatrix:
     Example:
         >>> from reason.metrics import ConfusionMatrix
         >>> cm = ConfusionMatrix(y_true, y_pred)
-        >>> cm
+        >>> print(cm)
         68 21 13
         16 70 11
         14 10 77
@@ -90,7 +90,7 @@ class BinaryConfusionMatrix(ConfusionMatrix):
     Example:
         >>> from reason.metrics import BinaryConfusionMatrix
         >>> cm = BinaryConfusionMatrix(y_true, y_pred)
-        >>> cm
+        >>> print(cm)
         68 21
         24 87
         >>> cm[True, False]

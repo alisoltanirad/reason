@@ -32,6 +32,8 @@ setup(
         "Programming Language :: Python :: 3.9",
         "Programming Language :: Python :: 3.10",
         "Programming Language :: Python :: 3.11",
+        "Programming Language :: Python :: 3.12",
+        "Programming Language :: Python :: 3.13",
         "Topic :: Education",
         "Topic :: Scientific/Engineering",
         "Topic :: Scientific/Engineering :: Artificial Intelligence",
@@ -42,5 +44,5 @@ setup(
         "Topic :: Text Processing :: Linguistic",
     ],
     python_requires=">=3.7",
-    install_requires=["numpy==1.24.1", "pandas==1.5.3", "scikit-learn==1.2.1"],
+    install_requires=["numpy>=1.24.1", "pandas>=1.5.3", "scikit-learn>=1.2.1"],
 )

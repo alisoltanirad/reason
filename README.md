@@ -3,27 +3,31 @@
 [![License](https://img.shields.io/pypi/l/reason.svg)](https://github.com/alisoltanirad/Reason/blob/main/LICENSE)
 [![PyPI](https://img.shields.io/pypi/v/reason.svg)](https://pypi.org/project/reason/)
 [![Downloads](https://pepy.tech/badge/reason)](https://pepy.tech/project/reason)
-[![Lines of Code](https://sonarcloud.io/api/project_badges/measure?project=alisoltanirad_reason&metric=ncloc)](https://sonarcloud.io/dashboard?id=alisoltanirad_reason)
 [![Activity](https://img.shields.io/github/last-commit/alisoltanirad/reason)](https://github.com/alisoltanirad/Reason/)
 
-Python lightweight easy-to-use natural language processing toolbox with powerful integrated
+Python lightweight easy-to-use natural language processing toolbox with integrated
 machine learning packages.
 
+## Features
 
-## Install & Quick-Start
+- Tokenization (word, sentence)
+- Tagging (part-of-speech, regex)
+- Lemmatization and word stemming (Porter, regex)
+- Frequency distribution analysis
+- N-grams
+- Classification (naive bayes, confusion matrix)
+- Clustering (k-means, elbow method, DBSCAN)
 
-### Requirements
-
-Requirements for **Reason** are listed in `requirements.txt` file.
-
-### Install Reason
+## Installation
 
 Install latest stable version using pip:
 ```
 pip install --upgrade reason
 ```
 
-### Quick-Start
+The dependencies of the package will also be installed automatically.
+
+## Quick-Start
 
 See [**Quick-Start Guide**](https://python-reason.readthedocs.io/en/latest/#quick-start)
 
@@ -34,4 +38,5 @@ MIT -- See [LICENSE](https://github.com/alisoltanirad/Reason/blob/main/LICENSE) 
 
 ## Report issues
 
-Please contact soltaniradali@gmail.com to report issues with the package.
+For reporting issues with the package, please reach out to me directly
+at soltaniradali@gmail.com

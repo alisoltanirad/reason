@@ -2,14 +2,14 @@ from reason.tokenize import word_tokenize
 
 
 def ngrams(input_value, n=1):
-    """Ngrams function.
+    """N-grams function.
 
     Args:
         input_value (str or list of str): Text or corpus.
         n (int): Number.
 
     Returns:
-        list of tuple: Ngrams.
+        list of tuple: N-grams.
 
     Raises:
         TypeError: If input type is not valid.
@@ -37,7 +37,7 @@ def ngrams(input_value, n=1):
 def bigrams(input_value):
     """Bigrams function.
 
-    Uses Ngrams with n=2.
+    Uses N-grams with n=2.
 
     Args:
         input_value (str or list of str): Text or corpus.
@@ -58,7 +58,7 @@ def bigrams(input_value):
 def trigrams(input_value):
     """Trigrams function.
 
-    Uses Ngrams with n=3.
+    Uses N-grams with n=3.
 
     Args:
         input_value (str or list of str): Text or corpus.
